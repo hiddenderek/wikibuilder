@@ -11,9 +11,9 @@ const app = express()
 const pool = new Pool({
     user: "postgres",
     password: "D@c77357",
-    host: "localhost",
+    host: "postgres",
     port: 5432,
-    database: "oasis_builder"
+    database: "wikibuilder"
 })
 app.use(cookieParser())
 app.use(express.static('public'))
@@ -30,7 +30,40 @@ function authenticateToken(req: any, res: any, next: any) {
         next()
     })
 }
+app.get('/bob', async (req: any, res: any) => {
+    try {
+        const userGet = await pool.query('SELECT * FROM users')
+        if (userGet.rows) {
+            res.status(200)
+            res.json(userGet.rows)
+        } else {
+            res.status(404)
+            res.json('No rows found.')
+        }
+    } catch (e) {
+        res.status(400)
+        res.json('Could not get data: ' + e)
+    }
+})
 
+app.post('/users/:id', async (req: any, res: any) => {
+    try {
+        const {id} = req.params
+        const userPost = await pool.query(`
+          INSERT INTO users (id, username, password, email) VALUES (uuid_generate_v4(), $1, '1234', 'baaaldskjhf@dac-inc.com') RETURNING *
+        `,[id])
+        if (userPost.rows) {
+            res.status(200)
+            res.json(userPost.rows)
+        } else {
+            res.status(404)
+            res.json('Could not find table')
+        }
+    } catch (e) {
+        res.status(400)
+        res.json('Could not post user' + e)
+    }
+})
 app.get('/*', async (req: any, res: any) => {
     let contentGet = serverRenderer()
     console.log(contentGet.initialContent)

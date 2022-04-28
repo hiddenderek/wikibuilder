@@ -7,4 +7,4 @@ services:
         NODE_ENV: production
     environment:
       - NODE_ENV=production
-    command: ts-node src/server.ts
+    command: npm start

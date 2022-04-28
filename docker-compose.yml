@@ -1,7 +1,23 @@
 version: "3"
 services:
   node-app:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile_web
     ports:
       - "8050:8050"
-      
+    restart: always
+    depends_on:
+      - postgres
+  postgres:
+    build: 
+      context: .
+      dockerfile: Dockerfile_db
+    volumes:
+      - /pgdata/:/var/lib/postgresql/data
+    ports: 
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=D@c77357
+      - POSTGRES_DB=wikibuilder

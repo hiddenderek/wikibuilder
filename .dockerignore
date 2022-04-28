@@ -1,9 +1,10 @@
 node_modules
-Dockerfile
+Dockerfile_db
+Dockerfile_web
 docker-compose-dev.yml
 docker-compose-prod.yml
 docker-compose.yml
 .dockerignore
 .git
 .gitignore
-public
+pgdata
