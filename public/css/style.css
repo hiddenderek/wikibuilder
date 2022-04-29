@@ -5,6 +5,7 @@ body {
   background: rgb(10,13,41);
   background-image: url("pageData/pageInfo/images/backgroundImage.png");
   background-size: auto 100vh;
+  color: white;
 }
 /*lolll*/
 :root {
