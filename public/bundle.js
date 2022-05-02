@@ -716,7 +716,73 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\n
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nfunction App() {\r\n    return (react_1.default.createElement(\"div\", null, \"Heelo World?!!1sdaaabb123145\"));\r\n}\r\nexports[\"default\"] = App;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/App.tsx?");
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nconst react_router_dom_1 = __webpack_require__(/*! react-router-dom */ \"./node_modules/react-router-dom/esm/react-router-dom.js\");\r\nconst Banner_1 = __importDefault(__webpack_require__(/*! ./Banner */ \"./src/components/Banner.tsx\"));\r\nconst HomePage_1 = __importDefault(__webpack_require__(/*! ./HomePage */ \"./src/components/HomePage.tsx\"));\r\nconst WikiPage_1 = __importDefault(__webpack_require__(/*! ./WikiPage */ \"./src/components/WikiPage.tsx\"));\r\nconst ProfilePage_1 = __importDefault(__webpack_require__(/*! ./ProfilePage */ \"./src/components/ProfilePage.tsx\"));\r\nfunction App() {\r\n    return (react_1.default.createElement(\"div\", { className: \"appContainer\" },\r\n        react_1.default.createElement(Banner_1.default, null),\r\n        react_1.default.createElement(react_router_dom_1.Switch, null,\r\n            react_1.default.createElement(react_router_dom_1.Route, { path: \"/home\" },\r\n                react_1.default.createElement(HomePage_1.default, null)),\r\n            react_1.default.createElement(react_router_dom_1.Route, { path: \"/page\" },\r\n                react_1.default.createElement(WikiPage_1.default, null)),\r\n            react_1.default.createElement(react_router_dom_1.Route, { path: \"/profile\" },\r\n                react_1.default.createElement(ProfilePage_1.default, null)))));\r\n}\r\nexports[\"default\"] = App;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/App.tsx?");
+
+/***/ }),
+
+/***/ "./src/components/Banner.tsx":
+/*!***********************************!*\
+  !*** ./src/components/Banner.tsx ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nfunction Banner() {\r\n    return (react_1.default.createElement(\"div\", { className: \"banner\" }));\r\n}\r\nexports[\"default\"] = Banner;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/Banner.tsx?");
+
+/***/ }),
+
+/***/ "./src/components/HomePage.tsx":
+/*!*************************************!*\
+  !*** ./src/components/HomePage.tsx ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nfunction HomePage() {\r\n    return (react_1.default.createElement(\"div\", { className: \"content\" },\r\n        react_1.default.createElement(\"div\", { className: \"logoSection\" }),\r\n        react_1.default.createElement(\"div\", { className: \"fullWidth flexCenter\" },\r\n            react_1.default.createElement(\"h1\", null, \"Featured\")),\r\n        react_1.default.createElement(\"div\", { className: \"fullWidth flexCenter\" },\r\n            react_1.default.createElement(\"h1\", null, \"Recommended\")),\r\n        react_1.default.createElement(\"div\", { className: \"fullWidth flexCenter\" },\r\n            react_1.default.createElement(\"h1\", null, \"Discover\")),\r\n        react_1.default.createElement(\"div\", { className: \"fullWidth flexCenter\" },\r\n            react_1.default.createElement(\"h1\", null, \"Trending\"))));\r\n}\r\nexports[\"default\"] = HomePage;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/HomePage.tsx?");
+
+/***/ }),
+
+/***/ "./src/components/InfoTable.tsx":
+/*!**************************************!*\
+  !*** ./src/components/InfoTable.tsx ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nfunction InfoTable({ tableData }) {\r\n    return (react_1.default.createElement(\"div\", { className: \"infoTable\" }));\r\n}\r\nexports[\"default\"] = InfoTable;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/InfoTable.tsx?");
+
+/***/ }),
+
+/***/ "./src/components/PageSection.tsx":
+/*!****************************************!*\
+  !*** ./src/components/PageSection.tsx ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    var desc = Object.getOwnPropertyDescriptor(m, k);\r\n    if (!desc || (\"get\" in desc ? !m.__esModule : desc.writable || desc.configurable)) {\r\n      desc = { enumerable: true, get: function() { return m[k]; } };\r\n    }\r\n    Object.defineProperty(o, k2, desc);\r\n}) : (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    o[k2] = m[k];\r\n}));\r\nvar __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {\r\n    Object.defineProperty(o, \"default\", { enumerable: true, value: v });\r\n}) : function(o, v) {\r\n    o[\"default\"] = v;\r\n});\r\nvar __importStar = (this && this.__importStar) || function (mod) {\r\n    if (mod && mod.__esModule) return mod;\r\n    var result = {};\r\n    if (mod != null) for (var k in mod) if (k !== \"default\" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);\r\n    __setModuleDefault(result, mod);\r\n    return result;\r\n};\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importStar(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nconst InfoTable_1 = __importDefault(__webpack_require__(/*! ./InfoTable */ \"./src/components/InfoTable.tsx\"));\r\nfunction PageSection({ title, text, tableData }) {\r\n    const [localTitle, setLocalTitle] = (0, react_1.useState)(title);\r\n    const [localText, setLocalText] = (0, react_1.useState)(text);\r\n    const [localTableData, setLocalTableData] = (0, react_1.useState)(tableData);\r\n    function changeIntroText(e) {\r\n        const targetElm = e.target;\r\n        setLocalText(targetElm.value);\r\n    }\r\n    return (react_1.default.createElement(\"div\", { className: \"pageSection\" },\r\n        localTitle ? react_1.default.createElement(\"h2\", null, localTitle) : \"\",\r\n        react_1.default.createElement(\"div\", { className: \"introSection flexEdges\" },\r\n            react_1.default.createElement(\"textarea\", { className: \"sectionText\", value: localText, onInput: (e) => { changeIntroText(e); } }),\r\n            react_1.default.createElement(InfoTable_1.default, { tableData: localTableData }))));\r\n}\r\nexports[\"default\"] = PageSection;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/PageSection.tsx?");
+
+/***/ }),
+
+/***/ "./src/components/ProfilePage.tsx":
+/*!****************************************!*\
+  !*** ./src/components/ProfilePage.tsx ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nfunction ProfilePage() {\r\n    return (react_1.default.createElement(\"div\", { className: \"profilePage\" }));\r\n}\r\nexports[\"default\"] = ProfilePage;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/ProfilePage.tsx?");
+
+/***/ }),
+
+/***/ "./src/components/WikiPage.tsx":
+/*!*************************************!*\
+  !*** ./src/components/WikiPage.tsx ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    var desc = Object.getOwnPropertyDescriptor(m, k);\r\n    if (!desc || (\"get\" in desc ? !m.__esModule : desc.writable || desc.configurable)) {\r\n      desc = { enumerable: true, get: function() { return m[k]; } };\r\n    }\r\n    Object.defineProperty(o, k2, desc);\r\n}) : (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    o[k2] = m[k];\r\n}));\r\nvar __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {\r\n    Object.defineProperty(o, \"default\", { enumerable: true, value: v });\r\n}) : function(o, v) {\r\n    o[\"default\"] = v;\r\n});\r\nvar __importStar = (this && this.__importStar) || function (mod) {\r\n    if (mod && mod.__esModule) return mod;\r\n    var result = {};\r\n    if (mod != null) for (var k in mod) if (k !== \"default\" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);\r\n    __setModuleDefault(result, mod);\r\n    return result;\r\n};\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nconst react_1 = __importStar(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nconst PageSection_1 = __importDefault(__webpack_require__(/*! ./PageSection */ \"./src/components/PageSection.tsx\"));\r\nfunction WikiPage() {\r\n    const [pageTitle, setPageTitle] = (0, react_1.useState)('Type Title Here.');\r\n    const [introText, setIntroText] = (0, react_1.useState)('Type Intro Text Here.');\r\n    const [introTableData, setIntroTableData] = (0, react_1.useState)({});\r\n    const [pageSections, setPageSections] = (0, react_1.useState)([]);\r\n    return (react_1.default.createElement(\"div\", { className: \"content\" },\r\n        react_1.default.createElement(\"h1\", null, pageTitle),\r\n        react_1.default.createElement(PageSection_1.default, { title: null, text: introText, tableData: introTableData }),\r\n        react_1.default.createElement(\"div\", { className: \"fullWidth\" }, pageSections.map((data) => react_1.default.createElement(PageSection_1.default, { title: data.title, text: data.text, tableData: data.tableData })))));\r\n}\r\nexports[\"default\"] = WikiPage;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/components/WikiPage.tsx?");
 
 /***/ }),
 
