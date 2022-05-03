@@ -1,8 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit'
+import pageCreatorReducer from '../features/pageCreator/pageCreator-slice'
 
 export const store = configureStore({
     reducer: {
-
+        pageCreator: pageCreatorReducer
     }
 })
 

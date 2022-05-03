@@ -1,23 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfoTable from "./InfoTable";
+import { section } from '../features/pageCreator/pageCreator-types'
+import { handleApiData } from "../utils/apicalls";
+import { useAppDispatch } from "../app/hooks";
+import { setIntroText, deleteSection, setSectionText, setSectionTitle } from "../features/pageCreator/pageCreator-slice"
 
-function PageSection({title, text, tableData} : any) {
-    const [localTitle, setLocalTitle] = useState(title)
-    const [localText, setLocalText] = useState(text)
-    const [localTableData, setLocalTableData] = useState(tableData)
+function PageSection({index, title, text, tableData, section_id, saveCounter} : section & {index: number, pageTitle: string}) {
+    const dispatch = useAppDispatch()
 
-    function changeIntroText(e: React.FormEvent<HTMLTextAreaElement>) {
+    function removeSection() {
+        dispatch(deleteSection(index))
+    }
+
+    function changeSectionTitle(e: React.FormEvent<HTMLTextAreaElement>) {
         const targetElm = e.target as HTMLInputElement
-        setLocalText(targetElm.value)
+        dispatch(setSectionTitle({ index, text: targetElm.value }))
+    }
+
+    function changeSectionText(e: React.FormEvent<HTMLTextAreaElement>) {
+        const targetElm = e.target as HTMLInputElement
+        if (index >= 0) {
+            dispatch(setSectionText({ index, text: targetElm.value }))
+        } else {
+            dispatch(setIntroText(targetElm.value))
+        }
     }
     return (
         <div className = "pageSection">
-            {localTitle ? <h2>{localTitle}</h2> : ""}
-            <div className = "introSection flexEdges">
-                <textarea className = "sectionText" value = {localText} onInput = {(e)=>{changeIntroText(e)}}></textarea>
-                <InfoTable tableData = {localTableData}/>
+            {index >= 0 ? <textarea className = "sectionTitle" value = {title} onInput = {(e)=>{changeSectionTitle(e)}}/> : ""}
+            <div className = "flexEdges">
+                <textarea className = "sectionText" value = {text} onInput = {(e)=>{changeSectionText(e)}} />
+                <InfoTable tableData = {tableData}/>
             </div>
         </div>
     )
 }
-export default PageSection
+export default React.memo(PageSection)

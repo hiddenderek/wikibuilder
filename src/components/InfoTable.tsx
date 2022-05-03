@@ -7,4 +7,4 @@ function InfoTable({tableData} : any) {
         </div>
     )
 }
-export default InfoTable
+export default React.memo(InfoTable)
