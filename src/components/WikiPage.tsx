@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import InfoTable from "./InfoTable";
 import PageSection from "./PageSection";
 import { handleApiData } from "../utils/apicalls";
@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 function WikiPage() {
     const { pageTitle, introText, introTableData, pageSections } = useAppSelector((state: { pageCreator: pageCreatorState }) => state.pageCreator)
     const dispatch = useAppDispatch()
+    const textareaRef = useRef()
     
     function changePageTitle(e: React.FormEvent<HTMLTextAreaElement>) {
         const targetElm = e.target as HTMLInputElement
@@ -17,7 +18,17 @@ function WikiPage() {
     }
 
     function createSection() {
-        dispatch(addSection({ title: "Type section title here.", text: "Type section text here.", tableData: {} }))
+        dispatch(addSection({ 
+            title: "Type section title here.", 
+            text: "Type section text here.", 
+            tableData: {
+                width: 20, 
+                titles: [], 
+                images: [], 
+                text: [], 
+                info: [], 
+                related: []
+            } }))
     }
 
     function savePage() {
@@ -31,7 +42,7 @@ function WikiPage() {
             </div>
             <textarea className = "pageTitle" value = {pageTitle} onInput = {changePageTitle} />
             <PageSection index={-1} pageTitle={pageTitle} title={''} text={introText} tableData={introTableData} />
-            <div className="fullWidth">
+            <div className="sectionContainer">
                 {pageSections.map((data, index) => <PageSection key={index} index={index} pageTitle={pageTitle} title={data.title} text={data.text} tableData={data.tableData} />)}
             </div>
             <div className="flexCenter">

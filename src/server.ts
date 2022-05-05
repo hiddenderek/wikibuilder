@@ -6,6 +6,7 @@ import {Pool} from 'pg'
 import serverRenderer from './renderers/serverRenderer'
 import bcrypt from 'bcrypt'
 import cookieParser from 'cookie-parser'
+import fs from 'fs'
 const jwt = require('jsonwebtoken')
 const app = express()
 const pool = new Pool({
@@ -17,7 +18,7 @@ const pool = new Pool({
 })
 app.use(cookieParser())
 app.use(express.static('public'))
-app.use(express.json())
+app.use(express.json({ limit: "4mb" }))
 app.set('view engine', 'ejs')
 
 
@@ -62,6 +63,30 @@ app.post('/users/:id', async (req: any, res: any) => {
     } catch (e) {
         res.status(400)
         res.json('Could not post user' + e)
+    }
+})
+app.post('/api/images/:id', async (req: any, res: any) => {
+    try {
+        const {id} = req.params
+        const {symbol_file, symbol_image_type} = req.body
+        try {
+            const symbolFileIndex = symbol_file.lastIndexOf('base64,')
+            const symbolFileGet = symbol_file.substring(symbolFileIndex)
+            const symbolFileFormat = symbolFileGet.split('base64,').join('')
+            console.log(`Write URL: public/images/${id}.${symbol_image_type}`)
+            console.log(symbolFileFormat)
+            const imageBuffer =  Buffer.from(symbolFileFormat, 'base64')
+            fs.writeFileSync(`public/images/${id}.${symbol_image_type}`, imageBuffer)
+            res.status(200)
+            res.json('File written successfully')
+        } catch (e) {
+            res.status(400)
+            res.json('ERROR WRITING FILE')
+            console.log('ERROR WRITING FILE: ' + e)
+        }
+    } catch (e) {
+        res.status(400)
+        res.json('Could not save image' + e)
     }
 })
 app.get('/*', async (req: any, res: any) => {

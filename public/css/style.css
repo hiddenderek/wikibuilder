@@ -266,6 +266,12 @@ button:active {
 .width66 {
   width: 66%;
 }
+.width80 {
+  width: 80%;
+}
+.width90 {
+  width: 90%;
+}
 
 .fullWidth {
   width: 100%;
@@ -407,11 +413,10 @@ button:active {
   gap: 2rem;
 }
 .page {
-  width: calc(100% - 20rem);
-  min-width: 85vw;
+  width: 100%;
   justify-self: center;
   overflow-y: scroll;
-  overflow-x: none;
+  overflow-x: hidden;
 }
 
 .pageTitle {
@@ -438,8 +443,103 @@ button:active {
 .infoTable {
   width: 20rem;
   min-width: 20rem;
-  height: 30rem !important;
+  min-height: 3rem;
   background-color: rgb(243, 96, 46);
+  align-self: start;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.infoTableContent {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+}
+.infoTabletitle {
+  background-color: transparent;
+  overflow: hidden;
+  font-family: minimal;
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+}
+.infoTableImageContainer {
+  width: 100%;
+  height: 20rem;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  position: relative;
+}
+.infoTableImageContainerSelected {
+  outline: 2px solid white;
+  border: 2px solid black;
+  z-index: 10;
+  box-sizing: border-box;
+}
+.infoTableImage {
+  width: 100%;
+  max-height: 100%;
+  background: red;
+  align-self: center;
+  justify-self: center;
+}
+.imageMenuToggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  background-color: blue;
+  z-index: 10;
+}
+
+.urlInput {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding-top: 6%;
+  padding-bottom: 6%;
+  box-sizing: border-box;
+  align-self: center;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-family: minimal;
+  font-size: 1.3rem;
+  background-color: rgba(0, 0, 0, 0.446);
+  pointer-events: none;;
+}
+
+.urlInput input {
+  pointer-events: all;
+}
+.infoEditorSection {
+  min-height: 3rem;
+  font-family: minimal;
+  font-size: 1.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.infoEditorAddRemove {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sectionContainer {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+.pageSection {
+  width: calc(100% - 7rem);
+  min-width: 90vw;
+  align-self: center;
 }
 .sectionTitle {
   width: 100%;
@@ -455,6 +555,8 @@ button:active {
   font-family: minimal;
   font-size: 1.5rem;
   color: black;
+  overflow: hidden;
+  align-self: start;
 }
 .appContainer {
   position: absolute;
