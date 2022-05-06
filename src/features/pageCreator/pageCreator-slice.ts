@@ -69,6 +69,30 @@ const pageCreatorSlice = createSlice({
                 state.introTableData.images[subIndex] = { url, type, width, height }
             }
         },
+        addTableText(state, action: PayloadAction<{ index: number, subIndex: number, text: string }>) {
+            const { index, subIndex, text } = action.payload
+            if (index >= 0) {
+                state.pageSections[index].tableData.text[subIndex] = text
+            } else {
+                state.introTableData.text[subIndex] = text
+            }
+        },
+        addTableInfo(state, action: PayloadAction<{ index: number, subIndex: number, label: string, text: string}>) {
+            const { index, subIndex, label, text} = action.payload
+            if (index >= 0) {
+                state.pageSections[index].tableData.info[subIndex] = {label, text}
+            } else {
+                state.introTableData.info[subIndex] = {label, text}
+            }
+        },
+        addTableRelated(state, action: PayloadAction<{ index: number, subIndex: number, url: string, text: string}>) {
+            const { index, subIndex, url, text} = action.payload
+            if (index >= 0) {
+                state.pageSections[index].tableData.related[subIndex] = {url, text}
+            } else {
+                state.introTableData.related[subIndex] = {url, text}
+            }
+        },
         selectTableElement(state, action: PayloadAction<{index: number, element: number, type: string }>) {
             const {index, element, type } = action.payload
             console.log(type)
@@ -140,5 +164,5 @@ const pageCreatorSlice = createSlice({
     }
 })
 
-export const { pageLoad, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, addTableTitle, addTableImage, selectTableElement, deleteTableElement } = pageCreatorSlice.actions
+export const { pageLoad, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, addTableTitle, addTableImage, addTableText, addTableInfo, addTableRelated, selectTableElement, deleteTableElement } = pageCreatorSlice.actions
 export default pageCreatorSlice.reducer;

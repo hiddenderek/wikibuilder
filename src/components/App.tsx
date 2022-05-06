@@ -4,6 +4,8 @@ import Banner from "./Banner"
 import HomePage from "./HomePage"
 import WikiPage from "./WikiPage"
 import ProfilePage from "./ProfilePage"
+import SignUpPage from "./SignUpPage"
+import LogInPage from "./LogInPage"
 import { useAppDispatch } from "../app/hooks"
 import { setPageSize } from "../features/userInterface/userInterface-slice"
 
@@ -28,6 +30,12 @@ function App () {
                 </Route>
                 <Route path="/profile">
                     <ProfilePage />
+                </Route>
+                <Route path = "/signup">
+                    <SignUpPage />
+                </Route>
+                <Route path = "/login">
+                    <LogInPage />
                 </Route>
             </Switch>
         </div>

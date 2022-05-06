@@ -6,8 +6,8 @@ export type image = {
 }
 
 export type info = {
-    left: string,
-    right: string
+    label: string,
+    text: string
 }
 
 export type link = {

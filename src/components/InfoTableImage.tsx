@@ -21,12 +21,19 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
     const dispatch = useAppDispatch()
     //change image width/height  from naturalWidth and naturalHeight when url is changed
     useEffect(()=>{
-        if (newSymbolImage) {
-            saveImage()
-        } else {
-            dispatch(addTableImage({index, subIndex, url: urlInput, type: '', width: newSymbolWidth, height: newSymbolHeight}))
+        if (imageRef!.current !== null) {
+            const imageElm = imageRef.current as HTMLElement
+            imageElm.style.display = 'none'
         }
-    },[newSymbolImage, newSymbolWidth, newSymbolHeight])
+        if (!imageMenu) {
+            toggleimageMenu()
+        }
+        if (newSymbolImage && newSymbolWidth > 0 && newSymbolHeight > 0) {
+            saveImage()
+        } else if (newSymbolWidth > 0 && newSymbolHeight > 0) {  
+                dispatch(addTableImage({index, subIndex, url: urlInput, type: '', width: newSymbolWidth, height: newSymbolHeight}))
+        }
+    },[subIndex, newSymbolImage, newSymbolWidth, newSymbolHeight])
 
     useEffect(()=> {
         if (urlInput) {
@@ -42,13 +49,9 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
             console.log('NATURAL HEIGHT: ' + image.naturalHeight)
             setNewSymbolWidth(image.naturalWidth)
             setNewSymbolHeight(image.naturalHeight)
-            if (imageRef!.current !== null) {
-                const imageElm = imageRef.current as HTMLElement
-                imageElm.style.display = ''
                 if (imageMenu) {
                     toggleimageMenu()
                 }
-            }
         }
     }
 
@@ -86,14 +89,10 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
         const newImageName = `${curUser}-${pageTitle.split(' ').join('_')}-${newSymbolImageName}`
         const saveImage = await handleApiData(`/images/${newImageName}`, null, "post", {symbol_file: newSymbolImage, symbol_image_type: newSymbolImageType, symbol_width: newSymbolWidth, symbol_height: newSymbolHeight})
         if (saveImage?.status === 200) {
-            dispatch(addTableImage({index, subIndex, url: `images/${newImageName}`, type: newSymbolImageType, width: newSymbolWidth, height: newSymbolHeight}))
-            if (imageRef!.current !== null) {
-                const imageElm = imageRef.current as HTMLElement
-                imageElm.style.display = ''
+            dispatch(addTableImage({index, subIndex, url: `images/user-images/${newImageName}`, type: newSymbolImageType, width: newSymbolWidth, height: newSymbolHeight}))
                 if (imageMenu) {
                     toggleimageMenu()
                 }
-            }
         }
     }
 
@@ -103,24 +102,24 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
         setNewSymbolImage('')
     }
 
-    function hideImageOnError() {
-        if (imageRef!.current !== null) {
-            const imageElm = imageRef.current as HTMLElement
-            imageElm.style.display = 'none'
-            if (!imageMenu) {
-                toggleimageMenu()
-            }
-        }
-    }
-
     function selectImage(){
         dispatch(selectTableElement({index, element: subIndex, type: "image"}))
     }
 
+    function showImage() {
+        if (imageRef!.current !== null) {
+            const imageElm = imageRef.current as HTMLElement
+            imageElm.style.display = ''
+        }
+        if (imageMenu) {
+            toggleimageMenu()
+        }
+    }
+
     return (
-        <div className = {`infoTableImageContainer ${imageSelected.section === index && imageSelected.element === subIndex ? "infoTableImageContainerSelected": ""}`} style = {{height: `${tableWidth / (width/height) }rem`}} onClick = {selectImage}>
+        <div className = {`infoTableImageContainer ${imageSelected.section === index && imageSelected.element === subIndex ? "infoTableContainerSelected": ""}`} style = {{height: `${tableWidth / (width/height) }rem`}} onClick = {selectImage}>
             <div className = "imageMenuToggle" onClick = {toggleimageMenu}></div>
-            <img ref = {imageRef} className = "infoTableImage" style = {{aspectRatio : `${width}/${height}`}} src = {type ? `${url}.${type}` : `${url}`} onError={()=>{hideImageOnError()}}/>
+            <img ref = {imageRef} className = "infoTableImage" style = {{aspectRatio : `${width}/${height}`}} src = {type ? `${url}.${type}` : `${url}`} onLoad = {showImage}/>
             {imageMenu ? 
                 <div className = "urlInput">
                     <input value = {urlInput} onInput = {(e)=>{changeUrlInput(e)}} placeholder = "Paste Url Here"/>

@@ -340,7 +340,20 @@ button:active {
   width: 300px;
   box-sizing: border-box;
 }
-
+.singleLine{
+  width: 95%;
+  height: 2.5rem;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-top: .4rem;
+  padding-bottom: .4rem;
+  white-space: nowrap;
+  color:black;
+}
 .center {
   margin-left: 50%;
   transform: translateX(-50%);
@@ -417,6 +430,7 @@ button:active {
   justify-self: center;
   overflow-y: scroll;
   overflow-x: hidden;
+  position: relative;
 }
 
 .pageTitle {
@@ -444,11 +458,12 @@ button:active {
   width: 20rem;
   min-width: 20rem;
   min-height: 3rem;
-  background-color: rgb(243, 96, 46);
+  outline: .3rem solid rgb(243, 96, 46);
   align-self: start;
   display: flex;
   flex-flow: column;
   align-items: center;
+  color:rgb(0, 0, 0);
 }
 .infoTableContent {
   display: flex;
@@ -460,19 +475,81 @@ button:active {
   background-color: transparent;
   overflow: hidden;
   font-family: minimal;
-  font-size: 1.5rem;
-  color: white;
+  font-size: 1.6rem;
+  color: rgb(0, 0, 0);
   text-align: center;
 }
+.infoTableText {
+  background-color: transparent;
+  overflow: hidden;
+  font-family: minimal;
+  font-size: 1.2rem;
+  color: rgb(0, 0, 0);
+  text-align: center; 
+}
+
+.infoTableLabel {
+  overflow: hidden;
+  font-family: minimal;
+  font-size: 1.3rem;
+  background-color: transparent;
+  color:rgb(243, 96, 46);
+  text-align: left;
+  position: absolute;
+  left: 0;
+  max-height: 100%;
+}
+
+.infoTableInfo {
+  overflow: hidden;
+  font-family: minimal;
+  font-size: 1.2rem;
+  background-color: transparent;
+  color:rgb(0, 0, 0);
+  text-align: right;
+  justify-self: end;
+}
+
+.infoTableRelated {
+  background-color: transparent;
+  overflow: hidden;
+  font-family: minimal;
+  font-size: 1.2rem;
+  color: rgb(0, 0, 0);
+  text-align: center; 
+
+}
+
+.infoTableTextContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .infoTableImageContainer {
   width: 100%;
   height: 20rem;
+  min-height: 10rem;
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
   position: relative;
 }
-.infoTableImageContainerSelected {
+.infoTableInfoContainer {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  position: relative;
+}
+.infoTableRelatedContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.infoTableContainerSelected {
   outline: 2px solid white;
   border: 2px solid black;
   z-index: 10;
@@ -481,9 +558,11 @@ button:active {
 .infoTableImage {
   width: 100%;
   max-height: 100%;
+  min-height: 5rem;
   background: red;
   align-self: center;
   justify-self: center;
+
 }
 .imageMenuToggle {
   position: absolute;
@@ -510,7 +589,7 @@ button:active {
   gap: 1rem;
   font-family: minimal;
   font-size: 1.3rem;
-  background-color: rgba(0, 0, 0, 0.446);
+  background-color: rgba(0, 0, 0, 0.399);
   pointer-events: none;;
 }
 
@@ -525,6 +604,8 @@ button:active {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: rgb(243, 96, 46);
+  color: white;
 }
 .infoEditorAddRemove {
   display: flex;
@@ -547,6 +628,7 @@ button:active {
   font-size: 2rem;
   color:rgb(243, 96, 46);
   text-align: center;
+  background-color: transparent;
 }
 .sectionText {
   width: 100%;
@@ -557,6 +639,12 @@ button:active {
   color: black;
   overflow: hidden;
   align-self: start;
+}
+.signUpPopup {
+  align-self: center;
+  justify-self: center;
+  width: 60rem;
+  height: 60rem;
 }
 .appContainer {
   position: absolute;

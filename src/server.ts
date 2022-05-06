@@ -47,24 +47,42 @@ app.get('/bob', async (req: any, res: any) => {
     }
 })
 
-app.post('/users/:id', async (req: any, res: any) => {
+app.post('/api/users/:userName', async (req: any, res: any) => {
+    console.log('postUser')
     try {
-        const {id} = req.params
-        const userPost = await pool.query(`
-          INSERT INTO users (id, username, password, email) VALUES (uuid_generate_v4(), $1, '1234', 'baaaldskjhf@dac-inc.com') RETURNING *
-        `,[id])
-        if (userPost.rows) {
+        const { userName } = req.params
+        const { password } = req.body
+        const { dateOfBirth } = req.body
+        console.log(userName)
+        console.log(password)
+        console.log(dateOfBirth)
+        const saltRounds = 10
+        const salt = await bcrypt.genSalt(saltRounds)
+        const hashedPassword = await bcrypt.hash(password, salt)
+        const addUser = await pool.query(`
+        INSERT INTO users (id, username, password, date_of_birth, time_of_signup) VALUES (uuid_generate_v4(), $1, $2, $3, CURRENT_DATE) RETURNING *
+        `,[userName, hashedPassword, new Date(dateOfBirth)])
+        console.log('savin')
+        if (addUser) {
             res.status(200)
-            res.json(userPost.rows)
+            res.json("Successful! User has been added")
         } else {
             res.status(404)
-            res.json('Could not find table')
+            res.json('Could not add user.')
         }
-    } catch (e) {
-        res.status(400)
-        res.json('Could not post user' + e)
+    } catch (e: any) {
+        console.log(e.message)
+        res.status(404)
+        if (e.message.match('violates unique constraint') && e.message.match('password')) {
+            res.json('Failed. Password must be unique.')
+        } else if (e.message.match('violates unique constraint') && e.message.match('username')) {
+            res.json('Failed. Username must be unique.')
+        } else {
+            res.json('Failed. Unknown errror.')
+        }
     }
 })
+
 app.post('/api/images/:id', async (req: any, res: any) => {
     try {
         const {id} = req.params
@@ -73,10 +91,8 @@ app.post('/api/images/:id', async (req: any, res: any) => {
             const symbolFileIndex = symbol_file.lastIndexOf('base64,')
             const symbolFileGet = symbol_file.substring(symbolFileIndex)
             const symbolFileFormat = symbolFileGet.split('base64,').join('')
-            console.log(`Write URL: public/images/${id}.${symbol_image_type}`)
-            console.log(symbolFileFormat)
             const imageBuffer =  Buffer.from(symbolFileFormat, 'base64')
-            fs.writeFileSync(`public/images/${id}.${symbol_image_type}`, imageBuffer)
+            fs.writeFileSync(`public/images/user-images/${id}.${symbol_image_type}`, imageBuffer)
             res.status(200)
             res.json('File written successfully')
         } catch (e) {

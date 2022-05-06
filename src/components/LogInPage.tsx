@@ -1,6 +1,6 @@
 import React from "react";
 
-function ProfilePage() {
+function LogInPage() {
     return (
         <div className = "content page">
             <div className="fullWidth flexCenter">
@@ -12,4 +12,4 @@ function ProfilePage() {
         </div>
     )
 }
-export default ProfilePage
+export default LogInPage
