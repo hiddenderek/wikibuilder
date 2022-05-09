@@ -8,5 +8,5 @@ RUN if [ "$NODE_ENV" = "development" ]; \
         fi
 
 COPY . ./
-EXPOSE 8030
+EXPOSE 8020
 CMD ["ts-node", "src/server.ts"]

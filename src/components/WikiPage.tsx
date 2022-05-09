@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import InfoTable from "./InfoTable";
 import PageSection from "./PageSection";
 import { handleApiData } from "../utils/apicalls";
@@ -11,6 +11,7 @@ function WikiPage() {
     const { pageTitle, introText, introTableData, pageSections } = useAppSelector((state: { pageCreator: pageCreatorState }) => state.pageCreator)
     const dispatch = useAppDispatch()
     const textareaRef = useRef()
+    const [saveError, setSaveError] = useState('')
     
     function changePageTitle(e: React.FormEvent<HTMLTextAreaElement>) {
         const targetElm = e.target as HTMLInputElement
@@ -31,14 +32,21 @@ function WikiPage() {
             } }))
     }
 
-    function savePage() {
-        handleApiData(`/page/${pageTitle}`, null, "post", { pageTitle, introText, introTableData, pageSections })
+    async function savePage() {
+        const pageSectionData = JSON.stringify(pageSections) 
+        const savePageResult = await handleApiData(`/wiki/${pageTitle}`, null, "post", { introText, introTableData, pageSectionData })
+        if (savePageResult!.status === 200) {
+            setSaveError('')
+        } else {
+            setSaveError(savePageResult!.data)
+        }
     }
 
     return (
         <div className="content page">
             <div className="flexCenter">
                 <button onClick={savePage}>savePage</button>
+                {saveError ? <p>{saveError}</p> : ""}
             </div>
             <textarea className = "pageTitle" value = {pageTitle} onInput = {changePageTitle} />
             <PageSection index={-1} pageTitle={pageTitle} title={''} text={introText} tableData={introTableData} />

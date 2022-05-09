@@ -4,12 +4,14 @@ import { createImportSpecifier, NumericLiteral } from 'typescript';
 interface userInterfaceState {
     pageWidth: number, 
     pageHeight: number,
+    user: string
 }
 
 
 const initialState: userInterfaceState = {
     pageWidth: 0,
     pageHeight: 0,
+    user: ''
 
 }
 
@@ -21,9 +23,12 @@ const userInterfaceSlice = createSlice({
             const { width, height } = action.payload
             state.pageWidth = width
             state.pageHeight = height
+        },
+        setUser(state, action: PayloadAction<string>) {
+            state.user = action.payload
         }
     }
 })
 
-export const { setPageSize } = userInterfaceSlice.actions
+export const { setPageSize, setUser } = userInterfaceSlice.actions
 export default userInterfaceSlice.reducer;

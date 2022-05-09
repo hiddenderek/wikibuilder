@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { ErrorRequestHandler } from 'express'
 import config from './config'
 import processEnv from 'dotenv'
 processEnv.config()
@@ -31,19 +31,19 @@ function authenticateToken(req: any, res: any, next: any) {
         next()
     })
 }
-app.get('/bob', async (req: any, res: any) => {
+app.get('/api/currentUser', authenticateToken, async (req: any, res: any) => {
     try {
-        const userGet = await pool.query('SELECT * FROM users')
-        if (userGet.rows) {
+        console.log('get current user')
+        if (req?.user?.name) {
             res.status(200)
-            res.json(userGet.rows)
+            res.json(req.user.name)
         } else {
-            res.status(404)
-            res.json('No rows found.')
+            console.log('COULD NOT FIND USER')
+            res.sendStatus(404)
         }
+        
     } catch (e) {
-        res.status(400)
-        res.json('Could not get data: ' + e)
+        console.log('current user error: ' + e)
     }
 })
 
@@ -60,8 +60,8 @@ app.post('/api/users/:userName', async (req: any, res: any) => {
         const salt = await bcrypt.genSalt(saltRounds)
         const hashedPassword = await bcrypt.hash(password, salt)
         const addUser = await pool.query(`
-        INSERT INTO users (id, username, password, date_of_birth, time_of_signup) VALUES (uuid_generate_v4(), $1, $2, $3, CURRENT_DATE) RETURNING *
-        `,[userName, hashedPassword, new Date(dateOfBirth)])
+        INSERT INTO users (id, username, password) VALUES (uuid_generate_v4(), $1, $2) RETURNING *
+        `,[userName, hashedPassword])
         console.log('savin')
         if (addUser) {
             res.status(200)
@@ -78,7 +78,7 @@ app.post('/api/users/:userName', async (req: any, res: any) => {
         } else if (e.message.match('violates unique constraint') && e.message.match('username')) {
             res.json('Failed. Username must be unique.')
         } else {
-            res.json('Failed. Unknown errror.')
+            res.json('Failed. Errror:' + e.message)
         }
     }
 })
@@ -105,6 +105,89 @@ app.post('/api/images/:id', async (req: any, res: any) => {
         res.json('Could not save image' + e)
     }
 })
+
+app.get('/api/wiki', async (req: any, res: any) => {
+    try {
+        const parameters = []
+        if (req?.query?.contributor) {
+            parameters.push(req?.query?.contributor)
+        }
+        const getWikis = await pool.query(`
+        SELECT * FROM pages WHERE ${req?.query?.contributor ? "$1 = ANY(contributors)" : ""} 
+    `, parameters)
+        if (getWikis.rows) {
+            res.status(200)
+            res.json(getWikis.rows)
+        } else {
+            res.status(404)
+            res.json('Could not find rows.')
+        }
+    } catch (e : any) {
+        res.status(400)
+        res.json('Error getting wikis: ' + e.message)
+    }
+})
+
+app.get('/api/wiki/:id', async (req: any, res: any) => {
+    try {
+        const {id} = req.params
+        const wikiGet = await pool.query(`
+            SELECT * FROM pages WHERE title = $1
+        `, [id])
+        if (wikiGet.rows[0]) {
+            res.status(200)
+            res.json(wikiGet.rows[0])
+        } else {
+            res.status(404)
+            res.json('Could not find wiki.')
+        }
+    } catch (e: any) {
+        res.status(400)
+        res.json('Error getting wiki. Error: ' + e.message)
+    }
+
+})
+
+app.post('/api/wiki/:id', authenticateToken, async (req: any, res: any) => {
+    try {
+        const {id} = req.params
+        const {introText, introTableData, pageSectionData} = req.body
+        const userId = await pool.query(`
+            SELECT id FROM users WHERE username = $1
+        `,[req.user])
+
+        const createWiki = await pool.query(`
+            INSERT INTO pages (id, title, intro_text, intro_table_data, page_section_data, user_id) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5) RETURNING *
+        `,[id, introText, introTableData, pageSectionData, userId])
+
+        if (createWiki.rows[0]) {
+            const recordContributor = await pool.query(`
+            INSERT INTO contributors (id, page_id, user_id) VALUES (uuid_generate_v4(), $1, $2)
+        `, [createWiki.rows[0].id, userId])
+        
+            res.status(200)
+            res.json('Page Created successfully')
+        } else {
+            res.status(404)
+            res.json('Page not found')
+        }
+
+    } catch (e : any) {
+        res.status(400)
+        res.json('Error creating wiki: ' + e.message)
+    }
+    
+})
+
+app.patch('/api/wiki/:id', async (req: any, res: any) => {
+    
+})
+
+app.delete('/api/wiki/:id', async (req: any, res: any) => {
+    
+})
+
+
 app.get('/*', async (req: any, res: any) => {
     let contentGet = serverRenderer()
     console.log(contentGet.initialContent)

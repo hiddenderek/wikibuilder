@@ -15,9 +15,9 @@ const app = express()
 const pool = new Pool({
     user: "postgres",
     password: "D@c77357",
-    host: "localhost",
+    host: "postgres",
     port: 5432,
-    database: "oasis_workstation"
+    database: "wikibuilder"
 })
 
 app.use(cookieParser())
@@ -99,8 +99,9 @@ app.post('/api/login', async (req: any, res: any) => {
                     res.json('Incorrect password.')
                 }
             } catch (e) {
-                res.status(404)
-                res.json('Incorrect password.')
+                console.log(e)
+                res.status(400)
+                res.json('Something went wrong. Error: ' + e)
             }
         } else {
             res.status(404)

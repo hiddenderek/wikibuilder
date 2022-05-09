@@ -5,7 +5,21 @@ services:
       context: .
       dockerfile: Dockerfile_web
     ports:
-      - "8050:8050"
+      - "8030:8030"
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - postgres
+      - auth-app
+  auth-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile_auth
+    ports:
+      - "8020:8020"
+    env_file:
+      - .env
     restart: always
     depends_on:
       - postgres

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import config from '../config'
 import { useLocation, useHistory } from 'react-router-dom';
 import { handleApiData } from '../utils/apicalls';
@@ -9,20 +9,45 @@ function SignUpPage() {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [passwordMatch, setPasswordMatch] = useState('No password Entered.')
-  const [signUpOutcome, setSignUpOutcome] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('')
-  const userData = {
-    password: password,
-    dateOfBirth: dateOfBirth
-  }
+  const [errorMessage, setErrorMessage] = useState('')
+  const [signUpMessage, setSignUpMessage] = useState('')
+
+  useEffect(() => {
+    console.log('checking')
+    console.log(password.search(/[a-z]/i) < 0)
+    setSignUpMessage('')
+    if (!userName) {
+        setErrorMessage('Username must be specified.')
+    } else if (password.length < 8) {
+        setErrorMessage('password length must be greater than 8 characters.')
+    } else if (password.search(/[a-z]/i) < 0) {
+        setErrorMessage('password must include at least one letter.')
+    } else if (password.search(/[0-9]/i) < 0) {
+        setErrorMessage('password must include at least one number.')
+    } else if (password.search(/[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_/]/i) < 0) {
+        setErrorMessage('password must include at least one special character.')
+    } else if (password !== confirmPassword) {
+        setErrorMessage('Passwords do not match.')
+    } else if (!dateOfBirth) {
+        setErrorMessage('Date of birth must be specified.')
+    } else {
+        setErrorMessage('')
+    }
+}, [userName, password, confirmPassword, dateOfBirth])
+
   async function signUp(e:any) {
     e.preventDefault()
-    if (passwordMatch === 'Passwords match!' && userName && dateOfBirth) {
-      const signUpResult = await handleApiData(`/users/${userName}`, null, "post", userData)
-      setSignUpOutcome(signUpResult!.data.split("\"").join(""))
+    if (!errorMessage) {
+      const signUpResult = await handleApiData(`/users/${userName}`, null, "post", {password, dateOfBirth})
+      if (signUpResult!.status === 200) {
+        setErrorMessage('')
+        setSignUpMessage(signUpResult!.data.split("\"").join(""))
+      } else {
+        setErrorMessage(signUpResult?.data)
+        setSignUpMessage('')
+      }
     } else {
-      console.log(passwordMatch)
     }
   }
 
@@ -33,23 +58,14 @@ function SignUpPage() {
   function specifyPassword(e: any) {
     e.preventDefault()
     setPassword(e.target.value)
-    if (e.target.value !== confirmPassword) {
-      setPasswordMatch('Error: Passwords do not match.')
-    } else if (e.target.value === confirmPassword) {
-      setPasswordMatch('Passwords match!')
-    }
   }
   function specifyConfirmPassword(e: any) {
     e.preventDefault()
     setConfirmPassword(e.target.value)
-    if (e.target.value !== password) {
-      setPasswordMatch('Error: Passwords do not match.')
-    } else if (e.target.value === password) {
-      setPasswordMatch('Passwords match!')
-    }
   }
   function specifyDateOfBirth(e: any) {
     e.preventDefault()
+    console.log(e.target.value)
     setDateOfBirth(e.target.value)
   }
   function profileNavigate() {
@@ -71,25 +87,24 @@ function SignUpPage() {
           <input type="password" onInput={specifyConfirmPassword}></input>
         </div>
         <div className="singleLine">
-          <div className="center">{passwordMatch}</div>
-        </div>
-        <div className="singleLine">
           <label>Date of Birth: </label>
           <input type="date" onInput={specifyDateOfBirth}></input>
         </div>
-        <div className="singleLine">
-          <div className="center">{dateOfBirth ? "Date of birth specified!" : "No date of birth specified."}</div>
-        </div>
         <form className="singleLine" onSubmit={(e)=>{signUp(e)}}>
-          <button className={passwordMatch != "Passwords match!" || !dateOfBirth || !userName ? "inactiveButton center" : "activeButton center"}>Submit</button>
+          <button className={errorMessage ? "inactiveButton center" : "activeButton center"}>Submit</button>
         </form>
-        {signUpOutcome ?
+        {errorMessage ?
           <div className="singleLine">
-            <p className="center">Sign up result: {signUpOutcome}</p>
+            <p className="center">Error: {errorMessage}</p>
           </div> : ""}
-        {signUpOutcome.includes('Successful') ? 
-        <div className="singleLine">
-          <button className="center" onClick={profileNavigate}>Continue to login</button>
+        {!errorMessage && signUpMessage ? 
+        <div className="fullWidth">
+            <div className = "singleLine">
+              <p className="center">Sign up successfull!</p>
+            </div>
+            <div className= "singleLine" >
+              <button className="center" onClick={profileNavigate}>Continue to login</button>
+            </div>
         </div> : ""}
       </div>
     </div>
