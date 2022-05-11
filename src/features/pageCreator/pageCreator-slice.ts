@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { pageCreatorState, section } from './pageCreator-types';
-import { createImportSpecifier, NumericLiteral } from 'typescript';
+import { page } from '../../app/types';
 
 
 const initialState: pageCreatorState = {
@@ -15,19 +15,27 @@ const initialState: pageCreatorState = {
         related: []
     },
     pageSections: [],
-    titleSelected: {element: -1, section: -1},
-    imageSelected: {element: -1, section: -1},
-    textSelected: {element: -1, section: -1},
-    infoSelected: {element: -1, section: -1},
-    relatedSelected: {element: -1, section: -1}
+    titleSelected: { element: -1, section: -1 },
+    imageSelected: { element: -1, section: -1 },
+    textSelected: { element: -1, section: -1 },
+    infoSelected: { element: -1, section: -1 },
+    relatedSelected: { element: -1, section: -1 }
 }
 
 const pageCreatorSlice = createSlice({
     name: 'pageCreator',
     initialState,
     reducers: {
-        pageLoad(state, action: PayloadAction<pageCreatorState>) {
-            return action.payload
+        pageLoad(state, action: PayloadAction<page>) {
+            const { title, intro_text, intro_table_data, page_section_data } = action.payload
+            state.pageTitle = title
+            state.introText = intro_text
+            try {
+                state.introTableData = JSON.parse(intro_table_data)
+                state.pageSections = JSON.parse(page_section_data)
+            } catch (e) {
+                console.log('Error parsing nested page data: ' + e)
+            }
         },
         setPageTitle(state, action: PayloadAction<string>) {
             state.pageTitle = action.payload

@@ -25,7 +25,7 @@ function App () {
                 <Route path="/home">
                     <HomePage />
                 </Route>
-                <Route path="/page">
+                <Route path="/wiki">
                     <WikiPage />
                 </Route>
                 <Route path="/profile">

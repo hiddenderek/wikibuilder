@@ -5,3 +5,15 @@ export type section = {
     section_id?: string,
     saveCounter?: number
 }
+
+export type contribution = {
+    action_type: string,
+    time_executed: string
+}
+
+export type page = {
+    title: string,
+    intro_text: string,
+    intro_table_data: string,
+    page_section_data: string
+}

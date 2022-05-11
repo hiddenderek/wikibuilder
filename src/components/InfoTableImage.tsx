@@ -18,6 +18,7 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
     const [newSymbolImageType, setNewSymbolImageType] = useState('')
     const [newSymbolWidth, setNewSymbolWidth] = useState(0)
     const [newSymbolHeight, setNewSymbolHeight] = useState(0)
+    const [errorMessage, setErrorMessage] = useState('')
     const dispatch = useAppDispatch()
     //change image width/height  from naturalWidth and naturalHeight when url is changed
     useEffect(()=>{
@@ -89,10 +90,13 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
         const newImageName = `${curUser}-${pageTitle.split(' ').join('_')}-${newSymbolImageName}`
         const saveImage = await handleApiData(`/images/${newImageName}`, null, "post", {symbol_file: newSymbolImage, symbol_image_type: newSymbolImageType, symbol_width: newSymbolWidth, symbol_height: newSymbolHeight})
         if (saveImage?.status === 200) {
+            setErrorMessage('')
             dispatch(addTableImage({index, subIndex, url: `images/user-images/${newImageName}`, type: newSymbolImageType, width: newSymbolWidth, height: newSymbolHeight}))
                 if (imageMenu) {
                     toggleimageMenu()
                 }
+        } else {
+           setErrorMessage(saveImage?.data)
         }
     }
 
@@ -125,6 +129,7 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
                     <input value = {urlInput} onInput = {(e)=>{changeUrlInput(e)}} placeholder = "Paste Url Here"/>
                     <p>Or</p>
                     <input ref = {imageFileRef} type = "file" className = "width90" onChange={(e) => { fileRead(e.target)}}></input>
+                    {errorMessage ? <p>{errorMessage}</p> : ""}
                 </div> 
             : ""}
         </div>

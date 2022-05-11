@@ -1,18 +1,40 @@
-import React, { useRef, useState } from "react";
-import InfoTable from "./InfoTable";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import PageSection from "./PageSection";
 import { handleApiData } from "../utils/apicalls";
-import { idGen } from '../utils/idGen'
+import { getAfterLastCharacter } from "../utils/stringParse";
 import { pageCreatorState } from '../features/pageCreator/pageCreator-types'
-import { setPageTitle, addSection } from "../features/pageCreator/pageCreator-slice";
+import { setPageTitle, addSection, pageLoad } from "../features/pageCreator/pageCreator-slice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { page } from "../app/types";
+
 
 function WikiPage() {
     const { pageTitle, introText, introTableData, pageSections } = useAppSelector((state: { pageCreator: pageCreatorState }) => state.pageCreator)
+    const location = useLocation()
     const dispatch = useAppDispatch()
     const textareaRef = useRef()
     const [saveError, setSaveError] = useState('')
-    
+    const [pageLoaded, setPageLoaded] = useState(false)
+
+    useEffect(() => {
+        loadPage(location.pathname)
+    }, [location.pathname])
+
+    async function loadPage(path: string) {
+        const pageData = await handleApiData(path, null, "get", null)
+        if (pageData?.status === 200) {
+            try {
+                console.log(pageData.data)
+                dispatch(pageLoad(pageData.data))
+                setPageLoaded(true)
+
+            } catch (e) {
+                console.log("ERROR PARSING PAGE DATA: " + e)
+            }
+        }
+    }
+
     function changePageTitle(e: React.FormEvent<HTMLTextAreaElement>) {
         const targetElm = e.target as HTMLInputElement
         dispatch(setPageTitle(targetElm.value))
@@ -25,20 +47,23 @@ function WikiPage() {
             tableData: {
                 width: 20, 
                 titles: [], 
-                images: [], 
-                text: [], 
-                info: [], 
+                images: [],
+                text: [],
+                info: [],
                 related: []
-            } }))
+            }
+        }))
     }
 
     async function savePage() {
-        const pageSectionData = JSON.stringify(pageSections) 
-        const savePageResult = await handleApiData(`/wiki/${pageTitle}`, null, "post", { introText, introTableData, pageSectionData })
-        if (savePageResult!.status === 200) {
+        const pageSectionData = JSON.stringify(pageSections)
+        const savePageResult = await handleApiData(`/wiki/pages/${pageLoaded ? getAfterLastCharacter({string: location.pathname, character: '/'}) : pageTitle}`, null, pageLoaded ? "patch" : "post", { pageTitle, introText, introTableData, pageSectionData, action: "Updated page." })
+        if (savePageResult?.status === 200) {
+            console.log(savePageResult?.data)
             setSaveError('')
         } else {
-            setSaveError(savePageResult!.data)
+            console.log(savePageResult?.data)
+            setSaveError(savePageResult?.data)
         }
     }
 

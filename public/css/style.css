@@ -14,6 +14,8 @@ body {
   --extraSmallLineHeight: 2rem;
   --smallLineHeight: 2.7rem;
   --bannerHeight: 3.1rem;
+  --wikiCardTitle: 2.5rem;
+  --wikiCardBottomInfo: 3.5rem;
   font-size: 62.5% !important;
 }
 
@@ -155,6 +157,15 @@ form {
 
 h1 {
   font-size: 3rem;
+  font-weight: normal;
+  padding: none;
+  font-family: minimal;
+  color: rgb(243, 96, 46);
+  margin: 0;
+}
+
+h2 {
+  font-size: 2rem;
   font-weight: normal;
   padding: none;
   font-family: minimal;
@@ -649,6 +660,66 @@ button:active {
 .errorMessage { 
   color: red;
 }
+.wikiCard {
+  flex-basis: 26rem;
+  width: 26rem;
+  height: 16rem;
+  outline: solid .2rem rgb(243, 96, 46);
+  color: rgb(0, 0, 0);
+  font-size: 1.2rem;
+  font-family: minimal;
+  border-radius: 1.2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.wikiCard h2 {
+  height: var(--wikiCardTitle);
+}
+.wikiCardIntroText{
+  position: relative;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+}
+.wikiCardIntroTextNormal {
+  height: calc(100% - var(--wikiCardTitle))
+}
+
+.wikiCardIntroTextContribution {
+  height: calc(100% - var(--wikiCardTitle) - var(--wikiCardBottomInfo));
+}
+
+.wikiCardBottomSection {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 90%; 
+}
+
+.wikiCardFadeEffect {
+  width: 100%;
+  height: 6rem;
+  background:linear-gradient(transparent 5%, white);
+}
+
+.wikiContributionInfo {
+  width: 100%;
+  height: var(--wikiCardBottomInfo);
+}
+.contributionDisplay {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
 .appContainer {
   position: absolute;
   top: 0;

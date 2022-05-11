@@ -106,29 +106,63 @@ app.post('/api/images/:id', async (req: any, res: any) => {
     }
 })
 
-app.get('/api/wiki', async (req: any, res: any) => {
+app.get('/api/wiki/contributions/user/:id', async (req: any, res: any) => {
     try {
-        const parameters = []
-        if (req?.query?.contributor) {
-            parameters.push(req?.query?.contributor)
-        }
-        const getWikis = await pool.query(`
-        SELECT * FROM pages WHERE ${req?.query?.contributor ? "$1 = ANY(contributors)" : ""} 
-    `, parameters)
-        if (getWikis.rows) {
-            res.status(200)
-            res.json(getWikis.rows)
+        const {id} = req.params
+        const getUserId = await pool.query(`
+        SELECT id FROM users WHERE username = $1
+    `, [id])
+        if (getUserId.rows[0]) {
+            const getContributions = await pool.query(`
+                SELECT c.action_type, to_char(c.time_executed, 'MM/DD/YYYY HH12:MI AM')  AS time_executed, p.title, p.intro_text FROM pages p RIGHT JOIN page_contributions c ON c.page_id = p.id WHERE c.user_id = $1 ORDER BY c.time_executed DESC LIMIT 16
+            `, [getUserId.rows[0].id])
+
+            if (getContributions.rows) {
+                res.status(200)
+                res.json(getContributions.rows)
+            } else {
+                res.status(404)
+                res.json('Could not find rows.')
+            }
         } else {
             res.status(404)
-            res.json('Could not find rows.')
+            res.json('No user specified.')
         }
-    } catch (e : any) {
+    } catch (e: any) {
         res.status(400)
         res.json('Error getting wikis: ' + e.message)
     }
 })
 
-app.get('/api/wiki/:id', async (req: any, res: any) => {
+app.get('/api/wiki/contributions/page/:id', authenticateToken, async (req: any, res: any) => {
+    try {
+        const {id} = req.params
+        const getPageId = await pool.query(`
+        SELECT id FROM pages WHERE title = $1
+    `, [id])
+        if (getPageId.rows[0]) {
+            const getContributions = await pool.query(`
+            SELECT * FROM page_contributions WHERE page_id = $1} 
+            `, [getPageId.rows[0].id])
+            
+            if (getContributions.rows) {
+                res.status(200)
+                res.json(getContributions.rows)
+            } else {
+                res.status(404)
+                res.json('Could not find rows.')
+            }
+        } else {
+            res.status(404)
+            res.json('No user specified.')
+        }
+    } catch (e: any) {
+        res.status(400)
+        res.json('Error getting wikis: ' + e.message)
+    }
+})
+
+app.get('/api/wiki/pages/:id', async (req: any, res: any) => {
     try {
         const {id} = req.params
         const wikiGet = await pool.query(`
@@ -148,42 +182,78 @@ app.get('/api/wiki/:id', async (req: any, res: any) => {
 
 })
 
-app.post('/api/wiki/:id', authenticateToken, async (req: any, res: any) => {
+app.post('/api/wiki/pages/:id', authenticateToken, async (req: any, res: any) => {
     try {
-        const {id} = req.params
-        const {introText, introTableData, pageSectionData} = req.body
-        const userId = await pool.query(`
+        const { id } = req.params
+        const { introText, introTableData, pageSectionData } = req.body
+        const getUserId = await pool.query(`
             SELECT id FROM users WHERE username = $1
-        `,[req.user])
-
-        const createWiki = await pool.query(`
+        `, [req?.user?.name])
+        if (getUserId.rows[0]) {
+            const createWiki = await pool.query(`
             INSERT INTO pages (id, title, intro_text, intro_table_data, page_section_data, user_id) VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5) RETURNING *
-        `,[id, introText, introTableData, pageSectionData, userId])
+            `, [id, introText, introTableData, pageSectionData, getUserId.rows[0].id])
 
-        if (createWiki.rows[0]) {
-            const recordContributor = await pool.query(`
-            INSERT INTO contributors (id, page_id, user_id) VALUES (uuid_generate_v4(), $1, $2)
-        `, [createWiki.rows[0].id, userId])
-        
-            res.status(200)
-            res.json('Page Created successfully')
+            if (createWiki.rows[0]) {
+                const recordContributor = await pool.query(`
+                INSERT INTO page_contributions (id, page_id, user_id, action_type, time_executed) VALUES (uuid_generate_v4(), $1, $2, 'Created Page.', CURRENT_TIMESTAMP)
+                `, [createWiki.rows[0].id, getUserId.rows[0].id])
+
+                res.status(200)
+                res.json('Page Created successfully')
+            } else {
+                res.status(404)
+                res.json('Page not found')
+            }
         } else {
             res.status(404)
-            res.json('Page not found')
+            res.json('User not found')
         }
 
-    } catch (e : any) {
+    } catch (e: any) {
         res.status(400)
         res.json('Error creating wiki: ' + e.message)
     }
-    
+
 })
 
-app.patch('/api/wiki/:id', async (req: any, res: any) => {
-    
+app.patch('/api/wiki/pages/:id', authenticateToken,  async (req: any, res: any) => {
+    try {
+        const { id } = req.params
+        const { pageTitle, introText, introTableData, pageSectionData, action } = req.body
+        const getUserId = await pool.query(`
+            SELECT id FROM users WHERE username = $1
+        `, [req?.user?.name])
+        const getPageId = await pool.query(`
+            SELECT id FROM pages WHERE title = $1
+        `, [id])
+        if (getUserId.rows[0] && getPageId.rows[0]) {
+            const createWiki = await pool.query(`
+            UPDATE pages SET title = $1, intro_text = $2, intro_table_data = $3, page_section_data = $4 WHERE id = $5 RETURNING *
+            `, [pageTitle, introText, introTableData, pageSectionData, getPageId.rows[0].id])
+
+            if (createWiki.rows[0]) {
+                const recordContributor = await pool.query(`
+                INSERT INTO page_contributions (id, page_id, user_id, action_type, time_executed) VALUES (uuid_generate_v4(), $1, $2, $3, CURRENT_TIMESTAMP)
+                `, [ getPageId.rows[0].id, getUserId.rows[0].id, action])
+
+                res.status(200)
+                res.json('Page Saveds successfully')
+            } else {
+                res.status(404)
+                res.json('Page not found')
+            }
+        } else {
+            res.status(404)
+            res.json('User or page not found: ' + id)
+        }
+    } catch (e: any) {
+        res.status(400)
+        res.json('Error saving wiki: ' + e.message)
+    }
 })
 
-app.delete('/api/wiki/:id', async (req: any, res: any) => {
+app.delete('/api/wiki/pages/:id', async (req: any, res: any) => {
     
 })
 
