@@ -4,7 +4,7 @@ import PageSection from "./PageSection";
 import { handleApiData } from "../utils/apicalls";
 import { getAfterLastCharacter } from "../utils/stringParse";
 import { pageCreatorState } from '../features/pageCreator/pageCreator-types'
-import { setPageTitle, addSection, pageLoad } from "../features/pageCreator/pageCreator-slice";
+import { setPageTitle, addSection, pageLoad, pageReset } from "../features/pageCreator/pageCreator-slice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { page } from "../app/types";
 
@@ -18,7 +18,12 @@ function WikiPage() {
     const [pageLoaded, setPageLoaded] = useState(false)
 
     useEffect(() => {
-        loadPage(location.pathname)
+        if (location.pathname !== "/wiki") {
+            console.log('LOAD PAGE' + location.pathname)
+            loadPage(location.pathname)
+        } else {
+            dispatch(pageReset())
+        }
     }, [location.pathname])
 
     async function loadPage(path: string) {

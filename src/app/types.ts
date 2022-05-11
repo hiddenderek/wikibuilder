@@ -13,7 +13,7 @@ export type contribution = {
 
 export type page = {
     title: string,
-    intro_text: string,
-    intro_table_data: string,
-    page_section_data: string
+    intro_text?: string,
+    intro_table_data?: string,
+    page_section_data?: string
 }

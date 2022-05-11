@@ -91,7 +91,7 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
         const saveImage = await handleApiData(`/images/${newImageName}`, null, "post", {symbol_file: newSymbolImage, symbol_image_type: newSymbolImageType, symbol_width: newSymbolWidth, symbol_height: newSymbolHeight})
         if (saveImage?.status === 200) {
             setErrorMessage('')
-            dispatch(addTableImage({index, subIndex, url: `images/user-images/${newImageName}`, type: newSymbolImageType, width: newSymbolWidth, height: newSymbolHeight}))
+            dispatch(addTableImage({index, subIndex, url: `/images/user-images/${newImageName}`, type: newSymbolImageType, width: newSymbolWidth, height: newSymbolHeight}))
                 if (imageMenu) {
                     toggleimageMenu()
                 }

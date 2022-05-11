@@ -29,13 +29,22 @@ const pageCreatorSlice = createSlice({
         pageLoad(state, action: PayloadAction<page>) {
             const { title, intro_text, intro_table_data, page_section_data } = action.payload
             state.pageTitle = title
-            state.introText = intro_text
+            if (intro_text) {
+                state.introText = intro_text
+            }
             try {
-                state.introTableData = JSON.parse(intro_table_data)
-                state.pageSections = JSON.parse(page_section_data)
+                if (intro_table_data) {
+                    state.introTableData = JSON.parse(intro_table_data)
+                }
+                if (page_section_data) {
+                    state.pageSections = JSON.parse(page_section_data)
+                }
             } catch (e) {
                 console.log('Error parsing nested page data: ' + e)
             }
+        },
+        pageReset() {
+            return initialState
         },
         setPageTitle(state, action: PayloadAction<string>) {
             state.pageTitle = action.payload
@@ -172,5 +181,5 @@ const pageCreatorSlice = createSlice({
     }
 })
 
-export const { pageLoad, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, addTableTitle, addTableImage, addTableText, addTableInfo, addTableRelated, selectTableElement, deleteTableElement } = pageCreatorSlice.actions
+export const { pageLoad, pageReset, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, addTableTitle, addTableImage, addTableText, addTableInfo, addTableRelated, selectTableElement, deleteTableElement } = pageCreatorSlice.actions
 export default pageCreatorSlice.reducer;

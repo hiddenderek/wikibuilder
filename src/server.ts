@@ -106,15 +106,27 @@ app.post('/api/images/:id', async (req: any, res: any) => {
     }
 })
 
+app.get('/api/wiki/discover', async (req: any, res: any) => {
+    try {
+        const getDiscoverWikis = pool.query(`
+            SELECT * FROM pages   
+        `)
+    } catch (e: any){
+        res.status(400)
+        res.json('Failed finding wikis: ' + e.message)
+    }
+})
+
 app.get('/api/wiki/contributions/user/:id', async (req: any, res: any) => {
     try {
         const {id} = req.params
+        const {created} = req?.query
         const getUserId = await pool.query(`
         SELECT id FROM users WHERE username = $1
     `, [id])
         if (getUserId.rows[0]) {
             const getContributions = await pool.query(`
-                SELECT c.action_type, to_char(c.time_executed, 'MM/DD/YYYY HH12:MI AM')  AS time_executed, p.title, p.intro_text FROM pages p RIGHT JOIN page_contributions c ON c.page_id = p.id WHERE c.user_id = $1 ORDER BY c.time_executed DESC LIMIT 16
+                SELECT c.action_type, to_char(c.time_executed, 'MM/DD/YYYY HH12:MI AM')  AS time_executed, p.title, p.intro_text FROM pages p RIGHT JOIN page_contributions c ON c.page_id = p.id WHERE c.user_id = $1 ${created ? "AND c.action_type = 'Created Page.'" : ""} ORDER BY c.time_executed DESC LIMIT 25
             `, [getUserId.rows[0].id])
 
             if (getContributions.rows) {
