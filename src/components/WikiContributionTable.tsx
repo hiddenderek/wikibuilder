@@ -11,7 +11,9 @@ function WikiContributionTable({wikiContributionList, type} : {wikiContributionL
         <div className="wikiContributionTable">
             <WikiContributionRow title = { type === "user" ? "Wiki" : "User" } action_type = "Contribution" time_executed = "Date" header = {true}/>
             <WikiContributionRow title = " " action_type = " " time_executed = " "/>
-            {wikiContributionList.map((item: contribution & page) => {highlight = !highlight; return <WikiContributionRow title = {type === "user" ? item.title : item.username as string} action_type = {item.action_type} time_executed = {item.time_executed} highlighted = {highlight}/>})}
+            {wikiContributionList?.map ?
+                wikiContributionList.map((item: contribution & page) => {highlight = !highlight; return <WikiContributionRow title = {type === "user" ? item.title : item.username as string} action_type = {item.action_type} time_executed = {item.time_executed} type = {type} highlighted = {highlight}/>})
+            :""}
         </div>
     )
 }

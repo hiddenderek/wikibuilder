@@ -126,6 +126,25 @@ app.get('/api/wiki/count', async (req: any, res: any) => {
     }
 })
 
+app.get('/api/wiki/search', async (req: any, res: any) => {
+    try {
+        const {search} = req.query
+        const getWikis = await pool.query(`
+            SELECT * FROM pages WHERE title ILIKE $1 ORDER BY title ASC LIMIT 16
+        `, [`%${search}%`])
+        if (getWikis.rows) {
+            res.status(200)
+            res.json(getWikis.rows)
+        } else {
+            res.status(404)
+            res.json('Could not find wikis.')
+        }
+    } catch (e: any) {
+        res.status(500)
+        res.json('Failed searching for wikis: ' + e.message)
+    }
+})
+
 app.get('/api/wiki/featured', async (req: any, res: any) => {
     try {
         const getWikiCount = await pool.query(`SELECT count(*) AS exact_count FROM pages`)

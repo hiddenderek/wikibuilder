@@ -17,10 +17,12 @@ function WikiPage() {
     const location = useLocation()
     const history  = useHistory()
     const dispatch = useAppDispatch()
+    const [save, toggleSave] = useToggle(false)
     const [saveError, setSaveError] = useState('')
     const [pageLoaded, setPageLoaded] = useState(false)
     const [contributionView, toggleContributionView] = useToggle(false)
     const [wikiContributionList, setWikiContributionList] = useState([])
+    const [pageAction, setPageAction] = useState('')
 
     useEffect(() => {
         if (location.pathname !== "/wiki") {
@@ -52,8 +54,10 @@ function WikiPage() {
     }
 
     function changePageTitle(e: React.FormEvent<HTMLTextAreaElement>) {
-        const targetElm = e.target as HTMLInputElement
-        dispatch(setPageTitle(targetElm.value))
+        if (editMode) {
+            const targetElm = e.target as HTMLInputElement
+            dispatch(setPageTitle(targetElm.value))
+        }
     }
 
     function createSection() {
@@ -73,10 +77,11 @@ function WikiPage() {
 
     async function savePage() {
         const pageSectionData = JSON.stringify(pageSections)
-        const savePageResult = await handleApiData(`/wiki/pages/${pageLoaded ? getAfterLastCharacter({string: location.pathname, character: '/'}) : pageTitle}`, null, pageLoaded ? "patch" : "post", { pageTitle, introText, introTableData, pageSectionData, action: "Updated page." })
+        const savePageResult = await handleApiData(`/wiki/pages/${pageLoaded ? getAfterLastCharacter({string: location.pathname, character: '/'}) : pageTitle}`, null, pageLoaded ? "patch" : "post", { pageTitle, introText, introTableData, pageSectionData, action: pageAction ? pageAction : "Updated page." })
         if (successStatus.includes(savePageResult?.status ? savePageResult.status : 400)) {
             console.log(savePageResult?.data)
-            setSaveError('')
+            setSaveError(savePageResult?.data)
+            setPageAction('')
         } else {
             console.log(savePageResult?.data)
             setSaveError(savePageResult?.data)
@@ -92,19 +97,34 @@ function WikiPage() {
 
     }
 
+    function changePageAction(e: React.FormEvent<HTMLInputElement>) {
+        const targetElm = e.target as HTMLInputElement
+        setPageAction(targetElm.value)
+    }
+
     return (
         <div className="content page">
+            {editMode && save ? 
+                <div className = "pageSaver">
+                    <p>Specify Contribution to wiki</p>
+                    <input type = "text" placeholder = "type contribution here" value = {pageAction} onInput = {changePageAction}/>
+                    <div className = "pageButtonContainer">
+                        <button onClick={savePage}>Save</button>
+                        <button onClick={save ? toggleSave : undefined}>Cancel</button>
+                    </div>
+                    {saveError ? <p>{saveError}</p> : ""}
+                </div>
+            : ""}
             <div className="pageButtonContainer">
                 {!editMode ? 
                     <button onClick={() => { changeEditMode(true) }}>Contribute to Page</button> :
                     <button onClick={() => { changeEditMode(false) }}>View page</button>
                 }
                 <button onClick={toggleContributionView}>View contributions</button>
-                {saveError ? <p>{saveError}</p> : ""}
             </div>
             {editMode ?
             <div className="fullWidth flexCenter">
-                <button onClick={savePage}>savePage</button>
+                <button onClick={!save ? toggleSave : undefined}>Save Page</button>
             </div>
             : ""}
             {!contributionView ?
@@ -114,9 +134,11 @@ function WikiPage() {
                     <div className="sectionContainer">
                         {pageSections.map((data, index) => <PageSection key={index} index={index} pageTitle={pageTitle} title={data.title} text={data.text} tableData={data.tableData} />)}
                     </div>
+                    {editMode ?
                     <div className="flexCenter">
                         <button onClick={createSection}>Add Section</button>
                     </div>
+                    : "" }
                 </>
                 : 
                 <>

@@ -8,6 +8,7 @@ import { setIntroText, deleteSection, setSectionText, setSectionTitle } from "..
 function PageSection({index, title, text, tableData, section_id, saveCounter} : section & {index: number, pageTitle: string}) {
     const dispatch = useAppDispatch()
     const pageWidth = useAppSelector((state: any)=> state.userInterface.pageWidth)
+    const editMode = useAppSelector((state: any) => state.userInterface.editMode)
     const textareaRef = useRef(null)
 
     useEffect(()=>{
@@ -22,13 +23,17 @@ function PageSection({index, title, text, tableData, section_id, saveCounter} : 
     }
 
     function changeSectionTitle(e: React.FormEvent<HTMLTextAreaElement>) {
-        const targetElm = e.target as HTMLInputElement
-        dispatch(setSectionTitle({ index, text: targetElm.value }))
+        if (editMode) {
+            const targetElm = e.target as HTMLInputElement
+            dispatch(setSectionTitle({ index, text: targetElm.value }))
+        }
     }
 
     function changeSectionText(e: React.FormEvent<HTMLTextAreaElement>) {
-        const targetElm = e.target as HTMLInputElement
+        if (editMode) {
+            const targetElm = e.target as HTMLInputElement
             dispatch(setSectionText({ index, text: targetElm.value }))
+        }
     }
     return (
         <div className = "pageSection">

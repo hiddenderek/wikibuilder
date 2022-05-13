@@ -15,7 +15,7 @@ body {
   --connectorSize: 1rem;
   --extraSmallLineHeight: 2rem;
   --smallLineHeight: 2.7rem;
-  --bannerHeight: 3.1rem;
+  --bannerHeight: 4rem;
   --wikiCardTitle: 2.5rem;
   --wikiCardBottomInfo: 3.5rem;
   font-size: 62.5% !important;
@@ -72,9 +72,9 @@ li:active {
 input {
   box-sizing: border-box;
   border: none;
-  background-color: rgb(0, 0, 0) !important;
-  border-radius: 4%/24%;
-  color: white;
+  background-color: rgb(255, 255, 255);
+  border-radius: .7rem;
+  color: rgb(0, 0, 0);
 }
 
 textarea {
@@ -87,38 +87,6 @@ textarea {
 
 textarea:focus {
   outline: none;
-}
-
-input[type=text] {
-  box-sizing: border-box;
-  border: solid 1px rgb(51, 51, 51);
-  background-color: rgb(0, 0, 0) !important;
-  border-radius: 4%/24%;
-  color: white;
-}
-
-input[type=search] {
-  box-sizing: border-box;
-  border: solid 1px rgb(51, 51, 51);
-  background-color: rgb(0, 0, 0) !important;
-  border-radius: 4%/24%;
-  color: white;
-}
-
-input[type=password] {
-  box-sizing: border-box;
-  border: none;
-  background-color: rgb(0, 0, 0) !important;
-  border-radius: 4%/24%;
-  color: white;
-}
-
-input[type=email] {
-  box-sizing: border-box;
-  border: none;
-  background-color: rgb(0, 0, 0) !important;
-  border-radius: 4%/24%;
-  color: white;
 }
 
 input::file-selector-button {
@@ -211,6 +179,59 @@ button:active {
   background-color: rgb(243, 96, 46);
   z-index: 10000;
   width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  position: relative;
+}
+.bannerSearch {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40rem;
+  height: 3rem;
+}
+
+.bannerHome {
+  align-self: center;
+  height: 85%;
+  margin-left: 2rem;
+  transition: transform 200ms;
+  user-select: none;
+}
+
+.bannerHome:hover{
+  transform: scale(1.15)
+}
+
+.bannerHome:active{
+  transform: scale(1.3)
+}
+
+.bannerLoginContainer {
+  align-self: center;
+  height: 100%;
+  margin-right: 2rem;
+  color: white;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  gap: 2rem;
+  font-size: 1.8rem;
+}
+
+.bannerLoginContainer p {
+  transform: scale(1);
+  transition: transform 200ms;
+  user-select: none;
+}
+
+.bannerLoginContainer p:hover {
+  transform: scale(1.15);
+}
+.bannerLoginContainer p:active {
+  transform: scale(1.3);
 }
 
 .sideBar {
@@ -445,6 +466,7 @@ button:active {
   overflow-y: scroll;
   overflow-x: hidden;
   position: relative;
+
 }
 
 .pageTitle {
@@ -455,6 +477,26 @@ button:active {
   text-align: center;
   height: 4.5rem;
   min-height: 4.5rem;
+}
+
+.pageSaver {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  background-color: rgba(50, 15, 4, 0.658);
+  backdrop-filter: blur(3rem);
+}
+.pageSaver p {
+  color: white;
+}
+.pageSaver input {
+  width: 35rem;
+  font-size: 2.1rem;
 }
 
 .footer {
@@ -473,6 +515,13 @@ button:active {
   flex-flow: row;
   gap: 1.5rem;
   align-self: center;
+}
+.pageButtonContainer input {
+  background-color: rgb(243, 96, 46);
+  color: white;
+}
+.pageButtonContainer input::placeholder{
+  color: white;
 }
 .infoTable {
   width: 20rem;
@@ -636,6 +685,7 @@ button:active {
   display: flex;
   flex-flow: column;
   width: 100%;
+  margin-bottom: 1rem;
 }
 .pageSection {
   width: calc(100% - 7rem);
@@ -739,6 +789,7 @@ button:active {
   justify-content: center;
   flex-flow: row wrap;
   gap: 1rem;
+  padding-bottom: 1rem;
 }
 
 .wikiContributionTable {
@@ -750,6 +801,7 @@ button:active {
   width: 48rem;
   align-self: center;
   padding: 1rem;
+  margin-bottom: 1rem;
 }
 .wikiContributionRow {
   width: 48rem;
@@ -762,6 +814,14 @@ button:active {
   font-size: 1.2rem;
   font-family: minimal;
   text-align: center;
+}
+
+.wikiContributionRow  p {
+  user-select: none;
+  transition: color 200ms;
+}
+.wikiContributionRow p:hover{
+  color: rgb(243, 96, 46);
 }
 
 .wikiContributionRowHeader{

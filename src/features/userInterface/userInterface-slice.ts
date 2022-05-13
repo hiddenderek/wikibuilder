@@ -5,7 +5,8 @@ interface userInterfaceState {
     pageWidth: number, 
     pageHeight: number,
     user: string,
-    editMode: boolean
+    editMode: boolean,
+    searchTerm: string
 }
 
 
@@ -13,7 +14,8 @@ const initialState: userInterfaceState = {
     pageWidth: 0,
     pageHeight: 0,
     user: '',
-    editMode: false
+    editMode: false,
+    searchTerm: ''
 
 }
 
@@ -31,9 +33,12 @@ const userInterfaceSlice = createSlice({
         },
         setEditMode(state, action: PayloadAction<boolean>) {
             state.editMode = action.payload
+        },
+        setSearchTerm(state, action: PayloadAction<string>) {
+            state.searchTerm = action.payload
         }
     }
 })
 
-export const { setPageSize, setUser, setEditMode } = userInterfaceSlice.actions
+export const { setPageSize, setUser, setEditMode, setSearchTerm } = userInterfaceSlice.actions
 export default userInterfaceSlice.reducer;
