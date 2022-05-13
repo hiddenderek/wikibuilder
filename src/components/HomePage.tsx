@@ -1,27 +1,48 @@
 import React, {useState, useEffect} from "react";
 import WikiCard from "./WikiCard";
 import { contribution, page } from "../app/types";
+import { useCount } from "../app/hooks"
 import { handleApiData } from "../utils/apicalls";
 
 function HomePage() {
+    const [wikiFeaturedList, setWikiFeaturedList] = useState([])
     const [wikiDiscoverList, setWikiDiscoverList] = useState([])
+    const [wikiCount, setWikiCount] = useState(0)
+    const [refreshButtonCount, incrementRefreshButtonCount] = useCount(0)
     useEffect(()=>{
+        handleApiData("/wiki/featured", setWikiFeaturedList, "get", null)
         handleApiData("/wiki/discover", setWikiDiscoverList, "get", null)
+        handleApiData("/wiki/count", setWikiCount, "get", null)
     }, [])
+
+    function reDiscover() {
+        incrementRefreshButtonCount()
+        handleApiData("/wiki/discover", setWikiDiscoverList, "get", null)
+    }
+
+    console.log(wikiCount)
 
     return (
         <div className="content page">
             <div className="fullWidth flexCenter">
             </div>
             <img className = "logoSection" src = "/images/wikibuilderLogo.png"/>
-            <div className="fullWidth flexCenter">
-                <h1>Featured</h1>
+            <div className = "fullWidth flexCenter">
+                <p>{`${wikiCount} Wikis created and counting`}</p>
             </div>
             <div className="fullWidth flexCenter">
-                <h1>Recommended</h1>
+                <h1>Todays Featured Wiki</h1>
+            </div>
+            <div className="wikiCreatedDisplay">
+                {wikiFeaturedList?.map ? 
+                    wikiFeaturedList?.map((item : contribution & page) => 
+                        <WikiCard title = {item.title} intro_text = {item.intro_text} type = "featured"/>
+                    )
+                : ""}
             </div>
             <div className="fullWidth flexCenter">
                 <h1>Discover</h1>
+                <img className = "refreshIcon" style = {{transform: `rotate(${refreshButtonCount * 360}deg)`}} onClick = {reDiscover} src = "/images/refresh.png"/>
             </div>
             <div className="wikiCreatedDisplay">
                 {wikiDiscoverList?.map ? 
@@ -29,9 +50,6 @@ function HomePage() {
                         <WikiCard title = {item.title} intro_text = {item.intro_text} type = "normal"/>
                     )
                 : ""}
-            </div>
-            <div className="fullWidth flexCenter">
-                <h1>Trending</h1>
             </div>
 
         </div>

@@ -4,6 +4,7 @@ import { addTableInfo, selectTableElement } from "../features/pageCreator/pageCr
 
 function InfoTableinfo({label, text, index, subIndex} : {label: string, text: string, index: number, subIndex: number}) {
     const infoSelected = useAppSelector((state: any) => state.pageCreator.infoSelected)
+    const editMode = useAppSelector((state: any) => state.userInterface.editMode)
     const dispatch = useAppDispatch()
     const textareaRef = useRef(null)
 
@@ -29,7 +30,7 @@ function InfoTableinfo({label, text, index, subIndex} : {label: string, text: st
     }
 
     return (
-        <div className={`infoTableInfoContainer ${infoSelected.section === index && infoSelected.element === subIndex ? "infoTableContainerSelected" : ""}`} onClick={selectinfo}>
+        <div className={`infoTableInfoContainer ${infoSelected.section === index && infoSelected.element === subIndex && editMode ? "infoTableContainerSelected" : ""}`} onClick={selectinfo}>
             <textarea ref={textareaRef} value={label} className="infoTableLabel" onInput={(e) => { changeInfo(e, "label") }} />
             <textarea ref={textareaRef} value={text} className="infoTableInfo" onInput={(e) => { changeInfo(e, "text") }} />
         </div>

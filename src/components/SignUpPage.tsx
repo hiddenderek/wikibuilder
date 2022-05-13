@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import config from '../config'
 import { useLocation, useHistory } from 'react-router-dom';
-import { handleApiData } from '../utils/apicalls';
+import { handleApiData, successStatus } from '../utils/apicalls';
 
 function SignUpPage() {
   const location = useLocation()
@@ -40,7 +40,7 @@ function SignUpPage() {
     e.preventDefault()
     if (!errorMessage) {
       const signUpResult = await handleApiData(`/users/${userName}`, null, "post", {password, dateOfBirth})
-      if (signUpResult!.status === 200) {
+      if (successStatus.includes(signUpResult?.status ? signUpResult.status : 400)) {
         setErrorMessage('')
         setSignUpMessage(signUpResult!.data.split("\"").join(""))
       } else {

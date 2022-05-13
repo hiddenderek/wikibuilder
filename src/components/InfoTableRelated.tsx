@@ -4,6 +4,7 @@ import { addTableRelated, selectTableElement } from "../features/pageCreator/pag
 
 function InfoTableRelated({url, text, index, subIndex} : {url: string, text: string, index: number, subIndex: number}) {
     const relatedSelected = useAppSelector((state: any) => state.pageCreator.relatedSelected)
+    const editMode = useAppSelector((state: any) => state.userInterface.editMode)
     const dispatch = useAppDispatch()
     const textareaRef = useRef(null)
 
@@ -28,7 +29,7 @@ function InfoTableRelated({url, text, index, subIndex} : {url: string, text: str
     //If it finds the title, it will set the navigation property of the link to go to the url state value. 
     //It will also change the font color to blue to signify a working link.
     return (
-        <div className = {`infoTableRelatedContainer ${relatedSelected.section === index && relatedSelected.element === subIndex ? "infoTableContainerSelected": ""}`} onClick = {selectRelated}>
+        <div className = {`infoTableRelatedContainer ${relatedSelected.section === index && relatedSelected.element === subIndex && editMode? "infoTableContainerSelected": ""}`} onClick = {selectRelated}>
             <textarea ref = {textareaRef} value = {text ? text : url} className = "infoTableRelated" onInput = {(e)=>{changeText(e)}}/>
         </div>
     )

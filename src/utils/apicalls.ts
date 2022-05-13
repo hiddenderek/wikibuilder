@@ -1,8 +1,8 @@
 import config from '../config'
 
-const successStatus = [200, 201, 202, 204]
-const failedStatus = [400, 401, 402, 404, 409, 422]
-const needsRefreshStatus = [403]
+export const successStatus = [200, 201, 202, 204]
+export const failedStatus = [400, 401, 402, 404, 405, 409, 422, 500, 501, 502]
+export const needsRefreshStatus = [403]
 
 export async function getApiData(pathName: string, port: number | undefined) {
     const controller = new AbortController()

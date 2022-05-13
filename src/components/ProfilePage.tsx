@@ -42,7 +42,7 @@ function ProfilePage() {
             <div className="fullWidth flexCenter">
                 <h1>Recent contributions:</h1>
             </div>
-            <WikiContributionTable wikiContributionList = {wikiContributionList as []}/>
+            <WikiContributionTable wikiContributionList = {wikiContributionList as []} type = "user" />
         </div>
     )
 }

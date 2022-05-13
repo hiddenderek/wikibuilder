@@ -4,6 +4,7 @@ import { addTableTitle, selectTableElement } from "../features/pageCreator/pageC
 
 function InfoTableTitle({title, index, subIndex} : {title: string, index: number, subIndex: number}) {
     const titleSelected = useAppSelector((state: any) => state.pageCreator.titleSelected)
+    const editMode = useAppSelector((state: any) => state.userInterface.editMode)
     const dispatch = useAppDispatch()
     const textareaRef = useRef(null)
 
@@ -25,7 +26,7 @@ function InfoTableTitle({title, index, subIndex} : {title: string, index: number
     }
     
     return (
-        <div className = {`infoTableTextContainer ${titleSelected.section === index && titleSelected.element === subIndex ? "infoTableContainerSelected": ""}`} onClick = {selectImage}>
+        <div className = {`infoTableTextContainer ${titleSelected.section === index && titleSelected.element === subIndex && editMode ? "infoTableContainerSelected": ""}`} onClick = {selectImage}>
         <textarea ref = {textareaRef} value = {title} className = "infoTabletitle" onInput = {(e)=>{changeTitle(e)}}/>
         </div>
     )

@@ -4,7 +4,9 @@ body {
   background: rgb(255, 255, 255);
   background-image: url("pageData/pageInfo/images/backgroundImage.png");
   background-size: auto 100vh;
-  color: white;
+  color: rgb(243, 96, 46);
+  font-size: 1.5rem;
+  font-family: minimal;
 }
 
 /*lolll*/
@@ -181,12 +183,12 @@ p {
 
 button {
   display: block;
-  height: 80%;
-  width: 100px;
-  color: #bde7e7e1;
+  height: 3rem;
+  width: 15rem;
+  color: #ffffffe1;
   border: none;
   border-radius: 2%/10%;
-  background-color: rgb(51, 101, 150);
+  background-color: rgb(243, 96, 46);
 }
 
 button:hover {
@@ -465,6 +467,13 @@ button:active {
   width: 45rem;
 
 }
+.pageButtonContainer {
+  margin-top: 1rem;
+  display: flex;
+  flex-flow: row;
+  gap: 1.5rem;
+  align-self: center;
+}
 .infoTable {
   width: 20rem;
   min-width: 20rem;
@@ -676,7 +685,21 @@ button:active {
   display: flex;
   flex-flow: column;
   align-items: center;
+  overflow: hidden;
 }
+
+.wikiCardFeatured {
+  flex-basis: 80%;
+  width: 80%;
+  height: 24rem;
+  font-size: 1.5rem;
+}
+.wikiCardFeatured h2 {
+  height: var(--wikiCardTitle);
+  font-size: 2rem;
+  overflow: hidden;
+}
+
 .wikiCard h2 {
   height: var(--wikiCardTitle);
   overflow: hidden;
@@ -684,7 +707,7 @@ button:active {
 .wikiCardIntroText{
   position: relative;
   width: 100%;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
 }
 .wikiCardIntroTextNormal {
@@ -700,7 +723,7 @@ button:active {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  min-width: 90%; 
+  min-width: 100%; 
 }
 
 .wikiCardFadeEffect {
@@ -710,7 +733,8 @@ button:active {
 }
 
 .wikiCreatedDisplay {
-  width: 100%;
+  width: 70%;
+  align-self: center;
   display: flex;
   justify-content: center;
   flex-flow: row wrap;
@@ -747,6 +771,15 @@ button:active {
 
 .wikiContributionRowHighlight{
   background-color: rgba(243, 95, 46, 0.282);
+}
+.refreshIcon {
+  margin-left: 1rem;
+  width: 2.8rem;
+  transform-origin: center;
+  transition: width 200ms, transform 600ms;
+}
+.refreshIcon:hover {
+  width: 3.3rem;
 }
 
 .appContainer {

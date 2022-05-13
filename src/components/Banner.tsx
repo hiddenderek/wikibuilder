@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import { useHistory } from "react-router";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { handleApiData } from '../utils/apicalls'
+import { handleApiData, successStatus } from '../utils/apicalls'
 import { setUser } from '../features/userInterface/userInterface-slice'
 
 function Banner() {
@@ -20,7 +20,7 @@ function Banner() {
           newCurrentUserGet = await handleApiData(`/currentUser`, null, "get", null)
         }
         console.log(newCurrentUserGet)
-        if (newCurrentUserGet?.status === 200) {
+        if (successStatus.includes(newCurrentUserGet?.status ? newCurrentUserGet.status : 400)) {
           const newCurrentUser = newCurrentUserGet?.data
           dispatch(setUser(newCurrentUser))
         } 

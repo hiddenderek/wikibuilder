@@ -1,6 +1,8 @@
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+CREATE EXTENSION tsm_system_rows;
+
 CREATE TABLE users (id UUID NOT NULL PRIMARY KEY, username VARCHAR(30) NOT NULL UNIQUE, password TEXT NOT NULL, email VARCHAR(40) UNIQUE);
 
 CREATE TABLE pages (id UUID NOT NULL PRIMARY KEY, title VARCHAR(75) NOT NULL UNIQUE, intro_text TEXT, intro_table_data TEXT, page_section_data TEXT, user_id UUID REFERENCES users(id));

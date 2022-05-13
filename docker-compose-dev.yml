@@ -8,12 +8,8 @@ services:
     volumes:
       - ./public:/app/public
       - ./src:/app/src
-      - type: bind
-        source: tsconfig.json
-        target: /app/tsconfig.json
-      - type: bind
-        source: webpack.config.js
-        target: /app/webpack.config.js
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./webpack.config.js:/app/webpack.config.js
     environment:
       - NODE_ENV=development
     command: npm run dev && npm run webpack
@@ -23,12 +19,8 @@ services:
       args:
         NODE_ENV: development
     volumes:
-      - type: bind
-        source: src/authServer.ts
-        target: /app/src/authServer.ts
-      - type: bind
-        source: tsconfig.json
-        target: /app/tsconfig.json
+      - ./src/authServer.ts:/app/src/authServer.ts
+      - ./tsconfig.json:/app/tsconfig.json
     environment:
       - NODE_ENV=development
     command: npm run devAuth

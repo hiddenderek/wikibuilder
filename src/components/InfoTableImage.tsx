@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { handleApiData } from "../utils/apicalls";
+import { handleApiData, successStatus } from "../utils/apicalls";
 import { idGen } from "../utils/idGen";
 import { addTableImage, selectTableElement} from "../features/pageCreator/pageCreator-slice"
 import { useToggle } from "../app/hooks"
@@ -9,6 +9,7 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
     const curUser = "user"
     const pageTitle = useAppSelector((state: any) => state.pageCreator.pageTitle)
     const imageSelected = useAppSelector((state: any) => state.pageCreator.imageSelected)
+    const editMode = useAppSelector((state: any) => state.userInterface.editMode)
     const imageRef = useRef(null)
     const imageFileRef = useRef(null)
     const [imageMenu, toggleimageMenu] = useToggle(false)
@@ -89,7 +90,7 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
     async function saveImage() {
         const newImageName = `${curUser}-${pageTitle.split(' ').join('_')}-${newSymbolImageName}`
         const saveImage = await handleApiData(`/images/${newImageName}`, null, "post", {symbol_file: newSymbolImage, symbol_image_type: newSymbolImageType, symbol_width: newSymbolWidth, symbol_height: newSymbolHeight})
-        if (saveImage?.status === 200) {
+        if (successStatus.includes(saveImage?.status ? saveImage.status : 400)) {
             setErrorMessage('')
             dispatch(addTableImage({index, subIndex, url: `/images/user-images/${newImageName}`, type: newSymbolImageType, width: newSymbolWidth, height: newSymbolHeight}))
                 if (imageMenu) {
@@ -121,10 +122,10 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
     }
 
     return (
-        <div className = {`infoTableImageContainer ${imageSelected.section === index && imageSelected.element === subIndex ? "infoTableContainerSelected": ""}`} style = {{height: `${tableWidth / (width/height) }rem`}} onClick = {selectImage}>
-            <div className = "imageMenuToggle" onClick = {toggleimageMenu}></div>
-            <img ref = {imageRef} className = "infoTableImage" style = {{aspectRatio : `${width}/${height}`}} src = {type ? `${url}.${type}` : `${url}`} onLoad = {showImage}/>
-            {imageMenu ? 
+        <div className = {`infoTableImageContainer ${imageSelected.section === index && imageSelected.element === subIndex && editMode ? "infoTableContainerSelected": ""}`} style = {{height: `${tableWidth / (width/height) }rem`}} onClick = {selectImage}>
+            {editMode ? <div className = "imageMenuToggle" onClick = {toggleimageMenu}></div> : ""}
+            <img ref = {imageRef} className = "infoTableImage" style = {{aspectRatio : `${width}/${height}`}} src = {type ? `${url}.${type}` : `${url}`} onLoad = {showImage}/> 
+            {imageMenu && editMode ? 
                 <div className = "urlInput">
                     <input value = {urlInput} onInput = {(e)=>{changeUrlInput(e)}} placeholder = "Paste Url Here"/>
                     <p>Or</p>

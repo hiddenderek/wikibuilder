@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAppDispatch } from '../app/hooks'
-import { handleApiData } from '../utils/apicalls'
+import { handleApiData, successStatus } from '../utils/apicalls'
 import config from '../config'
 import {setUser} from '../features/userInterface/userInterface-slice'
 function LogIn(props: any) {
@@ -21,7 +21,7 @@ function LogIn(props: any) {
     async function login(e: any) {
         try {
             const logInResult = await handleApiData(`/login`, null, "post", {userName, password}, config.authPort as number)
-            if (logInResult?.status === 200) {
+            if (successStatus.includes(logInResult?.status ? logInResult.status : 400)) {
                 history.push('/profile')
                 try {
                     dispatch(setUser(JSON.parse(logInResult?.data).name))

@@ -47,7 +47,17 @@ const pageCreatorSlice = createSlice({
             return initialState
         },
         setPageTitle(state, action: PayloadAction<string>) {
-            state.pageTitle = action.payload
+            const excludedChars = ['?', '#', '&', '@', '^', '*', '/', '\\', '(', ')', '<', '>', '%']
+            let excludedCharsCheck = false
+            for (let i = 0; i < excludedChars.length; i++) {
+                if (action.payload.includes(excludedChars[i])) {
+                    excludedCharsCheck = true
+                }
+            }
+            if (!excludedCharsCheck) {
+                console.log('changed title!')
+                state.pageTitle = action.payload
+            }
         },
         setIntroText(state, action: PayloadAction<string>) {
             state.introText = action.payload

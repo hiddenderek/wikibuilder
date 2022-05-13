@@ -1,6 +1,6 @@
 import React from "react";
 import { image, info, link, tableData } from "../features/pageCreator/pageCreator-types";
-import { useAppDispatch } from "../app/hooks"
+import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { addTableTitle, addTableImage, addTableText, addTableInfo, addTableRelated, deleteTableElement } from "../features/pageCreator/pageCreator-slice";
 import InfoTableTitle  from "./InfoTableTitle" 
 import InfoTableImage from "./InfoTableImage"
@@ -9,6 +9,7 @@ import InfoTableInfo from "./InfoTableInfo"
 import InfoTableRelated from "./InfoTableRelated"
 
 function InfoTable({ index, tableData }: {index: number, tableData: tableData}) {
+    const editMode = useAppSelector((state: any) => state.userInterface.editMode)
     const dispatch = useAppDispatch()
     //add title //add image //add text //add info //add related links
     const {width, titles, images, text, info, related} = tableData
@@ -37,8 +38,11 @@ function InfoTable({ index, tableData }: {index: number, tableData: tableData}) 
         dispatch(deleteTableElement(type))
     }
 
+    console.log(editMode)
+
     return (
-        <div className="infoTable">
+        <div className= {`infoTable ${(titles.length > 0 || images.length > 0 || text.length > 0 || info.length > 0 || related.length > 0)  ? "infoTableEdit" : !editMode ?  "itemHidden" : ""}`} >
+            {editMode ? 
             <div className="infoEditorSection">
                 <p>Title</p>
                 <div className = "infoEditorAddRemove">
@@ -46,9 +50,11 @@ function InfoTable({ index, tableData }: {index: number, tableData: tableData}) 
                     <p onClick = {()=>{deleteElement("title")}}>-</p>
                 </div>
             </div>
+            :" "}
             <div className = "infoTableContent">
                 {titles.map((item: string, subIndex: number)=><InfoTableTitle key = {subIndex}  title = {item} index = {index} subIndex = {subIndex}/>)}
             </div>
+            {editMode ? 
             <div className="infoEditorSection">
                 <p>Image</p>
                 <div className = "infoEditorAddRemove">
@@ -56,9 +62,11 @@ function InfoTable({ index, tableData }: {index: number, tableData: tableData}) 
                     <p onClick = {()=>{deleteElement("image")}}>-</p>
                 </div>
             </div>
+            :" "}
             <div className = "infoTableContent">
                 {images.map((item: image, subIndex: number)=><InfoTableImage key = {subIndex} tableWidth = {width} url = {item.url} type = {item.type} width = {item.width} height = {item.height} index = {index} subIndex = {subIndex}/>)}
             </div>
+            {editMode ? 
             <div className = "infoEditorSection">
                 <p>Text</p>
                 <div className = "infoEditorAddRemove">
@@ -66,12 +74,14 @@ function InfoTable({ index, tableData }: {index: number, tableData: tableData}) 
                     <p onClick = {()=>{deleteElement("text")}}>-</p>
                 </div>
             </div>
+            :" "}
             <div className = "infoTableContent">
                 {text.map((item: string, subIndex: number)=><InfoTableText key = {subIndex}  text = {item} index = {index} subIndex = {subIndex}/>)}
             </div>
             <div className = "infoTableContent">
                 
             </div>
+            {editMode ? 
             <div className = "infoEditorSection">
                 <p>Info</p>
                 <div className = "infoEditorAddRemove">
@@ -79,9 +89,11 @@ function InfoTable({ index, tableData }: {index: number, tableData: tableData}) 
                     <p onClick = {()=>{deleteElement("info")}}>-</p>
                 </div>
             </div>
+            :" "}
             <div className = "infoTableContent">
                 {info.map((item: info, subIndex: number)=><InfoTableInfo key = {subIndex} label = {item.label} text = {item.text} index = {index} subIndex = {subIndex} />)}
             </div>
+            {editMode ?
             <div className = "infoEditorSection">
                 <p>Related Links</p>
                 <div className = "infoEditorAddRemove">
@@ -89,10 +101,11 @@ function InfoTable({ index, tableData }: {index: number, tableData: tableData}) 
                     <p onClick = {()=>{deleteElement("related")}}>-</p>
                 </div>
             </div>
+            :" "}
             <div className = "infoTableContent">
                 {related.map((item: link, subIndex: number)=><InfoTableRelated key = {subIndex} url = {item.url} text = {item.text} index = {index} subIndex = {subIndex} />)}
             </div>
         </div>
     )
 }
-export default React.memo(InfoTable)
+export default InfoTable

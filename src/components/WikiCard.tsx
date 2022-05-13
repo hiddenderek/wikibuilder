@@ -1,11 +1,24 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useAppDispatch } from "../app/hooks";
+import { setEditMode } from "../features/userInterface/userInterface-slice";
 
 function WikiCard({ title, intro_text, type, action, date }: { title: string, intro_text?: string, type: string, action?: string, date?: string }) {
     const history = useHistory()
+    const dispatch = useAppDispatch()
+
+    function navPage () {
+        if (type === "created") {
+            dispatch(setEditMode(true))
+        } else if (type === "featured" || type === "normal") {
+            dispatch(setEditMode(false))
+        }
+        history.push(`/wiki/pages/${title}`)
+    }
+
     return (
-        <div className="wikiCard">
-            <h2 onClick = {()=>{history.push(`/wiki/pages/${title}`)}}>{title}</h2>
+        <div className={`wikiCard ${type === "featured" ? "wikiCardFeatured" : ""}`}>
+            <h2 onClick = {navPage}>{title}</h2>
             <div className={`wikiCardIntroText ${type === "contribution" || type === "created"  ? "wikiCardIntroTextContribution" : "wikiCardIntroTextNormal"}`}>
                 <p>{intro_text}</p>
             </div>

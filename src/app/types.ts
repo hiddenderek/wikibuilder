@@ -8,7 +8,8 @@ export type section = {
 
 export type contribution = {
     action_type: string,
-    time_executed: string
+    time_executed: string,
+    username?: string
 }
 
 export type page = {

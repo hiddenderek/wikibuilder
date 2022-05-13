@@ -9,3 +9,9 @@ export const useToggle = (initialVal: boolean) => {
         return !state
     }, initialVal)
 }
+
+export const useCount = (initialVal: number) => {
+    return useReducer((state) => {
+        return state += 1
+    }, initialVal)
+}
