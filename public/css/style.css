@@ -29,7 +29,7 @@ body {
 * {
   scrollbar-width: thin;
   /* "auto" or "thin" */
-  scrollbar-color: rgb(29, 148, 196);
+  scrollbar-color: rgb(243, 96, 46);
   /* scroll thumb and track */
 }
 
@@ -44,7 +44,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: rgb(29, 148, 196);
+  background-color: rgb(243, 96, 46);
   /* color of the scroll thumb */
   border-radius: 20px;
   /* roundness of the scroll thumb */
@@ -171,6 +171,23 @@ button:active {
 
 .itemHidden {
   display: none !important;
+}
+.backgroundTopLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 50rem solid rgba(243, 95, 46, 0.327);
+  border-right: 50rem solid transparent;
+  z-index: 0;
+}
+
+.backgroundBottomRight {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-bottom: 50rem solid rgba(243, 95, 46, 0.327);
+  border-left: 50rem solid transparent;
+  z-index: 0;
 }
 
 
@@ -454,19 +471,19 @@ button:active {
 }
 
 .content {
+  width: 100vw;
   grid-area: content;
-  background: white;
-  display: flex;
-  flex-flow: column;
-  gap: 2rem;
 }
 .page {
-  width: 100%;
+  width: 100vw;
+  height: 100%;
   justify-self: center;
   overflow-y: scroll;
   overflow-x: hidden;
   position: relative;
-
+  display: flex;
+  flex-flow: column;
+  gap: 2rem;
 }
 
 .pageTitle {
@@ -490,6 +507,7 @@ button:active {
   gap: 2rem;
   background-color: rgba(50, 15, 4, 0.658);
   backdrop-filter: blur(3rem);
+  z-index: 20;
 }
 .pageSaver p {
   color: white;
@@ -507,7 +525,7 @@ button:active {
 .logoSection {
   align-self: center;
   width: 45rem;
-
+  z-index: 5;
 }
 .pageButtonContainer {
   margin-top: 1rem;
@@ -637,10 +655,11 @@ button:active {
   position: absolute;
   right: 0;
   top: 0;
-  width: 2rem;
-  height: 2rem;
-  background-color: blue;
+  width: 2.3rem;
+  height: 2.3rem;
+  padding: .3rem;
   z-index: 10;
+  background-color: black;
 }
 
 .urlInput {
@@ -730,12 +749,21 @@ button:active {
   border-radius: 1.2rem;
   padding-left: 1rem;
   padding-right: 1rem;
+  background-color: white;
   box-sizing: border-box;
   position: relative;
   display: flex;
   flex-flow: column;
   align-items: center;
   overflow: hidden;
+}
+
+.wikiCard h2 {
+  user-select: none;
+  transition: font-size 200ms;
+}
+.wikiCard h2:hover{
+  font-size: 1.8rem;
 }
 
 .wikiCardFeatured {
@@ -749,6 +777,11 @@ button:active {
   font-size: 2rem;
   overflow: hidden;
 }
+
+.wikiCardFeatured h2:hover {
+  font-size: 2.2rem;
+}
+
 
 .wikiCard h2 {
   height: var(--wikiCardTitle);
@@ -846,7 +879,7 @@ button:active {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   display: grid;
   grid-template-columns: 100vw;

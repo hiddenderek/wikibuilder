@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import PageSection from "./PageSection";
-import { handleApiData, successStatus } from "../utils/apicalls";
+import { handleApiData, successStatus, failedStatus } from "../utils/apicalls";
 import { getAfterLastCharacter } from "../utils/stringParse";
 import { pageCreatorState } from '../features/pageCreator/pageCreator-types'
 import { setPageTitle, addSection, pageLoad, pageReset } from "../features/pageCreator/pageCreator-slice";
@@ -75,16 +75,18 @@ function WikiPage() {
         }))
     }
 
-    async function savePage() {
+    async function savePage(retry: boolean) {
         const pageSectionData = JSON.stringify(pageSections)
         const savePageResult = await handleApiData(`/wiki/pages/${pageLoaded ? getAfterLastCharacter({string: location.pathname, character: '/'}) : pageTitle}`, null, pageLoaded ? "patch" : "post", { pageTitle, introText, introTableData, pageSectionData, action: pageAction ? pageAction : "Updated page." })
         if (successStatus.includes(savePageResult?.status ? savePageResult.status : 400)) {
             console.log(savePageResult?.data)
             setSaveError(savePageResult?.data)
             setPageAction('')
-        } else {
+        } else if (failedStatus.includes(savePageResult?.status ? savePageResult.status : 200)){
             console.log(savePageResult?.data)
             setSaveError(savePageResult?.data)
+        } else if (retry && savePageResult?.status === undefined){
+            savePage(false)
         }
         history.push(`/wiki/pages/${pageTitle}`)
     }
@@ -109,7 +111,7 @@ function WikiPage() {
                     <p>Specify Contribution to wiki</p>
                     <input type = "text" placeholder = "type contribution here" value = {pageAction} onInput = {changePageAction}/>
                     <div className = "pageButtonContainer">
-                        <button onClick={savePage}>Save</button>
+                        <button onClick={()=>{savePage(true)}}>Save</button>
                         <button onClick={save ? toggleSave : undefined}>Cancel</button>
                     </div>
                     {saveError ? <p>{saveError}</p> : ""}

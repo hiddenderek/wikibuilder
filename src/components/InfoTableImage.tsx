@@ -123,7 +123,7 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
 
     return (
         <div className = {`infoTableImageContainer ${imageSelected.section === index && imageSelected.element === subIndex && editMode ? "infoTableContainerSelected": ""}`} style = {{height: `${tableWidth / (width/height) }rem`}} onClick = {selectImage}>
-            {editMode ? <div className = "imageMenuToggle" onClick = {toggleimageMenu}></div> : ""}
+            {editMode ? <img className = "imageMenuToggle" src = "/images/gear_icon.png" onClick = {toggleimageMenu}/> : ""}
             <img ref = {imageRef} className = "infoTableImage" style = {{aspectRatio : `${width}/${height}`}} src = {type ? `${url}.${type}` : `${url}`} onLoad = {showImage}/> 
             {imageMenu && editMode ? 
                 <div className = "urlInput">
