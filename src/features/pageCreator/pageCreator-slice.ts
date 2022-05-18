@@ -80,6 +80,14 @@ const pageCreatorSlice = createSlice({
             const { index, text } = action.payload
             state.pageSections[index].title = text
         },
+        setTableWidth(state, action: PayloadAction<{index: number, width: number}>) {
+            const { index, width } = action.payload
+                if (index>=0) {
+                    state.pageSections[index].tableData.width = width
+                } else {
+                    state.introTableData.width = width
+                }
+        },
         addTableTitle(state, action: PayloadAction<{ index: number, subIndex: number, text: string }>) {
             const { index, subIndex, text } = action.payload
             if (index >= 0) {
@@ -191,5 +199,5 @@ const pageCreatorSlice = createSlice({
     }
 })
 
-export const { pageLoad, pageReset, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, addTableTitle, addTableImage, addTableText, addTableInfo, addTableRelated, selectTableElement, deleteTableElement } = pageCreatorSlice.actions
+export const { pageLoad, pageReset, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, setTableWidth, addTableTitle, addTableImage, addTableText, addTableInfo, addTableRelated, selectTableElement, deleteTableElement } = pageCreatorSlice.actions
 export default pageCreatorSlice.reducer;

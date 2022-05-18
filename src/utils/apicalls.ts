@@ -3,12 +3,15 @@ import config from '../config'
 export const successStatus = [200, 201, 202, 204]
 export const failedStatus = [400, 401, 402, 404, 405, 409, 422, 500, 501, 502]
 export const needsRefreshStatus = [403]
+export const needsRetryStatus = [503]
+export const timeout = 3000
+
 
 export async function getApiData(pathName: string, port: number | undefined) {
     const controller = new AbortController()
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
     console.log(url)
-    const timeoutId = setTimeout(() => controller.abort(), 3000)
+    setTimeout(() => controller.abort(), timeout)
     const responseData = await fetch(url, {
         method: 'GET',
         headers: {
@@ -25,7 +28,7 @@ export async function postApiData(pathName: string, body: string | object | null
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
     console.log(url)
     console.log(body)
-    const timeoutId = setTimeout(() => controller.abort(), 3000)
+    setTimeout(() => controller.abort(), timeout)
     const responseData = await fetch(url, {
         method: 'POST',
         credentials: 'include',
@@ -44,7 +47,7 @@ export async function deleteApiData(pathName: string, body: string | object | nu
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
     console.log(url)
     console.log(body)
-    const timeoutId = setTimeout(() => controller.abort(), 3000)
+    setTimeout(() => controller.abort(), timeout)
     const responseData = await fetch(url, {
         method: 'DELETE',
         credentials: 'include',
@@ -63,7 +66,7 @@ export async function patchApiData(pathName: string, body: string | object | nul
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
     console.log(url)
     console.log(body)
-    const timeoutId = setTimeout(() => controller.abort(), 3000)
+    setTimeout(() => controller.abort(), timeout)
     const responseData = await fetch(url, {
         method: 'PATCH',
         headers: {
@@ -89,9 +92,7 @@ export async function getAccessToken() {
     return Promise.resolve(refreshData)
 }
 
-
-
-export async function handleApiData(pathName: string | null, setState: Function | null, action: string | null, body: string | object | null, port?: number) {
+export async function sendRequest(pathName: string | null, setState: Function | null, action: string | null, body: string | object | null, port?: number) {
     console.log('handling!')
     console.log(pathName)
     pathName = pathName ? pathName : (location.pathname+location.search)
@@ -127,7 +128,11 @@ export async function handleApiData(pathName: string | null, setState: Function 
             break
         }
     }
-     
+    return Promise.resolve(responseData)
+}
+
+export async function handleRequest(pathName: string | null, setState: Function | null, action: string | null, body: string | object | null, port?: number) {
+    const responseData = await sendRequest(pathName, setState, action, body, port)
     if (successStatus.includes(responseData?.status as number)) {
         const responseResult = await responseData?.text()
         console.log(responseResult)
@@ -151,9 +156,9 @@ export async function handleApiData(pathName: string | null, setState: Function 
             console.log('refresh unsuccessful')
             return Promise.resolve({data: null, status: refreshData.status})
         } else {
-            //if the accesss token request gives a response status is succesfull, retry the request.
+            //if the accesss token request gives a response status is succesfull, set the status to indicate a request retry is needed.
             console.log('refresh successful!')
-            handleApiData(pathName, setState, action, body, port)
+            return Promise.resolve({data: null, status: 503})
         }
     } else if (failedStatus.includes(responseData?.status as number)) {
         if (typeof setState !== "undefined" && setState) {
@@ -170,4 +175,26 @@ export async function handleApiData(pathName: string | null, setState: Function 
     } else {
         return Promise.resolve({data: null, status: responseData?.status})
     }
+}
+
+
+
+export async function handleApiData(pathName: string | null, setState: Function | null, action: string | null, body: string | object | null, port?: number) {
+    const responseData = await handleRequest(pathName, setState, action, body, port)
+    //if the response status does not specify a retry, then send the current data. 
+    if (!needsRetryStatus.includes(responseData?.status as number)) {
+        return Promise.resolve({data: responseData?.data, status: responseData?.status})
+    } else {
+        //if the response data indicates a retry, handle the request again.
+        const retryResponseData = await handleRequest(pathName, setState, action, body, port)
+        //if the response data doesnt indicate a retry, send the current data and status. 
+        if (!needsRetryStatus.includes(retryResponseData?.status as number)) {
+            return Promise.resolve({data: retryResponseData?.data, status: retryResponseData?.status})
+            //if the response data still indicates a retry, end the function and set the status as an internal server error
+        } else {
+            return Promise.resolve({data: null, status: 500})
+        }
+    }
+     
+   
 }

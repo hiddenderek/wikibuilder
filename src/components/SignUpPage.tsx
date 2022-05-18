@@ -76,19 +76,20 @@ function SignUpPage() {
       <div className="signUpPopup">
         <h1 className="popupHeader" >Sign Up</h1>
         <div className="singleLine">
-          <label>User Name: </label><input type="text" onInput={specifyUserName} ></input>
+          <label>User Name: </label>
+          <input className="mediumRelInput" type="text" placeholder="User Name..." onInput={specifyUserName} ></input>
         </div>
         <div className="singleLine">
           <label>Password: </label>
-          <input type="password" onInput={specifyPassword}></input>
+          <input className="mediumRelInput" type="password" placeholder="Password..."  onInput={specifyPassword}></input>
         </div>
         <div className="singleLine">
           <label>Confirm Password: </label>
-          <input type="password" onInput={specifyConfirmPassword}></input>
+          <input className="mediumRelInput" type="password" placeholder="Confirm Password..." onInput={specifyConfirmPassword}></input>
         </div>
         <div className="singleLine">
           <label>Date of Birth: </label>
-          <input type="date" onInput={specifyDateOfBirth}></input>
+          <input className="mediumRelInput" type="date" onInput={specifyDateOfBirth}></input>
         </div>
         <form className="singleLine" onSubmit={(e)=>{signUp(e)}}>
           <button className={errorMessage ? "inactiveButton center" : "activeButton center"}>Submit</button>

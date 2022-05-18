@@ -14,6 +14,7 @@ import WikiContributionTable from "./WikiContributionTable";
 function WikiPage() {
     const { pageTitle, introText, introTableData, pageSections } = useAppSelector((state: { pageCreator: pageCreatorState }) => state.pageCreator)
     const editMode = useAppSelector((state: any) => state.userInterface.editMode)
+    const currentUser = useAppSelector((state: any) => state.userInterface.user)
     const location = useLocation()
     const history  = useHistory()
     const dispatch = useAppDispatch()
@@ -38,6 +39,12 @@ function WikiPage() {
             handleApiData(`/wiki/contributions/page/${pageTitle}`, setWikiContributionList, "get", null)
         }
     },[contributionView, pageTitle])
+
+    useEffect(()=> {
+        if (!save) {
+            setSaveError('')
+        }
+    }, [save])
 
     async function loadPage(path: string) {
         const pageData = await handleApiData(path, null, "get", null)
@@ -65,7 +72,7 @@ function WikiPage() {
             title: "Type section title here.", 
             text: "Type section text here.", 
             tableData: {
-                width: 20, 
+                width: -1, 
                 titles: [], 
                 images: [],
                 text: [],
@@ -78,15 +85,14 @@ function WikiPage() {
     async function savePage(retry: boolean) {
         const pageSectionData = JSON.stringify(pageSections)
         const savePageResult = await handleApiData(`/wiki/pages/${pageLoaded ? getAfterLastCharacter({string: location.pathname, character: '/'}) : pageTitle}`, null, pageLoaded ? "patch" : "post", { pageTitle, introText, introTableData, pageSectionData, action: pageAction ? pageAction : "Updated page." })
+        console.log(savePageResult)
         if (successStatus.includes(savePageResult?.status ? savePageResult.status : 400)) {
             console.log(savePageResult?.data)
-            setSaveError(savePageResult?.data)
+            setSaveError('Saved page successfully.')
             setPageAction('')
         } else if (failedStatus.includes(savePageResult?.status ? savePageResult.status : 200)){
             console.log(savePageResult?.data)
             setSaveError(savePageResult?.data)
-        } else if (retry && savePageResult?.status === undefined){
-            savePage(false)
         }
         history.push(`/wiki/pages/${pageTitle}`)
     }
@@ -126,7 +132,7 @@ function WikiPage() {
             </div>
             {editMode ?
             <div className="fullWidth flexCenter">
-                <button onClick={!save ? toggleSave : undefined}>Save Page</button>
+                <button className = {currentUser ? "" : "inactiveButton"} onClick={!save ? toggleSave : undefined}>{currentUser ? "Save Page" : "Log in to Save Page."}</button>
             </div>
             : ""}
             {!contributionView ?

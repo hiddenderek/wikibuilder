@@ -39,23 +39,26 @@ function LogIn(props: any) {
         }
     }
     return (
-        <div className = "content page">
-            {errorMessage ?
-                <div className={`halfWidth flexCenter mediumLineHeight errorMessage`}>
-                    <p>{errorMessage}</p>
+        <div className="content page">
+            <div className="signUpPopup">
+                <h1 className="popupHeader" >Log In</h1>
+                {errorMessage ?
+                    <div className={`halfWidth flexCenter mediumLineHeight errorMessage`}>
+                        <p>{errorMessage}</p>
+                    </div>
+                    : ""}
+                <div className="singleLine">
+                    <label>User Name: </label>
+                    <input className="mediumRelInput" placeholder="User Name..." onInput={(e) => { changeName(e) }} style={{ color: "white" }} />
                 </div>
-                : ""}
-            <form className="halfWidth flexEdges mediumLineHeight" autoComplete="on" onSubmit= {(e)=>{e.preventDefault()}}>
-                <label>User Name: </label>
-                <input className="mediumRelInput" placeholder="symbol name..."  onInput={(e) => { changeName(e) }}  style = {{color: "white"}} />
-            </form>
-            <form className="halfWidth flexEdges mediumLineHeight" autoComplete="on" onSubmit= {(e)=>{e.preventDefault()}} >
-                <label>Password</label>
-                <input className="mediumRelInput" type="password" placeholder="symbol name..."  onInput={(e) => { changePassword(e) }}  style = {{color: "white"}}/>
-            </form>
-            <form className="flexCenter mediumLineHeight">
-                <button type="button" className="startButton" onClick={login}>Login</button>
-            </form>
+                <div className="singleLine">
+                    <label>Password</label>
+                    <input className="mediumRelInput" type="password" placeholder="Password..." onInput={(e) => { changePassword(e) }} style={{ color: "white" }} />
+                </div>
+                <form className="flexCenter mediumLineHeight">
+                    <button type="button" className="startButton" onClick={login}>Login</button>
+                </form>
+            </div>
         </div>
 
     );

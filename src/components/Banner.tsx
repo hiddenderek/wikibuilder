@@ -18,10 +18,6 @@ function Banner() {
   async function getCurrentUser() {
     let newCurrentUserGet = await handleApiData(`/currentUser`, null, "get", null)
     console.log(newCurrentUserGet)
-    if (newCurrentUserGet === undefined) {
-      newCurrentUserGet = await handleApiData(`/currentUser`, null, "get", null)
-    }
-    console.log(newCurrentUserGet)
     if (successStatus.includes(newCurrentUserGet?.status ? newCurrentUserGet.status : 400)) {
       const newCurrentUser = newCurrentUserGet?.data
       dispatch(setUser(newCurrentUser))
