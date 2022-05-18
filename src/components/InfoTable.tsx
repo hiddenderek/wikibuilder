@@ -47,7 +47,7 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
     }
 
     function addRelated() {
-        dispatch(addTableRelated({index, subIndex: related.length, url: "Paste Link Here.", text: ""}))
+        dispatch(addTableRelated({index, subIndex: related.length, url: "", text: ""}))
     }
 
     function deleteElement(type: string) {
@@ -126,6 +126,7 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
                     </div>
                 </div>
                 : " "}
+            {related.length > 0 ? <div className = "fullWidth flexCenter">Related Links:</div> : ""}
             <div className="infoTableContent">
                 {related.map((item: link, subIndex: number) => <InfoTableRelated key={subIndex} url={item.url} text={item.text} index={index} subIndex={subIndex} />)}
             </div>

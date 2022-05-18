@@ -13,19 +13,21 @@ function InfoTableinfo({label, text, index, subIndex} : {label: string, text: st
         infoareaElm.style.height = "0px";
         const scrollHeight = infoareaElm.scrollHeight;
         infoareaElm.style.height = scrollHeight + "px";
-    },[label, text])
+    }, [label, text])
 
-    
+
     function changeInfo(e: React.FormEvent<HTMLTextAreaElement>, type: string) {
-        const targetElm = e.target as HTMLTextAreaElement
-        if (type === "text") {
-            dispatch(addTableInfo({index, subIndex, label, text: targetElm.value}))
-        } else if (type === "label") {
-            dispatch(addTableInfo({index, subIndex, label: targetElm.value, text}))
+        if (editMode) {
+            const targetElm = e.target as HTMLTextAreaElement
+            if (type === "text") {
+                dispatch(addTableInfo({ index, subIndex, label, text: targetElm.value }))
+            } else if (type === "label") {
+                dispatch(addTableInfo({ index, subIndex, label: targetElm.value, text }))
+            }
         }
     }
 
-    function selectinfo(){
+    function selectinfo() {
         dispatch(selectTableElement({index, element: subIndex, type: "info"}))
     }
 

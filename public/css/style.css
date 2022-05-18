@@ -610,6 +610,15 @@ button:active {
 
 }
 
+.infoTableRelatedLink {
+  color: blue;
+  text-decoration: underline;
+  overflow: hidden;
+  font-family: minimal;
+  font-size: 1.2rem;
+  text-align: center; 
+  cursor: pointer; 
+}
 .infoTableTextContainer {
   width: 100%;
   display: flex;

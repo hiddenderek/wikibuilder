@@ -17,8 +17,10 @@ function InfoTableText({text, index, subIndex} : {text: string, index: number, s
 
     
     function changeText(e: React.FormEvent<HTMLTextAreaElement>) {
-        const targetElm = e.target as HTMLTextAreaElement
-        dispatch(addTableText({index, subIndex, text: targetElm.value}))
+        if (editMode) {
+            const targetElm = e.target as HTMLTextAreaElement
+            dispatch(addTableText({index, subIndex, text: targetElm.value}))
+        }
     }
 
     function selectText(){

@@ -13,12 +13,14 @@ function InfoTableTitle({title, index, subIndex} : {title: string, index: number
         textareaElm.style.height = "0px";
         const scrollHeight = textareaElm.scrollHeight;
         textareaElm.style.height = scrollHeight + "px";
-    },[title])
+    }, [title])
 
-    
+
     function changeTitle(e: React.FormEvent<HTMLTextAreaElement>) {
-        const targetElm = e.target as HTMLTextAreaElement
-        dispatch(addTableTitle({index, subIndex, text: targetElm.value}))
+        if (editMode) {
+            const targetElm = e.target as HTMLTextAreaElement
+            dispatch(addTableTitle({ index, subIndex, text: targetElm.value }))
+        }
     }
 
     function selectImage(){

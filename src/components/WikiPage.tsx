@@ -111,7 +111,7 @@ function WikiPage() {
     }
 
     return (
-        <div className="content page">
+        <div className="content page" style = {editMode && save ? {height: "100%"} : {}}>
             {editMode && save ? 
                 <div className = "pageSaver">
                     <p>Specify Contribution to wiki</p>
