@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { handleApiData, successStatus } from "../utils/apicalls";
-import { idGen } from "../utils/idGen";
 import { addTableImage, selectTableElement} from "../features/pageCreator/pageCreator-slice"
 import { useToggle } from "../app/hooks"
 
@@ -124,11 +123,11 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
     const imageContainerHeightCalc = `${(tableWidth >= 20 ? tableWidth : 20) / ((width === -1 || height === -1) && tableWidth >= 60 ? 3.3 : (width === -1 || height === -1) && tableWidth >= 35 ? 2.2 : width === -1 || height === -1 ? 1 : width/height) }rem`
 
     return (
-        <div className = {`infoTableImageContainer ${imageSelected.section === index && imageSelected.element === subIndex && editMode ? "infoTableContainerSelected": ""}`} style = {{height: imageContainerHeightCalc }} onClick = {selectImage}>
-            {editMode ? <img className = "imageMenuToggle" src = "/images/gear_icon.png" onClick = {toggleimageMenu}/> : ""}
+        <div data-testid = {`table_image_${index}_${subIndex}`} className = {`infoTableImageContainer ${imageSelected.section === index && imageSelected.element === subIndex && editMode ? "infoTableContainerSelected": ""}`} style = {{height: imageContainerHeightCalc }} onClick = {selectImage}>
+            {editMode ? <img data-testid = {`table_image_menu_btn_${index}_${subIndex}`} className = "imageMenuToggle" src = "/images/gear_icon.png" onClick = {toggleimageMenu}/> : ""}
             <img ref = {imageRef} className = "infoTableImage" style = {{aspectRatio : `${width}/${height}`}} src = {type ? `${url}.${type}` : `${url}`} onLoad = {showImage}/> 
             {imageMenu && editMode ? 
-                <div className = "urlInput">
+                <div data-testid = {`table_image_menu_${index}_${subIndex}`} className = "urlInput">
                     <input value = {urlInput} onInput = {(e)=>{changeUrlInput(e)}} placeholder = "Paste Url Here"/>
                     <p>Or</p>
                     <input ref = {imageFileRef} type = "file" className = "width90" onChange={(e) => { fileRead(e.target)}}></input>

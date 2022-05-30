@@ -54,7 +54,6 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
         dispatch(deleteTableElement(type))
     }
 
-    console.log(editMode)
 
     return (
         <div className={`infoTable ${(titles.length > 0 || images.length > 0 || text.length > 0 || info.length > 0 || related.length > 0) ? "" : !editMode ? "itemHidden" : ""}`} style = {{width: width >= 20 ? `${width}rem` : "20rem"}} >
@@ -70,8 +69,8 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
                 <div className="infoEditorSection">
                     <p>Title</p>
                     <div className="infoEditorAddRemove">
-                        <img className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addTitle} />
-                        <img className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("title") }} />
+                        <img data-testid = {`table_title_add_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addTitle} />
+                        <img data-testid = {`table_title_remove_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("title") }} />
                     </div>
                 </div>
                 : " "}
@@ -82,8 +81,8 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
                 <div className="infoEditorSection">
                     <p>Image</p>
                     <div className="infoEditorAddRemove">
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addImage} />
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("image") }} />
+                    <img data-testid = {`table_image_add_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addImage} />
+                    <img data-testid = {`table_image_remove_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("image") }} />
                     </div>
                 </div>
                 : " "}
@@ -94,8 +93,8 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
                 <div className="infoEditorSection">
                     <p>Text</p>
                     <div className="infoEditorAddRemove">
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addText} />
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("text") }} />
+                    <img data-testid = {`table_text_add_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addText} />
+                    <img data-testid = {`table_text_remove_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("text") }} />
                     </div>
                 </div>
                 : " "}
@@ -109,8 +108,8 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
                 <div className="infoEditorSection">
                     <p>Info</p>
                     <div className="infoEditorAddRemove">
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addInfo} />
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("info") }} />
+                    <img data-testid = {`table_info_add_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addInfo} />
+                    <img data-testid = {`table_info_remove_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("info") }} />
                     </div>
                 </div>
                 : " "}
@@ -121,8 +120,8 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
                 <div className="infoEditorSection">
                     <p>Related Links</p>
                     <div className="infoEditorAddRemove">
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addRelated} />
-                    <img className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("related") }} />
+                    <img data-testid = {`table_related_add_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/plus_icon.png" onClick={addRelated} />
+                    <img data-testid = {`table_related_remove_${index}`} className = "infoEditorAddRemoveIcon" src = "/images/minus_icon.png" onClick={() => { deleteElement("related") }} />
                     </div>
                 </div>
                 : " "}

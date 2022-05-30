@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import config from '../config'
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { handleApiData, successStatus } from '../utils/apicalls';
 
 function SignUpPage() {
-  const location = useLocation()
   const history = useHistory()
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -14,8 +13,6 @@ function SignUpPage() {
   const [signUpMessage, setSignUpMessage] = useState('')
 
   useEffect(() => {
-    console.log('checking')
-    console.log(password.search(/[a-z]/i) < 0)
     setSignUpMessage('')
     if (!userName) {
         setErrorMessage('Username must be specified.')
@@ -77,26 +74,26 @@ function SignUpPage() {
         <h1 className="popupHeader" >Sign Up</h1>
         <div className="singleLine">
           <label>User Name: </label>
-          <input className="mediumRelInput" type="text" placeholder="User Name..." onInput={specifyUserName} ></input>
+          <input data-testid = "user_input" className="mediumRelInput" type="text" placeholder="User Name..." onInput={specifyUserName} ></input>
         </div>
         <div className="singleLine">
           <label>Password: </label>
-          <input className="mediumRelInput" type="password" placeholder="Password..."  onInput={specifyPassword}></input>
+          <input data-testid = "pswd_input" className="mediumRelInput" type="password" placeholder="Password..."  onInput={specifyPassword}></input>
         </div>
         <div className="singleLine">
           <label>Confirm Password: </label>
-          <input className="mediumRelInput" type="password" placeholder="Confirm Password..." onInput={specifyConfirmPassword}></input>
+          <input data-testid = "c_pswd_input" className="mediumRelInput" type="password" placeholder="Confirm Password..." onInput={specifyConfirmPassword}></input>
         </div>
         <div className="singleLine">
           <label>Date of Birth: </label>
-          <input className="mediumRelInput" type="date" onInput={specifyDateOfBirth}></input>
+          <input data-testid = "dob_input" className="mediumRelInput" type="date" onChange={specifyDateOfBirth}></input>
         </div>
         <form className="singleLine" onSubmit={(e)=>{signUp(e)}}>
           <button className={errorMessage ? "inactiveButton center" : "activeButton center"}>Submit</button>
         </form>
         {errorMessage ?
           <div className="singleLine">
-            <p className="center">Error: {errorMessage}</p>
+            <p data-testid = "error_message" className="center">Error: {errorMessage}</p>
           </div> : ""}
         {!errorMessage && signUpMessage ? 
         <div className="fullWidth">

@@ -23,6 +23,9 @@ const userInterfaceSlice = createSlice({
     name: 'userInterface',
     initialState,
     reducers: {
+        resetUserInterface(){
+            return initialState
+        },
         setPageSize(state, action: PayloadAction<{ width: number, height: number }>) {
             const { width, height } = action.payload
             state.pageWidth = width
@@ -40,5 +43,5 @@ const userInterfaceSlice = createSlice({
     }
 })
 
-export const { setPageSize, setUser, setEditMode, setSearchTerm } = userInterfaceSlice.actions
+export const { resetUserInterface, setPageSize, setUser, setEditMode, setSearchTerm } = userInterfaceSlice.actions
 export default userInterfaceSlice.reducer;

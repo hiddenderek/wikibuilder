@@ -64,8 +64,8 @@ function InfoTableRelated({url, text, index, subIndex} : {url: string, text: str
     //If it finds the title, it will set the navigation property of the link to go to the url state value. 
     //It will also change the font color to blue to signify a working link.
     return (
-        <div className = {`infoTableRelatedContainer ${relatedSelected.section === index && relatedSelected.element === subIndex && editMode? "infoTableContainerSelected": ""}`} onClick = {editMode ? selectRelated : navRelated}>
-            <textarea ref = {textareaRef} value = {text ? text : url} className = {text ? "infoTableRelatedLink" : "infoTableRelated"} placeholder = "Paste link here..." onInput = {(e)=>{changeUrl(e)}}/>
+        <div data-testid = {`table_related_${index}_${subIndex}`} className = {`infoTableRelatedContainer ${relatedSelected.section === index && relatedSelected.element === subIndex && editMode? "infoTableContainerSelected": ""}`} onClick = {editMode ? selectRelated : navRelated}>
+            <textarea data-testid = {`table_related_input_${index}_${subIndex}`} ref = {textareaRef} value = {text ? text : url} className = {text ? "infoTableRelatedLink" : "infoTableRelated"} placeholder = "Paste link here..." onInput = {(e)=>{changeUrl(e)}}/>
         </div>
     )
 }

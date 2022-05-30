@@ -28,8 +28,8 @@ function InfoTableText({text, index, subIndex} : {text: string, index: number, s
     }
     
     return (
-        <div className = {`infoTableTextContainer ${textSelected.section === index && textSelected.element === subIndex && editMode ? "infoTableContainerSelected": ""}`} onClick = {selectText}>
-            <textarea ref = {textareaRef} value = {text} className = "infoTableText" onInput = {(e)=>{changeText(e)}}/>
+        <div data-testid = {`table_text_${index}_${subIndex}`} className = {`infoTableTextContainer ${textSelected.section === index && textSelected.element === subIndex && editMode ? "infoTableContainerSelected": ""}`} onClick = {selectText}>
+            <textarea data-testid = {`table_text_input_${index}_${subIndex}`} ref = {textareaRef} value = {text} className = "infoTableText" onInput = {(e)=>{changeText(e)}}/>
         </div>
     )
 }

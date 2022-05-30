@@ -49,11 +49,11 @@ function LogIn(props: any) {
                     : ""}
                 <div className="singleLine">
                     <label>User Name: </label>
-                    <input className="mediumRelInput" placeholder="User Name..." onInput={(e) => { changeName(e) }} style={{ color: "white" }} />
+                    <input data-testid = "user_login_input" className="mediumRelInput" placeholder="User Name..." onInput={(e) => { changeName(e) }} style={{ color: "white" }} />
                 </div>
                 <div className="singleLine">
                     <label>Password</label>
-                    <input className="mediumRelInput" type="password" placeholder="Password..." onInput={(e) => { changePassword(e) }} style={{ color: "white" }} />
+                    <input data-testid = "pswd_login_input" className="mediumRelInput" type="password" placeholder="Password..." onInput={(e) => { changePassword(e) }} style={{ color: "white" }} />
                 </div>
                 <form className="flexCenter mediumLineHeight">
                     <button type="button" className="startButton" onClick={login}>Login</button>

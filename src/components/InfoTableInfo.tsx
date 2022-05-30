@@ -32,9 +32,9 @@ function InfoTableinfo({label, text, index, subIndex} : {label: string, text: st
     }
 
     return (
-        <div className={`infoTableInfoContainer ${infoSelected.section === index && infoSelected.element === subIndex && editMode ? "infoTableContainerSelected" : ""}`} onClick={selectinfo}>
-            <textarea ref={textareaRef} value={label} className="infoTableLabel" onInput={(e) => { changeInfo(e, "label") }} />
-            <textarea ref={textareaRef} value={text} className="infoTableInfo" onInput={(e) => { changeInfo(e, "text") }} />
+        <div data-testid = {`table_info_${index}_${subIndex}`} className={`infoTableInfoContainer ${infoSelected.section === index && infoSelected.element === subIndex && editMode ? "infoTableContainerSelected" : ""}`} onClick={selectinfo}>
+            <textarea data-testid = {`table_info_label_${index}_${subIndex}`} ref={textareaRef} value={label} className="infoTableLabel" onInput={(e) => { changeInfo(e, "label") }} />
+            <textarea data-testid = {`table_info_text_${index}_${subIndex}`} ref={textareaRef} value={text} className="infoTableInfo" onInput={(e) => { changeInfo(e, "text") }} />
         </div>
     )
 }

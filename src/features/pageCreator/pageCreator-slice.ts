@@ -3,7 +3,7 @@ import { pageCreatorState, section } from './pageCreator-types';
 import { page } from '../../app/types';
 
 
-const initialState: pageCreatorState = {
+export const initialState: pageCreatorState = {
     pageTitle: 'Type Title Here.',
     introText: 'Type Intro Text Here.',
     introTableData: {
@@ -55,7 +55,6 @@ const pageCreatorSlice = createSlice({
                 }
             }
             if (!excludedCharsCheck) {
-                console.log('changed title!')
                 state.pageTitle = action.payload
             }
         },
@@ -130,9 +129,6 @@ const pageCreatorSlice = createSlice({
         },
         selectTableElement(state, action: PayloadAction<{index: number, element: number, type: string }>) {
             const {index, element, type } = action.payload
-            console.log(type)
-            console.log(index)
-            console.log(element)
             switch (type) {
                 case ("title"):
                      state.titleSelected = {element, section: index}

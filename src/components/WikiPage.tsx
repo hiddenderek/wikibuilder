@@ -24,7 +24,7 @@ function WikiPage() {
     const [contributionView, toggleContributionView] = useToggle(false)
     const [wikiContributionList, setWikiContributionList] = useState([])
     const [pageAction, setPageAction] = useState('')
-
+    
     useEffect(() => {
         if (location.pathname !== "/wiki") {
             console.log('LOAD PAGE' + location.pathname)
@@ -137,7 +137,7 @@ function WikiPage() {
             : ""}
             {!contributionView ?
                 <>
-                    <textarea className="pageTitle" value={pageTitle} onInput={changePageTitle} />
+                    <textarea data-testid = "title_page_input" className="pageTitle" value={pageTitle} onInput={changePageTitle} />
                     <PageSection index={-1} pageTitle={pageTitle} title={''} text={introText} tableData={introTableData} />
                     <div className="sectionContainer">
                         {pageSections.map((data, index) => <PageSection key={index} index={index} pageTitle={pageTitle} title={data.title} text={data.text} tableData={data.tableData} />)}

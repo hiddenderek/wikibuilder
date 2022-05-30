@@ -16,10 +16,10 @@ function WikiContributionRow({title, action_type, time_executed, header, type, h
     }
 
     return (
-        <div className= {`wikiContributionRow ${header ? "wikiContributionRowHeader" : ""} ${highlighted ? "wikiContributionRowHighlight" : ""}`}>
-            <p onClick = {navToPage}>{title}</p>
-            <p>{action_type}</p>
-            <p>{time_executed}</p>
+        <div data-testid = "table_row" className= {`wikiContributionRow ${header ? "wikiContributionRowHeader" : ""} ${highlighted ? "wikiContributionRowHighlight" : ""}`}>
+            <p data-testid = "table_row_title" onClick = {navToPage}>{title}</p>
+            <p data-testid = "table_row_action">{action_type}</p>
+            <p data-testid = "table_row_time">{time_executed}</p>
         </div>
     )
 }

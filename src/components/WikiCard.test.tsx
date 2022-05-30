@@ -11,12 +11,12 @@ import { store } from '../../src/app/store'
 test('Wiki Card Display', () => {
     render(
         <Provider store={store}>
-            <WikiCard key="lol" title="lol" intro_text='huh?' type="normal" />
+            <WikiCard key="wikiCard" title="wiki card title" intro_text='wiki card intro text' type="normal" />
         </Provider>
     )
-    const titleElm = screen.getByText("lol")
+    const titleElm = screen.getByText("wiki card title")
     expect(titleElm).toBeInTheDocument()
-    const introElm = screen.getByText("huh?")
+    const introElm = screen.getByText("wiki card intro text")
     expect(introElm).toBeInTheDocument()
 
 })
