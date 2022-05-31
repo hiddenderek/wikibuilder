@@ -43,7 +43,7 @@ function Banner() {
   return (
     <div className="banner">
       <img onClick={() => { dispatch(setSearchTerm('')); history.push('/home') }} src="/images/wikiBuilderHome.png" className="bannerHome" draggable="false" />
-      <input className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." />
+      <input data-testid = "banner_search_input" className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." />
       <div className="bannerLoginContainer">
         {!currentUser ?
           <>
@@ -53,7 +53,7 @@ function Banner() {
           : 
           <>
             <p onClick = {signOut}>Sign out</p>
-            <p onClick={() => { history.push(`/profile/${currentUser}`) }}>
+            <p data-testid = "banner_profile_display" onClick={() => { history.push(`/profile/${currentUser}`) }}>
               {`${currentUser}'s Profile`}
             </p>
           </>}

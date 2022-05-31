@@ -44,10 +44,10 @@ function HomePage() {
                         <div className="fullWidth flexCenter">
                             <h1>Todays Featured Wiki</h1>
                         </div>
-                        <div className="wikiCreatedDisplay">
+                        <div data-testid = "wiki_home_featured" className="wikiCreatedDisplay">
                             {wikiFeaturedList?.map ?
-                                wikiFeaturedList?.map((item: contribution & page) =>
-                                    <WikiCard title={item.title} intro_text={item.intro_text} type="featured" />
+                                wikiFeaturedList?.map((item: contribution & page, index: number) =>
+                                    <WikiCard key = {"featured_" + index} title={item.title} intro_text={item.intro_text} type="featured" />
                                 )
                                 : ""}
                         </div>
@@ -55,10 +55,10 @@ function HomePage() {
                             <h1>Discover</h1>
                             <img className="refreshIcon" style={{ transform: `rotate(${refreshButtonCount * 360}deg)` }} onClick={reDiscover} src="/images/refresh.png" />
                         </div>
-                        <div className="wikiCreatedDisplay">
+                        <div data-testid = "wiki_home_discover"className="wikiCreatedDisplay">
                             {wikiDiscoverList?.map ?
-                                wikiDiscoverList?.map((item: contribution & page) =>
-                                    <WikiCard title={item.title} intro_text={item.intro_text} type="normal" />
+                                wikiDiscoverList?.map((item: contribution & page, index: number) =>
+                                    <WikiCard key = {"discover_" + index} title={item.title} intro_text={item.intro_text} type="normal" />
                                 )
                                 : ""}
                         </div>
@@ -67,10 +67,10 @@ function HomePage() {
                         <div className="fullWidth flexCenter">
                             <h1>Search Results</h1>
                         </div>
-                        <div className="wikiCreatedDisplay">
+                        <div data-testid = "wiki_home_search" className="wikiCreatedDisplay">
                             {wikiSearchList?.map ?
-                                wikiSearchList?.map((item: contribution & page) =>
-                                    <WikiCard title={item.title} intro_text={item.intro_text} type="normal" />
+                                wikiSearchList?.map((item: contribution & page, index: number) =>
+                                    <WikiCard key = {"search_" + index} title={item.title} intro_text={item.intro_text} type="normal" />
                                 )
                                 : ""}
                         </div>

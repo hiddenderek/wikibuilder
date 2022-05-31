@@ -39,8 +39,8 @@ function ProfilePage() {
             </div>
             <div className="wikiCreatedDisplay">
                 {wikiCreatedList?.map ? 
-                    wikiCreatedList?.map((item : contribution & page) => 
-                        <WikiCard title = {item.title} intro_text = {item.intro_text} type = "created" action = {item.action_type} date = {item.time_executed}/>
+                    wikiCreatedList?.map((item : contribution & page, index: number) => 
+                        <WikiCard key = {"profile_" + index} title = {item.title} intro_text = {item.intro_text} type = "created" action = {item.action_type} date = {item.time_executed}/>
                     )
                 : ""}
             </div>
