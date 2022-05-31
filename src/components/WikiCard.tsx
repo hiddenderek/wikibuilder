@@ -17,7 +17,7 @@ function WikiCard({ title, intro_text, type, action, date }: { title: string, in
     }
 
     return (
-        <div className={`wikiCard ${type === "featured" ? "wikiCardFeatured" : ""}`}>
+        <div data-testid = "wiki_card" className={`wikiCard ${type === "featured" ? "wikiCardFeatured" : ""}`}>
             <h2 onClick = {navPage}>{title}</h2>
             <div className={`wikiCardIntroText ${type === "contribution" || type === "created"  ? "wikiCardIntroTextContribution" : "wikiCardIntroTextNormal"}`}>
                 <p>{intro_text}</p>

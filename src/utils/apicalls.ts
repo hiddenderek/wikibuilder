@@ -10,73 +10,79 @@ export const timeout = 3000
 export async function getApiData(pathName: string, port: number | undefined) {
     const controller = new AbortController()
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
-    console.log(url)
     setTimeout(() => controller.abort(), timeout)
-    const responseData = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-        },
-        signal: controller.signal
-    })
-    console.log(responseData)
-    return Promise.resolve(responseData)
+    try {
+        const responseData = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+            signal: controller.signal
+        })
+        return Promise.resolve(responseData)
+    } catch (e) {
+        return Promise.resolve({ data: "", status: 500, text: ()=>"" })
+    }
 }
 
 export async function postApiData(pathName: string, body: string | object | null, port: number | undefined) {
     const controller = new AbortController()
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
-    console.log(url)
-    console.log(body)
     setTimeout(() => controller.abort(), timeout)
-    const responseData = await fetch(url, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: body ? body as string :  "{}",
-        signal: controller.signal
-    })
-    console.log(responseData)
-    return Promise.resolve(responseData)
+    try {
+        const responseData = await fetch(url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: body ? body as string : "{}",
+            signal: controller.signal
+        })
+        console.log(responseData)
+        return Promise.resolve(responseData)
+    } catch (e) {
+        return Promise.resolve({ data: "", status: 500, text: ()=>"" })
+    }
 }
 
 export async function deleteApiData(pathName: string, body: string | object | null, port: number | undefined) {
     const controller = new AbortController()
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
-    console.log(url)
-    console.log(body)
     setTimeout(() => controller.abort(), timeout)
-    const responseData = await fetch(url, {
-        method: 'DELETE',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/json',
-        },
-        body: body ? body as string :  "{}",
-        signal: controller.signal
-    })
-
-    return Promise.resolve(responseData)
+    try {
+        const responseData = await fetch(url, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: body ? body as string : "{}",
+            signal: controller.signal
+        })
+        return Promise.resolve(responseData)
+    } catch (e) {
+        return Promise.resolve({ data: "", status: 500, text: ()=>"" })
+    }  
 }
 
 export async function patchApiData(pathName: string, body: string | object | null, port: number | undefined) {
     const controller = new AbortController()
     const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
-    console.log(url)
-    console.log(body)
     setTimeout(() => controller.abort(), timeout)
-    const responseData = await fetch(url, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: body ? body as string : "{}",
-        signal: controller.signal
-    })
-    console.log(responseData)
-    return Promise.resolve(responseData)
+    try {
+        const responseData = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: body ? body as string : "{}",
+            signal: controller.signal
+        })
+        return Promise.resolve(responseData)
+    } catch (e) {
+        return Promise.resolve({ data: "", status: 500, text: () => "" })
+    }
 }
 export async function getAccessToken() {
     const refreshData = await fetch(`http://${location.hostname}:${config.authPort}/token`, {
@@ -93,8 +99,6 @@ export async function getAccessToken() {
 }
 
 export async function sendRequest(pathName: string | null, setState: Function | null, action: string | null, body: string | object | null, port?: number) {
-    console.log('handling!')
-    console.log(pathName)
     pathName = pathName ? pathName : (location.pathname+location.search)
     body  = body ?? "{}"
     try {
@@ -108,22 +112,18 @@ export async function sendRequest(pathName: string | null, setState: Function | 
 
     switch (action) {
         case "get": {
-            console.log('GET')
             responseData = await getApiData(pathName, port)
             break
         }
         case "post": {
-            console.log('POST')
             responseData = await postApiData(pathName, body, port)
             break
         }
         case "delete": {
-            console.log('DELETE')
             responseData = await deleteApiData(pathName, body, port)
             break
         }
         case "patch": {
-            console.log('PATCH')
             responseData = await patchApiData(pathName, body, port)
             break
         }
