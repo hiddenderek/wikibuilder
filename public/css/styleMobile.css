@@ -1,0 +1,213 @@
+@media (max-device-aspect-ratio: 1/1) {
+    body {
+        font-size: 3rem;
+    }
+    :root {
+        --transformCircleSize: 1rem;
+        --connectorSize: 1rem;
+        --extraSmallLineHeight: 2rem;
+        --smallLineHeight: 2.7rem;
+        --bannerHeight: 9rem;
+        --wikiCardTitle: 7rem;
+        --wikiCardBottomInfo: 9rem;
+        font-size: calc( (25 * (100vw / 1440)));
+    }
+
+    h1 {
+        font-size: 5rem;
+    }
+
+    h2 {
+        font-size: 5.2rem;
+    }
+    
+    button {
+        height: 7rem;
+        width: 34rem;
+        border-radius: 4%/20%;
+        font-size: 3.2rem;
+    }
+    
+    input {
+        font-size: 4rem;
+    }
+    
+    .doubleBanner {
+        grid-template-rows: var(--bannerHeight) var(--bannerHeight) calc((var(--vh, 1vh) * 100) - var(--bannerHeight) - var(--bannerHeight)) !important;
+        grid-template-areas:
+        "banner"
+        "mobileDoubleBanner"
+        "content" !important
+    }
+
+    .bannerLoginContainer {
+        font-size: 4.5rem;
+        gap: 4rem;
+    }
+        
+    .mobileSearchBanner {
+        grid-area: mobileDoubleBanner;
+        background-color: rgb(243, 96, 46);
+        z-index: 20;
+        width: 100%;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .pageBrowserContainer {
+        gap: 8rem;
+    }
+
+    .pageButton {
+        font-size: 6rem;
+        pointer-events: all;
+        z-index: 100;
+    }
+    
+    .bannerSearch {
+        width: 70%;
+        height: 6rem;
+        font-size: 4rem;
+    }
+    .page {
+        font-size: 4rem;
+    }
+    .logoSection {
+        width: 65rem;
+    }
+    .refreshIcon {
+        margin-left: 3rem;
+        width: 6rem;
+    }
+    .refreshIcon:hover {
+        width: 7rem;
+      }
+    .wikiCreatedDisplay {
+        width: 90vw;
+        gap: 4rem;
+    }
+    .wikiCard {
+        flex-basis: 100%;
+        width: 100%;
+        height: calc(90vw * .6);
+        outline: solid .4rem rgb(243, 96, 46);
+        font-size: 3.8rem;
+        border-radius: 2.4rem;
+        padding-left: 2rem;
+        padding-right: 2rem; 
+    }
+
+    .wikiCardFeatured {
+        font-size: 3.8rem;
+        outline: solid .6rem rgb(243, 96, 46);
+    }
+
+    .wikiCardFeatured h2 {
+        font-size: 5.2rem;
+    }
+
+    .wikiCard h2:hover{
+        font-size: 5.5rem;
+    }
+
+    .wikiCardFadeEffect {
+        height: 14rem;
+        background:linear-gradient(transparent 12%, white);
+      }
+
+    .pageTitle {
+        font-size: 8rem;
+        height: 10rem;
+        min-height: 10rem;
+    }
+
+    .sectionTitle {
+        font-size: 5rem;
+        max-height: 8rem;
+    }
+
+    .sectionText {
+        padding-top: 1rem;
+        margin-top: 1rem;
+        font-size: 4rem;
+    }
+
+    .pageSectionDivider {
+        display: flex;
+        flex-flow: column;
+    }
+
+    .infoTable {
+        width: 100% !important;
+    }
+    .infoEditorSection {
+        min-height: 8rem;
+        font-size: 4rem;
+    }
+    .infoEditorAddRemoveIcon {
+        width: 5rem;
+        padding-left: 3rem;
+        padding-right: 1rem;
+    }
+    .infoTabletitle{
+        font-size: 4rem;
+    }
+    .infoTableText{
+        font-size: 4rem;
+    }
+    .infoTableLabel{
+        font-size: 4rem;
+    }
+    .infoTableInfo{
+        font-size: 4rem;
+    }
+    .infoTableRelated{
+        font-size: 4rem;
+    }
+    .urlInput{
+        font-size: 5rem;
+    }
+    .imageMenuToggle{
+        width:8rem;
+        height:8rem;
+        padding:.6rem;
+    }
+    .wikiContributionTable {
+        gap: 1.5rem;
+        border: .5rem solid rgb(243, 96, 46);
+        width: 90%;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    .wikiContributionRow {
+        width: 100%;
+        font-size: 3rem;
+    }
+    .wikiContributionRow p{
+        width: 100%;
+        font-size: 3rem;
+    }
+    .pageSaver {
+        font-size: 5rem;
+    }
+
+    .pageSaver input {
+        font-size: 4rem;
+        width: 90%;
+    }
+    .signUpPopup {
+        width: 90%;
+    }
+    .singleLine {
+        height: 9rem;
+    }
+    .mediumLineHeight {
+        height: 10rem;
+    }
+}
+        
+@media (min-device-aspect-ratio: 1/1) {
+
+}

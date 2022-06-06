@@ -5,7 +5,7 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { store } from '../app/store'
-import WikiPage from './WikiPage'
+import WikiPage from '../components/WikiPage'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { renderWithRouter } from '../utils/testHelperFunctions'
 import userEvent from '@testing-library/user-event'
@@ -24,26 +24,20 @@ beforeEach(async () => {
         , { route: '/wiki' })
     const pageSectionButton = screen.getByRole('button', { name: "Add Section" })
     await user.click(pageSectionButton)
-    const infoAddElm = screen.getByTestId('table_info_add_0') as HTMLImageElement
-    await user.click(infoAddElm)
+    const imageAddElm = screen.getByTestId('table_image_add_0') as HTMLImageElement
+    await user.click(imageAddElm)
 })
 
 afterEach(() => {
     store.dispatch(pageReset())
 })
 
-test('change info label', async () => {
+test('image menu toggle', async () => {
     const user = userEvent.setup()
-    const labelElm = screen.getByTestId('table_info_label_0_0') as HTMLTextAreaElement
-    await user.clear(labelElm)
-    await userEvent.type(labelElm, "Test Info Label")
-    expect(labelElm.value).toBe("Test Info Label")
-})
-
-test('change info text', async () => {
-    const user = userEvent.setup()
-    const textElm = screen.getByTestId('table_info_text_0_0') as HTMLTextAreaElement
-    await user.clear(textElm)
-    await user.type(textElm, "Test Info Text")
-    expect(textElm.value).toBe("Test Info Text")
+    const imageMenuElmCheck1 = screen.queryAllByTestId('table_image_menu_0_0')
+    expect(imageMenuElmCheck1.length).toBeGreaterThan(0)
+    const imageMenuBtnElm = screen.getByTestId('table_image_menu_btn_0_0')
+    await user.click(imageMenuBtnElm)
+    const imageMenuElmCheck2 = screen.queryAllByTestId('table_image_menu_0_0')
+    expect(imageMenuElmCheck2.length).toBe(0)
 })

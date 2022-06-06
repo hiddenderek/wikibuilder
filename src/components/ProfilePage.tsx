@@ -28,11 +28,11 @@ function ProfilePage() {
         <div className="content page">
             {user === currentUser ?
             <div className="pageButtonContainer">
-                <button onClick={newPage}>Create Page</button>
+                <button data-testid = "profile_page_create" onClick={newPage}>Create Page</button>
             </div>
             : ""}
             <div className="fullWidth flexCenter">
-                <h1>{`${user}'s Profile`}</h1>
+                <h1 data-testid = "profile_name_display">{`${user}'s Profile`}</h1>
             </div>
             <div className="fullWidth flexCenter">
                 <h1>Wikis created:</h1>

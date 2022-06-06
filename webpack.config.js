@@ -15,7 +15,7 @@ const config = {
   },
   module: {
     rules: [
-      {test: /\.(ts|tsx)$/, exclude: [/node_modules/,/public/], use: ['ts-loader']}
+      {test: /\.(ts|tsx)$/, exclude: [/node_modules/,/public/, /src\/__tests__/, /cypress/], use: ['ts-loader']}
     ]
   },
   watchOptions: {

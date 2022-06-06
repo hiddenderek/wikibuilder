@@ -7,6 +7,11 @@
 <script>
 </script>
 <link href="/css/style.css" rel="stylesheet" type="text/css">
+<%if (isMobile) {%>
+  <link href="/css/styleMobile.css" rel="stylesheet" type="text/css">
+<%} else if (isDesktop) {%>
+  <link href="/css/styleDesktop.css" rel="stylesheet" type="text/css">
+<% } %>
 <link rel="icon" href="images/favicon.ico" />
 </head>
 <body>

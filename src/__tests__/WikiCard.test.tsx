@@ -4,9 +4,9 @@
 
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import WikiCard from './WikiCard'
+import WikiCard from '../components/WikiCard'
 import { Provider } from 'react-redux'
-import { store } from '../../src/app/store'
+import { store } from '../app/store'
 
 test('Wiki Card Display', () => {
     render(

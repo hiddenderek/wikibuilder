@@ -6,7 +6,10 @@ interface userInterfaceState {
     pageHeight: number,
     user: string,
     editMode: boolean,
-    searchTerm: string
+    searchTerm: string,
+    aspectRatio: number,
+    isMobile: boolean,
+    doubleBanner: boolean
 }
 
 
@@ -15,8 +18,10 @@ const initialState: userInterfaceState = {
     pageHeight: 0,
     user: '',
     editMode: false,
-    searchTerm: ''
-
+    searchTerm: '',
+    aspectRatio: 1.78,
+    isMobile: false,
+    doubleBanner: false
 }
 
 const userInterfaceSlice = createSlice({
@@ -39,9 +44,18 @@ const userInterfaceSlice = createSlice({
         },
         setSearchTerm(state, action: PayloadAction<string>) {
             state.searchTerm = action.payload
+        },
+        setAspectRatio(state, action: PayloadAction<number>) {
+            state.aspectRatio = action.payload
+        },
+        setIsMobile(state, action: PayloadAction<boolean>) {
+            state.isMobile = action.payload
+        },
+        setDoubleBanner(state, action: PayloadAction<boolean>) {
+            state.doubleBanner = action.payload
         }
     }
 })
 
-export const { resetUserInterface, setPageSize, setUser, setEditMode, setSearchTerm } = userInterfaceSlice.actions
+export const { resetUserInterface, setPageSize, setUser, setEditMode, setSearchTerm, setAspectRatio, setIsMobile, setDoubleBanner } = userInterfaceSlice.actions
 export default userInterfaceSlice.reducer;

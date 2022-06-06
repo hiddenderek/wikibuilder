@@ -1,5 +1,5 @@
-import { store } from '../../app/store'
-import { setEditMode, setPageSize, setSearchTerm, setUser } from './userInterface-slice'
+import { store } from '../app/store'
+import { setEditMode, setPageSize, setSearchTerm, setUser } from '../features/userInterface/userInterface-slice'
 
 const dispatch = store.dispatch
 

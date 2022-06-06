@@ -1,0 +1,9 @@
+
+
+TRUNCATE TABLE users CASCADE;
+
+TRUNCATE pages CASCADE;
+
+TRUNCATE TABLE page_contributions;
+
+TRUNCATE TABLE refreshTokens;

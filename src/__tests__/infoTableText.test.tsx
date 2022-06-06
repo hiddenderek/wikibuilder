@@ -5,7 +5,7 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { store } from '../app/store'
-import WikiPage from './WikiPage'
+import WikiPage from '../components/WikiPage'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { renderWithRouter } from '../utils/testHelperFunctions'
 import userEvent from '@testing-library/user-event'
@@ -25,18 +25,18 @@ beforeEach(async () => {
         , { route: '/wiki' })
     const pageSectionButton = screen.getByRole('button', { name: "Add Section" })
     await user.click(pageSectionButton)
-    const titleAddElm = screen.getByTestId('table_title_add_0') as HTMLImageElement
-    await user.click(titleAddElm)
+    const textAddElm = screen.getByTestId('table_text_add_0') as HTMLImageElement
+    await user.click(textAddElm)
 })
 
 afterEach(() => {
     store.dispatch(pageReset())
 })
 
-test('change table title', async () => {
+test('change info text', async () => {
     const user = userEvent.setup()
-    const titleInputElm = screen.getByTestId('table_title_input_0_0') as HTMLTextAreaElement
-    await user.clear(titleInputElm)
-    await user.type(titleInputElm, "title test")
-    expect(titleInputElm.value).toBe("title test")
+    const textInputElm = screen.getByTestId('table_text_input_0_0') as HTMLTextAreaElement
+    await user.clear(textInputElm)
+    await user.type(textInputElm, "test text")
+    expect(textInputElm.value).toBe("test text")
 })

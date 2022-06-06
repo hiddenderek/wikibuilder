@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import {useAppSelector} from '../app/hooks'
 import config from '../config'
 import { useHistory } from 'react-router-dom';
 import { handleApiData, successStatus } from '../utils/apicalls';
 
 function SignUpPage() {
   const history = useHistory()
+  const isMobile = useAppSelector((state:any)=>state.userInterface.isMobile)
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -89,19 +91,20 @@ function SignUpPage() {
           <input data-testid = "dob_input" className="mediumRelInput" type="date" onChange={specifyDateOfBirth}></input>
         </div>
         <form className="singleLine" onSubmit={(e)=>{signUp(e)}}>
-          <button className={errorMessage ? "inactiveButton center" : "activeButton center"}>Submit</button>
+          <button data-testid = "signup_btn" className={errorMessage ? "inactiveButton center" : "activeButton center"}>Submit</button>
         </form>
         {errorMessage ?
-          <div className="singleLine">
+          <div  className={isMobile ? "fullWidth" : "singleLine"}>
             <p data-testid = "error_message" className="center">Error: {errorMessage}</p>
-          </div> : ""}
+          </div>
+        : ""}
         {!errorMessage && signUpMessage ? 
         <div className="fullWidth">
             <div className = "singleLine">
               <p className="center">Sign up successfull!</p>
             </div>
             <div className= "singleLine" >
-              <button className="center" onClick={profileNavigate}>Continue to login</button>
+              <button data-testid = "sign_up_log_in_nav" className="center" onClick={profileNavigate}>Continue to login</button>
             </div>
         </div> : ""}
       </div>

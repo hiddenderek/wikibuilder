@@ -4,12 +4,12 @@ export const successStatus = [200, 201, 202, 204]
 export const failedStatus = [400, 401, 402, 404, 405, 409, 422, 500, 501, 502]
 export const needsRefreshStatus = [403]
 export const needsRetryStatus = [503]
-export const timeout = 3000
+export const timeout = 20000
 
 
 export async function getApiData(pathName: string, port: number | undefined) {
     const controller = new AbortController()
-    const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
+    const url = `https://${location.hostname}:${port ? port : config.port}/api${pathName}`
     setTimeout(() => controller.abort(), timeout)
     try {
         const responseData = await fetch(url, {
@@ -27,7 +27,7 @@ export async function getApiData(pathName: string, port: number | undefined) {
 
 export async function postApiData(pathName: string, body: string | object | null, port: number | undefined) {
     const controller = new AbortController()
-    const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
+    const url = `https://${location.hostname}:${port ? port : config.port}/api${pathName}`
     setTimeout(() => controller.abort(), timeout)
     try {
         const responseData = await fetch(url, {
@@ -48,7 +48,7 @@ export async function postApiData(pathName: string, body: string | object | null
 
 export async function deleteApiData(pathName: string, body: string | object | null, port: number | undefined) {
     const controller = new AbortController()
-    const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
+    const url = `https://${location.hostname}:${port ? port : config.port}/api${pathName}`
     setTimeout(() => controller.abort(), timeout)
     try {
         const responseData = await fetch(url, {
@@ -68,7 +68,7 @@ export async function deleteApiData(pathName: string, body: string | object | nu
 
 export async function patchApiData(pathName: string, body: string | object | null, port: number | undefined) {
     const controller = new AbortController()
-    const url = `http://${location.hostname}:${port ? port : config.port}/api${pathName}`
+    const url = `https://${location.hostname}:${port ? port : config.port}/api${pathName}`
     setTimeout(() => controller.abort(), timeout)
     try {
         const responseData = await fetch(url, {
@@ -85,14 +85,14 @@ export async function patchApiData(pathName: string, body: string | object | nul
     }
 }
 export async function getAccessToken() {
-    const refreshData = await fetch(`http://${location.hostname}:${config.authPort}/token`, {
+    const refreshData = await fetch(`https://${location.hostname}:${config.authPort}/token`, {
         method: 'POST',
         credentials: 'include',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': `http://${location.hostname}:${config.authPort}`
+            'Access-Control-Allow-Origin': `https://${location.hostname}:${config.authPort}`
         }
     })
     return Promise.resolve(refreshData)

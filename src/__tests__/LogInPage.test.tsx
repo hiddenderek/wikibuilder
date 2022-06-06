@@ -5,7 +5,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { store } from '../app/store'
-import LogInPage from './LogInPage'
+import LogInPage from '../components/LogInPage'
 import { BrowserRouter as Router } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 

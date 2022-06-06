@@ -1,25 +1,75 @@
 import React, { useState, useEffect } from "react";
+import {useHistory, useLocation} from "react-router-dom"
 import WikiCard from "./WikiCard";
 import { contribution, page } from "../app/types";
-import { useAppSelector, useCount } from "../app/hooks"
+import { useAppDispatch, useAppSelector, useCount } from "../app/hooks"
+import { setSearchTerm } from "../features/userInterface/userInterface-slice";
 import { handleApiData } from "../utils/apicalls";
+import WikiBrowser from "./WikiBrowser";
+
+const wikiDisplayLimit = 12
+const pageDisplayLimit = 4
 
 function HomePage() {
+    const history = useHistory()
+    const location = useLocation()
+    const dispatch = useAppDispatch()
     const [wikiFeaturedList, setWikiFeaturedList] = useState([])
     const [wikiDiscoverList, setWikiDiscoverList] = useState([])
     const [wikiSearchList, setWikiSearchList] = useState([])
     const [wikiCount, setWikiCount] = useState(0)
     const [refreshButtonCount, incrementRefreshButtonCount] = useCount(0)
+    const [page, setPage] = useState(0)
+    const [pageList, setPageList] = useState([] as object[])
+    const isMobile = useAppSelector((state: any) =>  state.userInterface.isMobile)
+    const aspectRatio = useAppSelector((state: any) => state.userInterface.aspectRatio)
     const searchTerm = useAppSelector((state: any) => state.userInterface.searchTerm)
-    useEffect(() => {
+
+    useEffect(()=>{
         handleApiData("/wiki/featured", setWikiFeaturedList, "get", null)
         handleApiData("/wiki/discover", setWikiDiscoverList, "get", null)
         handleApiData("/wiki/count", setWikiCount, "get", null)
-    }, [])
+        try {
+            console.log("PARAMS: " + location.search)
+            const {page, search} = JSON.parse('{"' + decodeURI(location.search).replace(/"/g, '\\"').split("?").join("").replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+            if (page || page === 0) {
+                setPage(page)
+            }
+            dispatch(setSearchTerm(search))
+            } catch (e) {
+                console.log('Invalid URL error: '  + e)
+        }
+    },[])
 
     useEffect(() => {
-        handleApiData(`/wiki/search?search=${searchTerm}`, setWikiSearchList, "get", null)
-    }, [searchTerm])
+        console.log('reload')
+        const oldURL = location.pathname + location.search
+        const newURL = `/home?page=${page}${(searchTerm || searchTerm == "") ? `&search=${searchTerm}` : ""}`
+        console.log(oldURL)
+        console.log(newURL)
+        if (oldURL !== newURL) {
+            console.log('urlChange')
+            history.push(newURL)
+        } else {
+            handleApiData('/wiki/search' + location.search, setWikiSearchList, "get", null)
+            handleApiData('/wiki/search' + location.search + '&countwikis=true', setPageList, "get", null)
+        }
+
+    }, [location.search, searchTerm, page])
+
+    console.log("page list: " + pageList.length)
+
+    //resets the page to zero when you filter by something that changes the amount of results.
+    //This is to prevent you from being on a page that shouldnt exist. 
+    useEffect(()=>{
+        if (page !== 0 && !searchTerm) {
+            changePage(0)
+        }
+    },[searchTerm])
+
+    function changePage(page: number) {
+        setPage(page)
+    }
 
     function reDiscover() {
         incrementRefreshButtonCount()
@@ -29,7 +79,7 @@ function HomePage() {
     console.log(wikiCount)
 
     return (
-        <div className="content">
+        <div className={!searchTerm ? "content" : !isMobile || (isMobile && (aspectRatio > 1)) ? "contentSearch" : "contentSearch contentSearchMobile"}>
             <div className="backgroundTopLeft"></div>
             <div className="backgroundBottomRight"></div>
             <div className="page">
@@ -53,7 +103,7 @@ function HomePage() {
                         </div>
                         <div className="fullWidth flexCenter">
                             <h1>Discover</h1>
-                            <img className="refreshIcon" style={{ transform: `rotate(${refreshButtonCount * 360}deg)` }} onClick={reDiscover} src="/images/refresh.png" />
+                            <img data-testid = "wiki_home_discover_button" className="refreshIcon" style={{ transform: `rotate(${refreshButtonCount * 360}deg)` }} onClick={reDiscover} src="/images/refresh.png" />
                         </div>
                         <div data-testid = "wiki_home_discover"className="wikiCreatedDisplay">
                             {wikiDiscoverList?.map ?
@@ -76,6 +126,7 @@ function HomePage() {
                         </div>
                     </>}
             </div>
+            {searchTerm && (pageList.length > wikiDisplayLimit) ? <WikiBrowser page = {page} pageList = {pageList} changePage = {changePage} wikiDisplayLimit = {wikiDisplayLimit} pageDisplayLimit = {pageDisplayLimit}/> : ""}
         </div>
     )
 }

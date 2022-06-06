@@ -5,7 +5,7 @@
  import { render, screen, fireEvent } from '@testing-library/react'
  import { Provider } from 'react-redux'
  import { store } from '../app/store'
- import WikiContributionRow from './WikiContributionRow'
+ import WikiContributionRow from '../components/WikiContributionRow'
  import { BrowserRouter as Router } from 'react-router-dom'
  import userEvent from '@testing-library/user-event'
  import { renderWithRouter } from '../utils/testHelperFunctions'

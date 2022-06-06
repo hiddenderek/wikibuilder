@@ -2,6 +2,8 @@ import express, { ErrorRequestHandler } from 'express'
 import config from './config'
 import processEnv from 'dotenv'
 processEnv.config()
+import useragent from 'express-useragent'
+import https from 'https'
 import {Pool} from 'pg'
 import serverRenderer from './renderers/serverRenderer'
 import bcrypt from 'bcrypt'
@@ -18,7 +20,8 @@ const pool = new Pool({
 })
 app.use(cookieParser())
 app.use(express.static('public'))
-app.use(express.json({ limit: "4mb" }))
+app.use(useragent.express());
+app.use(express.json({ limit: "20mb" }))
 app.set('view engine', 'ejs')
 
 
@@ -128,10 +131,19 @@ app.get('/api/wiki/count', async (req: any, res: any) => {
 
 app.get('/api/wiki/search', async (req: any, res: any) => {
     try {
-        const {search} = req.query
+        let parameters = []
+        if (req?.query?.search) { 
+            parameters.push(`%${req.query.search}%`) 
+        }
+        if (req?.query?.page && !req?.query?.countwikis) {
+            parameters.push(Number(req.query.page) * 12)
+        }
         const getWikis = await pool.query(`
-            SELECT * FROM pages WHERE title ILIKE $1 ORDER BY title ASC LIMIT 16
-        `, [`%${search}%`])
+            SELECT * FROM pages 
+            ${req?.query?.search ? `WHERE title ILIKE $1` : ""}  
+            ORDER BY title ASC ${req?.query?.countwikis ? "" : "LIMIT 12"} 
+            ${req?.query?.page && !req?.query?.countwikis ? `OFFSET ${req?.query?.search ? "$2" : "$1"}` : ""}
+        `, parameters)
         if (getWikis.rows) {
             res.status(200)
             res.json(getWikis.rows)
@@ -362,11 +374,14 @@ app.get('/*', async (req: any, res: any) => {
     let contentGet = serverRenderer()
     console.log(contentGet.initialContent)
     console.log('hmmmm')
-    res.render('index', { data: contentGet.initialContent });
+    res.render('index', { data: contentGet.initialContent, isMobile: req.useragent.isMobile, isDesktop: req.useragent.isDesktop  });
 })
 
-app.listen(config.port, function listenHandler() {
-    console.info(`Running on ${config.port}`)
-})
+https.createServer({
+    key: fs.readFileSync("./src/key.pem"),
+    cert: fs.readFileSync("./src/cert.pem"),
+  },app).listen(config.port, function listenHandler() {
+      console.info(`Running on ${config.port}`)
+  })
 
 export default app

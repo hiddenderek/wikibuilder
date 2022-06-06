@@ -6,7 +6,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { store } from '../app/store'
-import SignUpPage from './SignUpPage'
+import SignUpPage from '../components/SignUpPage'
 import { BrowserRouter as Router } from "react-router-dom"
 import userEvent from '@testing-library/user-event'
 

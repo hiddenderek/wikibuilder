@@ -4,7 +4,7 @@ import { useAppDispatch } from '../app/hooks'
 import { handleApiData, successStatus } from '../utils/apicalls'
 import config from '../config'
 import {setUser} from '../features/userInterface/userInterface-slice'
-function LogIn(props: any) {
+function LogIn() {
     const dispatch = useAppDispatch()
     const history = useHistory()
     const [userName, setUserName] = useState('')
@@ -22,7 +22,7 @@ function LogIn(props: any) {
         try {
             const logInResult = await handleApiData(`/login`, null, "post", {userName, password}, config.authPort as number)
             if (successStatus.includes(logInResult?.status ? logInResult.status : 400)) {
-                history.push('/profile')
+                history.push(`/profile/${userName}`)
                 try {
                     dispatch(setUser(JSON.parse(logInResult?.data).name))
                 } catch (e) {
@@ -56,7 +56,7 @@ function LogIn(props: any) {
                     <input data-testid = "pswd_login_input" className="mediumRelInput" type="password" placeholder="Password..." onInput={(e) => { changePassword(e) }} style={{ color: "white" }} />
                 </div>
                 <form className="flexCenter mediumLineHeight">
-                    <button type="button" className="startButton" onClick={login}>Login</button>
+                    <button data-testid = "log_in_button" type="button" className="startButton" onClick={login}>Login</button>
                 </form>
             </div>
         </div>

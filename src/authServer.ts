@@ -2,11 +2,13 @@ import express from 'express'
 import config from './config'
 import jwt from 'jsonwebtoken'
 import processEnv from 'dotenv'
+import https from 'https'
 processEnv.config()
 import dayjs from 'dayjs'
 import cors from 'cors'
 import serverRenderer from './renderers/serverRenderer'
 import { Pool } from 'pg'
+import fs from 'fs'
 import { isArray } from 'util';
 import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
@@ -26,7 +28,7 @@ app.use(express.json())
 app.set('view engine', 'ejs');
 app.use(cors({
     credentials: true,
-    origin: `http://${config.hostname}:${config.port}`
+    origin: `https://${config.hostname}:${config.port}`
 }))
 //gets a new access token after the original expires.
 app.post('/token', async (req, res)=>{
@@ -137,9 +139,13 @@ app.get('/*', async (req: any, res: any) => {
     console.log('hmmmm')
     res.render('index', { data: contentGet.initialContent });
 })
-app.listen(config.authPort, function listenHandler() {
-    console.info(`Running on ${config.authPort}`)
-})
+
+https.createServer({
+    key: fs.readFileSync("./src/key.pem"),
+    cert: fs.readFileSync("./src/cert.pem"),
+  },app).listen(config.authPort, function listenHandler() {
+      console.info(`Running on ${config.authPort}`)
+  })
 
 function generateAccessToken(user: {name: string}) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: '15s'})

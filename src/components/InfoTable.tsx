@@ -10,6 +10,7 @@ import InfoTableRelated from "./InfoTableRelated"
 
 function InfoTable({ index, tableData }: { index: number, tableData: tableData }) {
     const editMode = useAppSelector((state: any) => state.userInterface.editMode)
+    const isMobile = useAppSelector((state: any) => state.userInterface.isMobile)
     const dispatch = useAppDispatch()
     //add title //add image //add text //add info //add related links
     const { width, titles, images, text, info, related } = tableData
@@ -57,7 +58,7 @@ function InfoTable({ index, tableData }: { index: number, tableData: tableData }
 
     return (
         <div className={`infoTable ${(titles.length > 0 || images.length > 0 || text.length > 0 || info.length > 0 || related.length > 0) ? "" : !editMode ? "itemHidden" : ""}`} style = {{width: width >= 20 ? `${width}rem` : "20rem"}} >
-            {editMode ?
+            {(editMode && !isMobile) ?
                 <div className="infoEditorSection">
                     <p>Table Width:</p>
                     <div className="infoEditorWidth">

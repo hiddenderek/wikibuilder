@@ -41,8 +41,8 @@ function PageSection({index, title, text, tableData, section_id, saveCounter} : 
         <div data-testid = "page_section" className = "pageSection">
             {index >= 0 ? <textarea data-testid = {`title_section_input_${index}`} className = "sectionTitle" value = {title} onInput = {(e)=>{changeSectionTitle(e)}}/> : ""}
             <div className = "pageSectionDivider" style = {{gridTemplateColumns: `auto ${(tableData.titles.length === 0 && tableData.images.length === 0 && tableData.text.length === 0 && tableData.info.length === 0 && tableData.related.length === 0) && !editMode ? 0 : tableData.width >= 20 ? tableData.width : 20}rem`}}>
-                <textarea ref = {textareaRef} data-testid = {`text_section_input_${index}`} className = "sectionText" value = {text} onInput = {(e)=>{changeSectionText(e)}} />
                 <InfoTable index = {index} tableData = {tableData}/>
+                <textarea ref = {textareaRef} data-testid = {`text_section_input_${index}`} className = "sectionText" value = {text} onInput = {(e)=>{changeSectionText(e)}} />    
             </div>
         </div>
     )

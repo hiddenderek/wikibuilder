@@ -3,7 +3,7 @@ body {
   /* Hide scrollbars */
   background: rgb(255, 255, 255);
   background-image: url("pageData/pageInfo/images/backgroundImage.png");
-  background-size: auto 100vh;
+  background-size: auto (var(--vh, 1vh) * 100);
   color: rgb(243, 96, 46);
   font-size: 1.5rem;
   font-family: minimal;
@@ -34,7 +34,7 @@ body {
 }
 
 *::-webkit-scrollbar {
-  width: 12px;
+  width: 1.2rem;
   /* width of the entire scrollbar */
 }
 
@@ -46,7 +46,7 @@ body {
 *::-webkit-scrollbar-thumb {
   background-color: rgb(243, 96, 46);
   /* color of the scroll thumb */
-  border-radius: 20px;
+  border-radius: 2rem;
   /* roundness of the scroll thumb */
 }
 
@@ -57,8 +57,8 @@ ul {
 
 li {
   user-select: none;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin-top: .4rem;
+  margin-bottom: .4rem;
 }
 
 li:hover {
@@ -79,8 +79,11 @@ input {
 
 textarea {
   box-sizing: border-box;
+  margin-left: 0px;
+  margin-right: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
+  padding: none;
   border: none;
   resize: none;
 }
@@ -197,11 +200,10 @@ button:active {
   z-index: 0;
 }
 
-
 .banner {
   grid-area: banner;
   background-color: rgb(243, 96, 46);
-  z-index: 10000;
+  z-index: 20;
   width: 100%;
   display: flex;
   flex-flow: row;
@@ -252,10 +254,10 @@ button:active {
 }
 
 .bannerLoginContainer p:hover {
-  transform: scale(1.15);
+  transform: scale(1.07);
 }
 .bannerLoginContainer p:active {
-  transform: scale(1.3);
+  transform: scale(1.1);
 }
 
 .sideBar {
@@ -266,7 +268,7 @@ button:active {
   height: 100%;
   transition: width 200ms;
   z-index: 9999;
-  padding: 5px;
+  padding: .5rem;
   font-family: minimal;
 }
 
@@ -350,16 +352,16 @@ button:active {
 }
 
 .mediumLineHeight {
-  height: 40px;
+  height: 4rem;
   font-size: 1.4rem;
 }
 
 .largeLineHeight {
-  height: 90px;
+  height: 9rem;
 }
 
 .extraLargeLineHeight {
-  height: 120px;
+  height: 12rem;
 }
 
 .smallRelInput {
@@ -381,22 +383,22 @@ button:active {
 }
 
 .extraSmallInput {
-  width: 70px;
+  width: 7rem;
   box-sizing: border-box;
 }
 
 .smallInput {
-  width: 130px;
+  width: 13rem;
   box-sizing: border-box;
 }
 
 .mediumInput {
-  width: 200px;
+  width: 20rem;
   box-sizing: border-box;
 }
 
 .largeInput {
-  width: 300px;
+  width: 30rem;
   box-sizing: border-box;
 }
 .singleLine{
@@ -422,7 +424,7 @@ button:active {
 .flexDivideEvenlyContainer {
   display: flex;
   flex-flow: row;
-  gap: 5px;
+  gap: .5rem;
   align-content: center;
   align-items: center;
 }
@@ -440,7 +442,7 @@ button:active {
   display: flex;
   flex-flow: column;
   align-content: space-evenly;
-  gap: 5px;
+  gap: .5rem;
 }
 
 .flexEdges {
@@ -480,6 +482,23 @@ button:active {
   width: 100vw;
   grid-area: content;
 }
+.contentSearch {
+  width: 100vw;
+  grid-area: content;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: calc((var(--vh, 1vh) * 100) - var(--bannerHeight) - var(--bannerHeight)) var(--bannerHeight);
+  grid-template-areas: 
+  "page"
+  "pageBrowser";
+  align-items: start;
+  position: relative;
+  gap: 0px;
+}
+
+.contentSearchMobile {
+  grid-template-rows: calc((var(--vh, 1vh) * 100) - var(--bannerHeight) - var(--bannerHeight) - var(--bannerHeight)) var(--bannerHeight);
+}
 .page {
   width: 100vw;
   height: 100%;
@@ -503,6 +522,8 @@ button:active {
 }
 
 .pageSaver {
+  margin: none;
+  padding: none;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -554,6 +575,7 @@ button:active {
   flex-flow: column;
   align-items: center;
   color:rgb(0, 0, 0);
+  grid-area: infoTable;
 }
 .infoTableContent {
   display: flex;
@@ -649,8 +671,8 @@ button:active {
   align-items: center;
 }
 .infoTableContainerSelected {
-  outline: 2px solid white;
-  border: 2px solid black;
+  outline: .2rem solid white;
+  border: .2rem solid black;
   z-index: 10;
   box-sizing: border-box;
 }
@@ -691,7 +713,7 @@ button:active {
   background-color: rgba(0, 0, 0, 0.399);
   pointer-events: none;;
   color: white;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  text-shadow: -.1rem -.1rem 0 #000, .1rem -.1rem 0 #000, -.1rem .1rem 0 #000, .1rem .1rem 0 #000;
 }
 
 .urlInput input {
@@ -753,6 +775,8 @@ button:active {
   display: grid;
   grid-template-columns: auto 20rem;
   grid-template-rows: 100%;
+  grid-template-areas: 
+  "sectionText infoTable";
 }
 .sectionTitle {
   width: 100%;
@@ -763,7 +787,7 @@ button:active {
   background-color: transparent;
 }
 .sectionText {
-  width: 100%;
+  width: 99%;
   resize: none;
   border: none;
   font-family: minimal;
@@ -772,7 +796,10 @@ button:active {
   overflow: hidden;
   align-self: start;
   padding-right: 1rem;
+  grid-area: sectionText;
+  box-sizing: border-box;
 }
+
 .signUpPopup {
   align-self: center;
   justify-self: center;
@@ -878,6 +905,32 @@ button:active {
   gap: 1rem;
   padding-bottom: 1rem;
 }
+.pageBrowserContainer {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(243, 96, 46);
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  color: white;
+  font-size: 0px;
+  grid-area: pageBrowser;
+  gap: 2rem;
+  z-index: 100;
+}
+
+.pageButton {
+  font-size: 3rem;
+  user-select: none;
+}
+
+
+.arrowHidden {
+  opacity: 50%;
+  pointer-events: none;
+}
 
 .wikiContributionTable {
   display: flex;
@@ -937,7 +990,7 @@ button:active {
   height: 100%;
   display: grid;
   grid-template-columns: 100vw;
-  grid-template-rows: var(--bannerHeight) calc(100vh - var(--bannerHeight));
+  grid-template-rows: var(--bannerHeight) calc((var(--vh, 1vh) * 100) - var(--bannerHeight));
   grid-template-areas:
     "banner"
     "content";

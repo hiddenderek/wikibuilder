@@ -111,28 +111,28 @@ function WikiPage() {
     }
 
     return (
-        <div className="content page" style = {editMode && save ? {height: "100%"} : {}}>
+        <div className="content page" style = {editMode && save ? {height: "100%", overflowY: "hidden"} : {}}>
             {editMode && save ? 
                 <div className = "pageSaver">
                     <p>Specify Contribution to wiki</p>
-                    <input type = "text" placeholder = "type contribution here" value = {pageAction} onInput = {changePageAction}/>
+                    <input data-testid = "page_contribution_action_input" type = "text" placeholder = "type contribution here" value = {pageAction} onInput = {changePageAction}/>
                     <div className = "pageButtonContainer">
-                        <button onClick={()=>{savePage(true)}}>Save</button>
-                        <button onClick={save ? toggleSave : undefined}>Cancel</button>
+                        <button data-testid = "page_save_button" onClick={()=>{savePage(true)}}>Save</button>
+                        <button data-testid = "page_save_close_button" onClick={save ? toggleSave : undefined}>Close</button>
                     </div>
                     {saveError ? <p>{saveError}</p> : ""}
                 </div>
             : ""}
             <div className="pageButtonContainer">
                 {!editMode ? 
-                    <button onClick={() => { changeEditMode(true) }}>Contribute to Page</button> :
+                    <button data-testid = "page_contribute_button" onClick={() => { changeEditMode(true) }}>Contribute to Page</button> :
                     <button onClick={() => { changeEditMode(false) }}>View page</button>
                 }
-                <button onClick={toggleContributionView}>View contributions</button>
+                <button data-testid = "page_view_contributions_button" onClick={toggleContributionView}>View contributions</button>
             </div>
             {editMode ?
             <div className="fullWidth flexCenter">
-                <button className = {currentUser ? "" : "inactiveButton"} onClick={!save ? toggleSave : undefined}>{currentUser ? "Save Page" : "Log in to Save Page."}</button>
+                <button data-testid = "page_save_toggle_button" className = {currentUser ? "" : "inactiveButton"} onClick={!save ? toggleSave : undefined}>{currentUser ? "Save Page" : "Log in to Save Page."}</button>
             </div>
             : ""}
             {!contributionView ?

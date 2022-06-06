@@ -1,6 +1,6 @@
-import { store } from '../../app/store'
-import { initialState, pageLoad, pageReset, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, setTableWidth, addTableTitle, addTableImage, addTableInfo, addTableText, addTableRelated, selectTableElement, deleteTableElement } from './pageCreator-slice'
-import { pageCreatorState } from './pageCreator-types'
+import { store } from '../app/store'
+import { initialState, pageLoad, pageReset, setPageTitle, setIntroText, addSection, deleteSection, setSectionText, setSectionTitle, setTableWidth, addTableTitle, addTableImage, addTableInfo, addTableText, addTableRelated, selectTableElement, deleteTableElement } from '../features/pageCreator/pageCreator-slice'
+import { pageCreatorState } from '../features/pageCreator/pageCreator-types'
 const dispatch = store.dispatch
 
 afterEach(() => {

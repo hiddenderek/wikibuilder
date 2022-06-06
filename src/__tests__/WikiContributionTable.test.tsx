@@ -5,39 +5,38 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { store } from '../app/store'
-import WikiPage from './WikiPage'
+import WikiContributionTable from '../components/WikiContributionTable'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { renderWithRouter } from '../utils/testHelperFunctions'
 import userEvent from '@testing-library/user-event'
 import { setEditMode } from '../features/userInterface/userInterface-slice'
 import { pageReset } from '../features/pageCreator/pageCreator-slice'
 
+const testData = [
+    {title: "Test page", action_type: "Test Action", time_executed: "12-27-1994"},
+    {title: "Test page", action_type: "Test Action 2", time_executed: "1-10-1996"},
+    {title: "Test page", action_type: "Test Action 3", time_executed: "5-15-1999"},
+    {title: "Test page", action_type: "Test Action 4", time_executed: "10-7-2002"}
+]
+
 beforeEach(async () => {
     const user = userEvent.setup()
     store.dispatch(setEditMode(true))
-    renderWithRouter(
+    renderWithRouter(<>
         <Router>
             <Provider store={store}>
-                <WikiPage />
+                <WikiContributionTable wikiContributionList={testData} type = "user"/>
             </Provider>
         </Router>
+        </>
         , { route: '/wiki' })
-    const pageSectionButton = screen.getByRole('button', { name: "Add Section" })
-    await user.click(pageSectionButton)
-    const imageAddElm = screen.getByTestId('table_image_add_0') as HTMLImageElement
-    await user.click(imageAddElm)
 })
 
 afterEach(() => {
     store.dispatch(pageReset())
 })
 
-test('image menu toggle', async () => {
-    const user = userEvent.setup()
-    const imageMenuElmCheck1 = screen.queryAllByTestId('table_image_menu_0_0')
-    expect(imageMenuElmCheck1.length).toBeGreaterThan(0)
-    const imageMenuBtnElm = screen.getByTestId('table_image_menu_btn_0_0')
-    await user.click(imageMenuBtnElm)
-    const imageMenuElmCheck2 = screen.queryAllByTestId('table_image_menu_0_0')
-    expect(imageMenuElmCheck2.length).toBe(0)
+test('Wiki contribution table populate', ()=>{
+    const tableRow = screen.queryAllByTestId("table_row")
+    expect(tableRow.length).toBe(testData.length + 2)
 })

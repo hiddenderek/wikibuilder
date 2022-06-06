@@ -8,7 +8,8 @@
     "dev": "set NODE_PATH=./src&& nodemon -L src/server.ts  --ignore public/",
     "devAuth": "set NODE_PATH=./src&& nodemon -L src/authServer.ts --ignore public/",
     "webpack": "webpack -w --mode development",
-    "test": "jest"
+    "test": "jest",
+    "cypress": "cypress open"
   },
   "jest": {
     "transform": {
@@ -45,6 +46,7 @@
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
+    "@types/express-useragent": "^1.0.2",
     "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.21",
@@ -59,10 +61,11 @@
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
+    "express-useragent": "^1.0.15",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-redux": "^7.2.6",
     "react-router": "5.2.1",
     "react-router-dom": "5.3.0",
@@ -74,6 +77,7 @@
   "devDependencies": {
     "@testing-library/user-event": "^14.2.0",
     "@types/jest-when": "^3.5.0",
+    "cypress": "^10.0.1",
     "jest": "^27.5.1",
     "jest-when": "^3.5.1",
     "nodemon": "2.0.15",
