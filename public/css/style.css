@@ -931,7 +931,10 @@ button:active {
   opacity: 50%;
   pointer-events: none;
 }
-
+.wikiContributionInfo {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 .wikiContributionTable {
   display: flex;
   flex-flow: column;

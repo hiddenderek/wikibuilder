@@ -8,3 +8,7 @@ docker-compose.yml
 .git
 .gitignore
 pgdata
+cypress
+src/__tests__
+src/setupTests.ts
+src/utils/testHelperFunctions.ts

@@ -4,7 +4,7 @@
 
 
 import React from 'react'
-import {useToggle, useCount} from './hooks'
+import {useToggle, useCount} from '../app/hooks'
 import {act, renderHook} from '@testing-library/react-hooks'
 
 
