@@ -925,7 +925,7 @@ eval("\r\nvar __createBinding = (this && this.__createBinding) || (Object.create
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
-eval("\r\nvar _a, _b;\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nlet port = {\r\n    port: typeof process != \"undefined\" ? (((_a = process === null || process === void 0 ? void 0 : process.env) === null || _a === void 0 ? void 0 : _a.PORT) || 8030) : 8030,\r\n    authPort: typeof process != \"undefined\" ? (((_b = process === null || process === void 0 ? void 0 : process.env) === null || _b === void 0 ? void 0 : _b.PORT) || 8020) : 8020,\r\n    hostname: \"192.168.1.9\"\r\n};\r\nexports[\"default\"] = port;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/config.ts?");
+eval("\r\nvar _a, _b;\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nlet port = {\r\n    port: typeof process != \"undefined\" ? (((_a = process === null || process === void 0 ? void 0 : process.env) === null || _a === void 0 ? void 0 : _a.PORT) || 8030) : 8030,\r\n    authPort: typeof process != \"undefined\" ? (((_b = process === null || process === void 0 ? void 0 : process.env) === null || _b === void 0 ? void 0 : _b.PORT) || 8020) : 8020,\r\n    hostname: \"dchapman-portfolio.site\"\r\n};\r\nexports[\"default\"] = port;\r\n\n\n//# sourceURL=webpack://oasis_builder/./src/config.ts?");
 
 /***/ }),
 
