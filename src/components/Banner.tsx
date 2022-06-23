@@ -10,7 +10,7 @@ function Banner() {
   const history = useHistory()
   const currentUser = useAppSelector((state: any) => state.userInterface.user)
   const searchTerm = useAppSelector((state: any) => state.userInterface.searchTerm)
-  const doubleBanner = useAppSelector((state:any) => state.userInterface.doubleBanner)
+  const doubleBanner = useAppSelector((state: any) => state.userInterface.doubleBanner)
   useEffect(() => {
     if (!currentUser) {
       getCurrentUser()
@@ -19,7 +19,6 @@ function Banner() {
 
   async function getCurrentUser() {
     let newCurrentUserGet = await handleApiData(`/currentUser`, null, "get", null)
-    console.log(newCurrentUserGet)
     if (successStatus.includes(newCurrentUserGet?.status ? newCurrentUserGet.status : 400)) {
       const newCurrentUser = newCurrentUserGet?.data
       dispatch(setUser(newCurrentUser))
@@ -39,34 +38,46 @@ function Banner() {
       dispatch(setSearchTerm(''))
       dispatch(setUser(''))
     }
-    
+
   }
 
   return (
     <>
-    <div className="banner">
-      <img onClick={() => { dispatch(setSearchTerm('')); history.push('/home') }} src="/images/wikiBuilderHome.png" className="bannerHome" draggable="false" />
-      {!doubleBanner ? <input data-testid = "banner_search_input" className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." /> : ""}
-      <div className="bannerLoginContainer">
-        {!currentUser ?
-          <>
-            <p data-testid = "banner_log_in" onClick={() => { history.push('/login') }}>Log in</p>
-            <p data-testid = "banner_sign_up" onClick={() => { history.push('/signup') }}>Sign up</p>
-          </>
-          : 
-          <>
-            <p data-testid = "banner_sign_out" onClick = {signOut}>Sign out</p>
-            <p data-testid = "banner_profile_display" onClick={() => { history.push(`/profile/${currentUser}`) }}>
-              {`${currentUser}'s Profile`}
-            </p>
-          </>}
+      <div className="banner">
+        <a data-testid="banner_home_nav" onClick={(e) => {e.preventDefault(); dispatch(setSearchTerm('')); history.push('/home') }}>
+          <img  src="/images/wikiBuilderHome.png" className="bannerHome" draggable="false" />
+        </a>
+        {!doubleBanner ? 
+          <form onSubmit = {(e)=>{e.preventDefault()}}>
+            <input data-testid="banner_search_input" className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." /> 
+          </form>
+        : ""}
+        <div className="bannerLoginContainer">
+          {!currentUser ?
+            <>
+              <a data-testid="banner_log_in" onClick={(e) => { e.preventDefault();history.push('/login') }} >
+                <p >Log in</p>
+              </a>
+              <a data-testid="banner_sign_up" onClick={(e) => {e.preventDefault(); history.push('/signup') }}>
+                <p>Sign up</p>
+              </a>
+            </>
+            :
+            <>
+              <p data-testid="banner_sign_out" onClick={signOut}>Sign out</p>
+              <a data-testid="banner_profile_display" onClick={(e) => {e.preventDefault(); history.push(`/profile/${currentUser}`) }}>
+                <p>
+                  {`${currentUser}'s Profile`}
+                </p>
+              </a>
+            </>}
+        </div>
       </div>
-    </div>
-    {doubleBanner ? 
-    <div className="mobileSearchBanner">
-      <input data-testid = "banner_search_input" className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." /> 
-    </div>
-    : ""}
+      {doubleBanner ?
+        <form className="mobileSearchBanner"  onSubmit={(e)=>{e.preventDefault()}}>
+          <input data-testid="banner_search_input" className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." />
+        </form>
+        : ""}
     </>
   )
 }

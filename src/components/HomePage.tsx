@@ -30,25 +30,20 @@ function HomePage() {
         handleApiData("/wiki/discover", setWikiDiscoverList, "get", null)
         handleApiData("/wiki/count", setWikiCount, "get", null)
         try {
-            console.log("PARAMS: " + location.search)
             const {page, search} = JSON.parse('{"' + decodeURI(location.search).replace(/"/g, '\\"').split("?").join("").replace(/&/g, '","').replace(/=/g,'":"') + '"}')
             if (page || page === 0) {
                 setPage(page)
             }
             dispatch(setSearchTerm(search))
             } catch (e) {
-                console.log('Invalid URL error: '  + e)
+                console.error('Invalid URL error: '  + e)
         }
     },[])
 
     useEffect(() => {
-        console.log('reload')
         const oldURL = location.pathname + location.search
         const newURL = `/home?page=${page}${(searchTerm || searchTerm == "") ? `&search=${searchTerm}` : ""}`
-        console.log(oldURL)
-        console.log(newURL)
         if (oldURL !== newURL) {
-            console.log('urlChange')
             history.push(newURL)
         } else {
             handleApiData('/wiki/search' + location.search, setWikiSearchList, "get", null)
@@ -56,8 +51,6 @@ function HomePage() {
         }
 
     }, [location.search, searchTerm, page])
-
-    console.log("page list: " + pageList.length)
 
     //resets the page to zero when you filter by something that changes the amount of results.
     //This is to prevent you from being on a page that shouldnt exist. 
@@ -75,8 +68,6 @@ function HomePage() {
         incrementRefreshButtonCount()
         handleApiData("/wiki/discover", setWikiDiscoverList, "get", null)
     }
-
-    console.log(wikiCount)
 
     return (
         <div className={!searchTerm ? "content" : !isMobile || (isMobile && (aspectRatio > 1)) ? "contentSearch" : "contentSearch contentSearchMobile"}>

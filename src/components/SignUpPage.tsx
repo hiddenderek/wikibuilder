@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {useAppSelector} from '../app/hooks'
-import config from '../config'
 import { useHistory } from 'react-router-dom';
 import { handleApiData, successStatus } from '../utils/apicalls';
 
@@ -64,7 +63,6 @@ function SignUpPage() {
   }
   function specifyDateOfBirth(e: any) {
     e.preventDefault()
-    console.log(e.target.value)
     setDateOfBirth(e.target.value)
   }
   function profileNavigate() {

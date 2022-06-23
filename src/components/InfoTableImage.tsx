@@ -47,8 +47,6 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
         const image = new Image()
         image.src = urlInput
         image.onload = () => {
-            console.log('NATURAL WIDTH: ' + image.naturalWidth)
-            console.log('NATURAL HEIGHT: ' + image.naturalHeight)
             setNewSymbolWidth(image.naturalWidth)
             setNewSymbolHeight(image.naturalHeight)
                 if (imageMenu) {
@@ -68,18 +66,14 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
         } catch (e) {
             setNewSymbolImageType("unknown")
         }
-        console.log("EXTENSION TYPE: " + extensionType)
         const b64Reader = new FileReader()
         b64Reader.onload = function () {
             const data = b64Reader.result as string
             setNewSymbolImage(data)
-            console.log('IMAGE DATA: ' + data)
             //get the width and height of the image
             const image = new Image()
             image.src = `${data}`
             image.onload = () => {
-            console.log('NATURAL WIDTH: ' + image.naturalWidth)
-            console.log('NATURAL HEIGHT: ' + image.naturalHeight)
             setNewSymbolWidth(image.naturalWidth)
             setNewSymbolHeight(image.naturalHeight)
             }
@@ -128,12 +122,12 @@ function InfoTableImage({tableWidth, url, type, width, height, index, subIndex} 
             {editMode ? <img data-testid = {`table_image_menu_btn_${index}_${subIndex}`} className = "imageMenuToggle" src = "/images/gear_icon.png" onClick = {toggleimageMenu}/> : ""}
             <img ref = {imageRef} className = "infoTableImage" style = {{aspectRatio : `${width}/${height}`}} src = {type ? `${url}.${type}` : `${url}`} onLoad = {showImage}/> 
             {imageMenu && editMode ? 
-                <div data-testid = {`table_image_menu_${index}_${subIndex}`} className = "urlInput">
+                <form data-testid = {`table_image_menu_${index}_${subIndex}`} className = "urlInput" onSubmit = {(e)=>{e.preventDefault()}}>
                     <input value = {urlInput} onInput = {(e)=>{changeUrlInput(e)}} placeholder = "Paste Url Here"/>
                     <p>Or</p>
                     <input ref = {imageFileRef} type = "file" className = "width90" onChange={(e) => { fileRead(e.target)}}></input>
                     {errorMessage ? <p>{errorMessage}</p> : ""}
-                </div> 
+                </form> 
             : ""}
         </div>
     )

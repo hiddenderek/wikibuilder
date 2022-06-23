@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { contribution, page } from "../app/types"
 import WikiContributionRow from "./WikiContributionRow";
 

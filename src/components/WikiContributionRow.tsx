@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { contribution, page } from "../app/types"
 import { useHistory } from "react-router-dom"
 
@@ -7,7 +7,6 @@ function WikiContributionRow({title, action_type, time_executed, header, type, h
     const history = useHistory()
     
     function navToPage(){
-        console.log(type)
         if (type === "page") {
             history.push(`/profile/${title}`)
         } else if (type === "user") {
@@ -17,7 +16,9 @@ function WikiContributionRow({title, action_type, time_executed, header, type, h
 
     return (
         <div data-testid = "table_row" className= {`wikiContributionRow ${header ? "wikiContributionRowHeader" : ""} ${highlighted ? "wikiContributionRowHighlight" : ""}`}>
-            <p data-testid = "table_row_title" onClick = {navToPage}>{title}</p>
+            <a data-testid = "table_row_title" onClick = {(e)=>{e.preventDefault();navToPage()}}>
+                <p>{title}</p>
+            </a>
             <p data-testid = "table_row_action">{action_type}</p>
             <p data-testid = "table_row_time">{time_executed}</p>
         </div>

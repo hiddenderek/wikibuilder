@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import PageSection from "./PageSection";
 import { handleApiData, successStatus, failedStatus } from "../utils/apicalls";
@@ -27,7 +27,6 @@ function WikiPage() {
     
     useEffect(() => {
         if (location.pathname !== "/wiki") {
-            console.log('LOAD PAGE' + location.pathname)
             loadPage(location.pathname)
         } else {
             dispatch(pageReset())
@@ -50,12 +49,11 @@ function WikiPage() {
         const pageData = await handleApiData(path, null, "get", null)
         if (successStatus.includes(pageData?.status ? pageData.status : 400)) {
             try {
-                console.log(pageData?.data)
                 dispatch(pageLoad(pageData?.data))
                 setPageLoaded(true)
 
             } catch (e) {
-                console.log("ERROR PARSING PAGE DATA: " + e)
+                console.error("ERROR PARSING PAGE DATA: " + e)
             }
         }
     }
@@ -85,13 +83,10 @@ function WikiPage() {
     async function savePage(retry: boolean) {
         const pageSectionData = JSON.stringify(pageSections)
         const savePageResult = await handleApiData(`/wiki/pages/${pageLoaded ? getAfterLastCharacter({string: location.pathname, character: '/'}) : pageTitle}`, null, pageLoaded ? "patch" : "post", { pageTitle, introText, introTableData, pageSectionData, action: pageAction ? pageAction : "Updated page." })
-        console.log(savePageResult)
         if (successStatus.includes(savePageResult?.status ? savePageResult.status : 400)) {
-            console.log(savePageResult?.data)
             setSaveError('Saved page successfully.')
             setPageAction('')
         } else if (failedStatus.includes(savePageResult?.status ? savePageResult.status : 200)){
-            console.log(savePageResult?.data)
             setSaveError(savePageResult?.data)
         }
         history.push(`/wiki/pages/${pageTitle}`)
@@ -116,10 +111,10 @@ function WikiPage() {
                 <div className = "pageSaver">
                     <p>Specify Contribution to wiki</p>
                     <input data-testid = "page_contribution_action_input" type = "text" placeholder = "type contribution here" value = {pageAction} onInput = {changePageAction}/>
-                    <div className = "pageButtonContainer">
+                    <form className = "pageButtonContainer" onSubmit={(e)=>{e.preventDefault()}}>
                         <button data-testid = "page_save_button" onClick={()=>{savePage(true)}}>Save</button>
                         <button data-testid = "page_save_close_button" onClick={save ? toggleSave : undefined}>Close</button>
-                    </div>
+                    </form>
                     {saveError ? <p>{saveError}</p> : ""}
                 </div>
             : ""}

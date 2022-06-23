@@ -92,8 +92,8 @@ describe('spec.cy.ts', () => {
   })
 
   it('Home navigate', () => {
-    cy.get('[src="/images/wikiBuilderHome.png"]').should('exist')
-    cy.get('[src="/images/wikiBuilderHome.png"]').click()
+    cy.get('[data-testid=banner_home_nav]').should('exist')
+    cy.get('[data-testid=banner_home_nav]').click()
     cy.get('[data-testid=wiki_home_discover]').should('exist')
   })
 

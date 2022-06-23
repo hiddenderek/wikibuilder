@@ -27,10 +27,10 @@
  })
 
  test('Row populate test', () => {
-    const rowElmTitle = screen.getByTestId('table_row_title')
-    const rowElmAction = screen.getByTestId('table_row_action')
-    const rowElmTime = screen.getByTestId('table_row_time')
-    expect(rowElmTitle.textContent).toBe("Test Page")
-    expect(rowElmAction.textContent).toBe("Test Action")
-    expect(rowElmTime.textContent).toBe("12-27-1994")
+    const rowElmTitle = screen.getByText("Test Page")
+    const rowElmAction = screen.getByText("Test Action")
+    const rowElmTime = screen.getByText("12-27-1994")
+    expect(rowElmTitle).toBeInTheDocument()
+    expect(rowElmAction).toBeInTheDocument()
+    expect(rowElmTime).toBeInTheDocument()
  })

@@ -26,7 +26,7 @@ function LogIn() {
                 try {
                     dispatch(setUser(JSON.parse(logInResult?.data).name))
                 } catch (e) {
-                    console.log('USER SET ERROR: ' + e)
+                    console.error('USER SET ERROR: ' + e)
                 }
             } else if (logInResult?.data) {
                 setErrorMessage(logInResult.data)
@@ -34,7 +34,7 @@ function LogIn() {
                 setErrorMessage('Login failed.')
             }
         } catch (e) {
-            console.log("LOGIN ERROR" + e)
+            console.error("LOGIN ERROR" + e)
             setErrorMessage('Something went wrong. Check console for more info.')
         }
     }

@@ -1,9 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import InfoTable from "./InfoTable";
 import { section } from '../features/pageCreator/pageCreator-types'
-import { handleApiData } from "../utils/apicalls";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { setIntroText, deleteSection, setSectionText, setSectionTitle } from "../features/pageCreator/pageCreator-slice"
+import { deleteSection, setSectionText, setSectionTitle } from "../features/pageCreator/pageCreator-slice"
 
 function PageSection({index, title, text, tableData, section_id, saveCounter} : section & {index: number, pageTitle: string}) {
     const dispatch = useAppDispatch()

@@ -28,8 +28,8 @@ afterEach(() => {
 })
 
 test('banner user display', () => {
-    const profileDisplay = screen.getByTestId('banner_profile_display')
-    expect(profileDisplay.textContent).toBe("testUser's Profile")
+    const profileDisplay = screen.getByText("testUser's Profile")
+    expect(profileDisplay.textContent).toBeInTheDocument()
 })
 
 test('banner search input', async () => {

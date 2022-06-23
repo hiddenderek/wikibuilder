@@ -55,10 +55,8 @@ function App () {
         const doubleBannerCheck = (isMobile === true && aspectRatio < 1)
         dispatch(setAspectRatio(aspectRatio))
         dispatch(setIsMobile(isMobile))
-        console.log(isMobile)
         dispatch(setDoubleBanner(doubleBannerCheck))
     },[location.pathname, typeof screen !== "undefined" ? screen.height : 1920, typeof screen !== "undefined" ? screen.width : 1080])
-    console.log(doubleBanner)
 
 
 

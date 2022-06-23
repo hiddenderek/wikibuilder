@@ -28,7 +28,6 @@ function InfoTableRelated({url, text, index, subIndex} : {url: string, text: str
 
     async function changeTitle() {
         const urlFormat = getAfterLastCharacter({ string: url, character: config.port.toString() })
-        console.log(urlFormat)
         try {
             const getWiki = await handleApiData(urlFormat, null, "get", null)
             const { title } = getWiki.data
@@ -64,9 +63,9 @@ function InfoTableRelated({url, text, index, subIndex} : {url: string, text: str
     //If it finds the title, it will set the navigation property of the link to go to the url state value. 
     //It will also change the font color to blue to signify a working link.
     return (
-        <div data-testid = {`table_related_${index}_${subIndex}`} className = {`infoTableRelatedContainer ${relatedSelected.section === index && relatedSelected.element === subIndex && editMode? "infoTableContainerSelected": ""}`} onClick = {editMode ? selectRelated : navRelated}>
-            <textarea data-testid = {`table_related_input_${index}_${subIndex}`} ref = {textareaRef} value = {text ? text : url} className = {text ? "infoTableRelatedLink" : "infoTableRelated"} placeholder = "Paste link here..." onInput = {(e)=>{changeUrl(e)}}/>
-        </div>
+        <a data-testid = {`table_related_${index}_${subIndex}`} className = {`infoTableRelatedContainer ${relatedSelected.section === index && relatedSelected.element === subIndex && editMode? "infoTableContainerSelected": ""}`} onClick = {(e)=>{e.preventDefault(); editMode ? selectRelated() : navRelated()}}>
+                <textarea data-testid = {`table_related_input_${index}_${subIndex}`} ref = {textareaRef} value = {text ? text : url} className = {text ? "infoTableRelatedLink" : "infoTableRelated"} placeholder = "Paste link here..." onInput = {(e)=>{changeUrl(e)}}/>
+        </a>
     )
 }
 export default React.memo(InfoTableRelated)
