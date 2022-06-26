@@ -49,7 +49,7 @@ function Banner() {
         </a>
         {!doubleBanner ? 
           <form onSubmit = {(e)=>{e.preventDefault()}}>
-            <input data-testid="banner_search_input" className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." /> 
+            <input data-testid="banner_search_input" className="bannerSearch" type="search" value={searchTerm ? searchTerm : ""} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." /> 
           </form>
         : ""}
         <div className="bannerLoginContainer">
@@ -75,7 +75,7 @@ function Banner() {
       </div>
       {doubleBanner ?
         <form className="mobileSearchBanner"  onSubmit={(e)=>{e.preventDefault()}}>
-          <input data-testid="banner_search_input" className="bannerSearch" type="search" value={searchTerm} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." />
+          <input data-testid="banner_search_input" className="bannerSearch" type="search" value={searchTerm ? searchTerm : ""} onInput={(e) => { changeSearchTerm(e) }} placeholder="Search wiki title here..." />
         </form>
         : ""}
     </>

@@ -29,8 +29,9 @@ function HomePage() {
         handleApiData("/wiki/featured", setWikiFeaturedList, "get", null)
         handleApiData("/wiki/discover", setWikiDiscoverList, "get", null)
         handleApiData("/wiki/count", setWikiCount, "get", null)
+        const urlParamsToJSON = '{"' + decodeURI(location.search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'
         try {
-            const {page, search} = JSON.parse('{"' + decodeURI(location.search).replace(/"/g, '\\"').split("?").join("").replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+            const {page, search} = JSON.parse(urlParamsToJSON.split('{""}').join('{}'))
             if (page || page === 0) {
                 setPage(page)
             }

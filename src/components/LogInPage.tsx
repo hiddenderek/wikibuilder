@@ -24,11 +24,14 @@ function LogIn() {
             if (successStatus.includes(logInResult?.status ? logInResult.status : 400)) {
                 history.push(`/profile/${userName}`)
                 try {
+                    console.log(JSON.parse(logInResult?.data))
                     dispatch(setUser(JSON.parse(logInResult?.data).name))
                 } catch (e) {
                     console.error('USER SET ERROR: ' + e)
                 }
-            } else if (logInResult?.data) {
+            } else if (typeof logInResult?.data === "string") {
+                console.log(logInResult)
+                console.log(logInResult.data)
                 setErrorMessage(logInResult.data)
             } else {
                 setErrorMessage('Login failed.')
